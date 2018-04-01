@@ -1,0 +1,154 @@
+#app-container {
+  flex-grow: 1;
+  background: #69aeee;
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+  HEADER
+*/
+
+#app-container header {
+  height: 64px;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+  display: flex;
+}
+
+#app-container header .header-left {
+  display: none;
+}
+
+#app-container header .header-left .zmdi-menu {
+  font-size: 24px;
+  text-decoration: none;
+  padding: 0 10px;
+  color: #6d7275;
+}
+
+#app-container header .header-left .logo {
+  font-size: 24px;
+  text-decoration: none;
+  padding: 0 10px;
+  color: #48a3da;
+}
+
+#app-container header .header-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  flex-grow: 1;
+}
+
+#app-container header .header-right form {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+#app-container header .header-right form a {
+  text-decoration: none;
+  font-size: 24px;
+  color: #6d7275;
+  margin-right: 10px;
+}
+
+#app-container header .header-right form a:hover {
+  color: #3d484f;
+}
+
+#app-container header .header-right form input {
+  border: 0;
+  width: 300px;
+  background: transparent;
+  color: #6d7275;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+#app-container header .header-right form input:focus {
+  outline: 0;
+}
+
+#app-container header .header-right > div {
+  display: flex;
+  align-items: center;
+}
+#app-container header .header-right > div .zmdi-search {
+  display: none;
+  font-size: 24px;
+  text-decoration: none;
+  padding: 0 10px;
+  color: #6d7275;
+}
+#app-container header .header-right > div p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+#app-container header .header-right > div p span {
+  margin: 0 10px 0 0;
+}
+#app-container header .header-right > div p img {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+}
+#app-container header .header-right > div .zmdi-notifications {
+  font-size: 24px;
+  text-decoration: none;
+  padding: 0 10px;
+  color: #6d7275;
+}
+
+@media (max-width: 870px) {
+  #app-container header {
+    justify-content: space-between;
+  }
+
+  #app-container header .header-right {
+    flex-grow: 0;
+  }
+
+  #app-container header .header-right form,
+  #app-container header .header-right > div p span {
+    display: none;
+  }
+
+  #app-container header .header-right > div .zmdi-search {
+    display: block;
+  }
+
+  #app-container header .header-left {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/*
+  SEARCH FORM
+*/
+
+#header-search-form {
+  height: 0px;
+  background: #7a8487;
+  overflow: hidden;
+  transition: all .3s;
+}
+
+@media (max-width: 870px) {
+  #header-search-form.is-open {
+    height: 50px;
+  }
+}
+
+/*
+  APP CONTENT
+*/
+
+#app-content-wrapper {
+  flex-grow: 1;
+  background: #eef6f7;
+}

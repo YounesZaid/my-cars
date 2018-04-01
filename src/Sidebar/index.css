@@ -1,0 +1,42 @@
+#sidebar {
+  width: 250px;
+  background: #e8774e;
+}
+
+#sidebar-backdrop {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,.07);
+}
+
+@media (max-width: 1040px) {
+  #sidebar {
+    width: 210px;
+  }
+}
+
+@media (max-width: 870px) {
+  #sidebar {
+    width: 250px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    transform: translateX(-250px);
+    transition: all .3s;
+  }
+
+  #sidebar.is-open + #sidebar-backdrop{
+    display: block;
+  }
+
+  #sidebar.is-open {
+    transform: translateX(0);
+  }
+}
