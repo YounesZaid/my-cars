@@ -15,5 +15,14 @@
 }
 
 #collapse-content .collapse-button:hover {
-  background-color: #42dada;
+  background-color: rgb(250, 250, 250);
+}
+
+#collapse-content .pt-collapse {
+  transition: all .3s;
+}
+
+#map-content {
+  padding: 0;
+  margin: 0;
 }

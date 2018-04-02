@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-
 import { Button, Collapse } from '@blueprintjs/core';
-import GoogleMapReact from 'google-map-react';
 
+import CarMap from 'Map/CarMap.js';
 import './ContentCollapse.css';
 
 class ContentCollapse extends Component {
@@ -22,9 +21,9 @@ class ContentCollapse extends Component {
                  <span>{this.state.isOpen ? "Map" : this.state.users}</span> {this.state.cars}
               </Button>
               <Collapse isOpen={this.state.isOpen} id="collapse">
-                  <pre>
-                      Dummy text.
-                  </pre>
+                  <div id="map-content">
+                      <CarMap/>
+                  </div>
               </Collapse>
           </div>
       );
