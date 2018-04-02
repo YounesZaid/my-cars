@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './index.css';
 
 import ContentCollapse from 'Components/ContentCollapse.js'
@@ -38,12 +38,6 @@ const AppContainer = ({ toggleDrawer }) => (
         <a href="#add-content">Add <i className="zmdi zmdi-plus-square"></i></a>
       </div>
       <ContentCollapse />
-      {/* <div className="app-content">
-        <p>
-          <span>User1</span><span>Car1</span>
-        </p>
-      </div> */}
-
     </section>
   </div>
 )
