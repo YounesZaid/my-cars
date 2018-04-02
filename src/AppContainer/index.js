@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './index.css';
+
+import ContentCollapse from 'Components/ContentCollapse.js'
 
 const AppContainer = ({ toggleDrawer }) => (
   <div id="app-container">
@@ -31,7 +33,17 @@ const AppContainer = ({ toggleDrawer }) => (
     </header>
     <div id="header-search-form" />
     <section id="app-content-wrapper">
-      <h3 style={{ textAlign: 'center' }}>Hello World</h3>
+      <div className="app-header-content">
+        <h3>Trips</h3>
+        <a href="#add-content">Add <i className="zmdi zmdi-plus-square"></i></a>
+      </div>
+      <ContentCollapse />
+      {/* <div className="app-content">
+        <p>
+          <span>User1</span><span>Car1</span>
+        </p>
+      </div> */}
+
     </section>
   </div>
 )

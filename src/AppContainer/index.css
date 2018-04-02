@@ -149,6 +149,44 @@
 */
 
 #app-content-wrapper {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   background: #eef6f7;
+  padding: 30px;
 }
+
+#app-content-wrapper .app-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#app-content-wrapper .app-header-content a {
+  text-decoration: none;
+  color: #6d7275;
+  font-size: 20px;
+}
+
+#app-content-wrapper > div h3 {
+  padding: 0;
+  margin: 0;
+  font-size: 25px;
+  color: #747673;
+  font-weight: 500;
+}
+
+#app-content-wrapper .app-header-content a:hover{
+  color: #3d484f;
+}
+
+#app-content-wrapper .app-content {
+  background-color: #e8764d;
+  padding: 10px;
+  margin-top: 30px;
+  border-radius: 1px;
+}
+
+
+
+
