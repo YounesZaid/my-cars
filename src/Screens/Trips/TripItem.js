@@ -1,11 +1,16 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-const TripItem = ({ carType, driverName, isActive }) => (
+import TripDetails from './TripDetails';
+
+const TripItem = ({ tripId, carType, driverName, isActive }) => (
   <div className="trip-item">
     <a href="#trip-item" className="trip-content">
       <span>{carType} / {driverName}</span> 
-    </a>
-    {isActive && <b>ACTIVE</b>}
+    </a> 
+    <span className="isActive">
+      {isActive && <b>ACTIVE</b>}
+    </span>
   </div>
 )
 

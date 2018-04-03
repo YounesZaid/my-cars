@@ -1,24 +1,36 @@
-.trips-screen {}
+/* .trips-screen {} */
 
 /* Trip Items */
+
 .trips-screen .trip-item {
-  padding: 14px 0;
-  font-size: 16px;
+  padding: 14px 4px;
   font-weight: 300;
   display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.09);
 }
 
-.trips-screen .trip-item .trip-content {
+.trips-screen .trip-item:hover {
+  background-color: #e5ebeb;
+  transition: all .3s;
+}
+
+/* .trips-screen .trip-item .trip-content {
   margin-right: 3em;
-}
+} */
 
-.trips-screen a {
-  text-decoration: none;
-  color: #555758;
+.trips-screen .trip-item .isActive {
   display: block;
 }
 
-.trips-screen a:hover {
+.trips-screen .trip-item a{
+  text-decoration: none;
+  color: #555758;
+  display: block;
+  flex-grow: 1;
+}
+
+.trips-screen .trip-item a:hover {
   color: #3a85aa;
 }
 
