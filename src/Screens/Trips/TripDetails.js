@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react';
 
 const TripDetails = ({carType, driverName, isActive}) => (
   <div className="trip-map">
+    <Map />
     <div className="trip-detail">
       <span> 
         Driver: {driverName}
@@ -14,7 +15,6 @@ const TripDetails = ({carType, driverName, isActive}) => (
         Availability : {isActive && <b>Active</b>}
       </span>
     </div>
-    <Map/>
   </div>
 )
 

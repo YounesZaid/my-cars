@@ -1,7 +1,4 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
-import TripDetails from './TripDetails';
 
 const TripItem = ({ tripId, carType, driverName, isActive }) => (
   <div className="trip-item">

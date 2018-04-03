@@ -1,7 +1,10 @@
 import React from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import './index.css';
 
-import TripsScreen from '../../Screens/Trips';
+import TripsScreen from 'Screens/Trips';
+import CarsScreen from 'Screens/Cars';
+import DriversScreen from 'Screens/Drivers';
 
 const AppContainer = ({ toggleDrawer }) => (
   <div id="app-container">
@@ -33,7 +36,14 @@ const AppContainer = ({ toggleDrawer }) => (
     </header>
     <div id="header-search-form" />
     <section id="app-content-wrapper">
-      <TripsScreen/>
+      <Switch>
+        <Route exact path='/trips' component={TripsScreen}/>
+        <Route exact path='/cars' component={CarsScreen}/>
+        <Route exact path='/drivers' component={DriversScreen}/>
+        <Route>
+          <Redirect to='/trips'/>
+        </Route>
+      </Switch>
     </section>
   </div>
 )

@@ -3,6 +3,7 @@
   background: #e8774e;
   display: flex;
   flex-direction: column;
+  z-index: 9999;
 }
 
 #sidebar-backdrop {
@@ -13,6 +14,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
+  z-index: 9998;
   background: rgba(0,0,0,.07);
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 // Layout
 import Sidebar from 'Layout/Sidebar';
@@ -10,9 +11,13 @@ export default class App extends Component {
   }
 
   render() {
-    return [
-      <Sidebar key={0} toggleDrawer={this.toggleDrawer} />,
-      <AppContainer key={1} toggleDrawer={this.toggleDrawer} />
-    ];
+    return (
+      <Router>
+        <div id="router-container">
+          <Sidebar key={0} toggleDrawer={this.toggleDrawer} />
+          <AppContainer key={1} toggleDrawer={this.toggleDrawer} />
+        </div>
+      </Router>
+    )
   }
 }

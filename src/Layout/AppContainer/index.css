@@ -14,6 +14,7 @@
   background: white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
   display: flex;
+  flex-shrink: 0;
 }
 
 #app-container > header .header-left {
@@ -185,6 +186,7 @@
 .screen-wrapper > section {
   margin-top: 20px;
   flex-grow: 1;
+  display: flex;
 }
 
 
