@@ -27,7 +27,7 @@
 .trips-screen .trip-detail {
   position: absolute;
   top: 9em;
-  left: 20em;
+  left: 18em;
   z-index: 10000;
   border-radius: 1px;
   background-color: rgba(0, 0, 0, 0.1);
