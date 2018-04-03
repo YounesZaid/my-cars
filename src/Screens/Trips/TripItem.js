@@ -2,7 +2,9 @@ import React from 'react';
 
 const TripItem = ({ carType, driverName, isActive }) => (
   <div className="trip-item">
-    <span>{carType} / {driverName}</span>
+    <a href="#trip-item" className="trip-content">
+      <span>{carType} / {driverName}</span> 
+    </a>
     {isActive && <b>ACTIVE</b>}
   </div>
 )

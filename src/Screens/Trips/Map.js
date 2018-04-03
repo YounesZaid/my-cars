@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 
 const CarPosition = ({ text }) => <div>{text}</div>;
 
-class CarMap extends Component {
+class Map extends Component {
   static defaultProps = {
     center: {
       lat: 34.000677,
@@ -32,4 +32,4 @@ class CarMap extends Component {
   }
 }
 
-export default CarMap;
+export default Map;
