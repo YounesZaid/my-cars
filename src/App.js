@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 // Layout
-import Sidebar from 'Sidebar';
-import AppContainer from 'AppContainer';
+import Sidebar from 'Layout/Sidebar';
+import AppContainer from 'Layout/AppContainer';
 
 export default class App extends Component {
   toggleDrawer = () => {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 
-
 const CarPosition = ({ text }) => <div>{text}</div>;
 
 class CarMap extends Component {

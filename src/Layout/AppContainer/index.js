@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-import ContentCollapse from 'Components/ContentCollapse.js'
+import TripsScreen from '../../Screens/Trips';
 
 const AppContainer = ({ toggleDrawer }) => (
   <div id="app-container">
@@ -33,11 +33,7 @@ const AppContainer = ({ toggleDrawer }) => (
     </header>
     <div id="header-search-form" />
     <section id="app-content-wrapper">
-      <div className="app-header-content">
-        <h3>Trips</h3>
-        <a href="#add-content">Add <i className="zmdi zmdi-plus-square"></i></a>
-      </div>
-      <ContentCollapse />
+      <TripsScreen/>
     </section>
   </div>
 )
