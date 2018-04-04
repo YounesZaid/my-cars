@@ -5,6 +5,7 @@ import './index.css';
 import TripsScreen from 'Screens/Trips';
 import CarsScreen from 'Screens/Cars';
 import DriversScreen from 'Screens/Drivers';
+import CardsScreen from 'Screens/Cards';
 
 const AppContainer = ({ toggleDrawer }) => (
   <div id="app-container">
@@ -40,6 +41,7 @@ const AppContainer = ({ toggleDrawer }) => (
         <Route exact path='/trips' component={TripsScreen}/>
         <Route exact path='/cars' component={CarsScreen}/>
         <Route exact path='/drivers' component={DriversScreen}/>
+        <Route exact path='/cards' component={CardsScreen}/>
         <Route>
           <Redirect to='/trips'/>
         </Route>
