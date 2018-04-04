@@ -26,7 +26,7 @@ export default class CarsScreen extends Component {
         </header>
         <section>
           <div>
-            <Button onClick={this._toggleDialog} text="Add new card" />
+            <Button onClick={this._toggleDialog} text="Add new car" />
             <Dialog
             icon="inbox"
             isOpen={this.state.isOpen}
@@ -34,8 +34,25 @@ export default class CarsScreen extends Component {
             usePortal={true}
             canOutsideClickClose={false}
             canEscapeKeyClose={true}
-            title="Adding New Card">
-              <div className="pt-dialog-body">Some content</div>
+            title="Adding New Car">
+              <div className="pt-dialog-body">
+                <p>
+                  <strong> In this Dialog you can do something </strong>
+                </p>
+                <label class="pt-label">
+                  Car type
+                  <span className="pt-text-muted">(required)</span>
+                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+                </label>
+                <label class="pt-label">
+                  Car identifier
+                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+                </label>
+                <label class="pt-label">
+                  Car maker
+                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+                </label>
+              </div>
               <div className="pt-dialog-footer">
                 <div className="pt-dialog-footer-actions">
                   <Button 

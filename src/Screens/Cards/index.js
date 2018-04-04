@@ -31,7 +31,7 @@ export default class CardsScreen extends Component {
           <a href="#add-content" onClick= { e => {
             e.preventDefault();
             this._onButtonClick();
-          }}>ADD NEW CARD <i className="zmdi zmdi-plus-square"></i></a>
+          }}> ADD NEW CARD <i className="zmdi zmdi-plus-square"></i></a>
         </header>
         <section>
           { this.state.showComponent ? <AddCardsDialog isOpen={this.state.isOpen} toggleDialog={this._toggleDialog}/> : null }
@@ -43,7 +43,6 @@ export default class CardsScreen extends Component {
 
 const AddCardsDialog = ({ isOpen, toggleDialog }) => (
   <div>
-    <Button onClick={toggleDialog} text="Add new card" />
     <Dialog
         icon="inbox"
         isOpen={toggleDialog}
@@ -52,7 +51,24 @@ const AddCardsDialog = ({ isOpen, toggleDialog }) => (
         canOutsideClickClose={false}
         canEscapeKeyClose={true}
         title="Adding New Card">
-      <div className="pt-dialog-body">Some content</div>
+      <div className="pt-dialog-body">
+        <p>
+          <strong> In this Dialog you can do something </strong>
+        </p>
+        <label class="pt-label">
+          Card type
+          <span className="pt-text-muted">(required)</span>
+          <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+        </label>
+        <label class="pt-label">
+          Card identifier
+          <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+        </label>
+        <label class="pt-label">
+          Card owner
+          <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+        </label>
+      </div>
       <div className="pt-dialog-footer">
         <div className="pt-dialog-footer-actions">
           <Button 
@@ -63,7 +79,7 @@ const AddCardsDialog = ({ isOpen, toggleDialog }) => (
           />
           <Button 
               intent={Intent.DANGER}
-              onClick={this._toggleDialog}
+              onClick={this.toggleDialog}
               text="Close"
           />
         </div>

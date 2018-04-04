@@ -62,3 +62,9 @@
 .trips-screen .trip-detail span {
   padding: 5px;
 }
+
+/* Inputs Dialog */
+
+.pt-input {
+  width: 100%;
+}

@@ -25,7 +25,7 @@ export default class DriversScreen extends Component {
         </header>
         <section>
           <div>
-            <Button onClick={this._toggleDialog} text="Add new card" />
+            <Button onClick={this._toggleDialog} text="Add new Driver" />
             <Dialog
               icon="inbox"
               isOpen={this.state.isOpen}
@@ -33,8 +33,25 @@ export default class DriversScreen extends Component {
               usePortal={true}
               canOutsideClickClose={false}
               canEscapeKeyClose={true}
-              title="Adding New Card">
-              <div className="pt-dialog-body">Some content</div>
+              title="Adding New Driver">
+              <div className="pt-dialog-body">
+                <p>
+                  <strong> In this Dialog you can do something </strong>
+                </p>
+                <label class="pt-label">
+                  Driver Full-name
+                  <span className="pt-text-muted">(required)</span>
+                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+                </label>
+                <label class="pt-label">
+                  Drive Number
+                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+                </label>
+                <label class="pt-label">
+                  Driver Identifier
+                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+                </label>
+              </div>
               <div className="pt-dialog-footer">
                 <div className="pt-dialog-footer-actions">
                   <Button 
