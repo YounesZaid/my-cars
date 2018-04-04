@@ -55,8 +55,8 @@
 
 .trips-screen .trip-map .map-container {
   width: 100%;
-  /*  % ça marche pas  */
-  height: 75vh; 
+  height: 100%;
+  position: absolute;
 }
 
 .trips-screen .trip-detail span {

@@ -3,50 +3,44 @@ import { Button, Dialog, Intent } from '@blueprintjs/core';
 
 import './index.css';
 import TripItem from './TripItem';
-// import TripDetails from './TripDetails';
+import TripDetails from './TripDetails';
 
 export default class TripsScreen extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-      showComponent: false
-    }
+  state = {
+    trips: GET_TRIPS(),
+    isAddTripDialogOpen: false,
   }
 
-  _onButtonClick = () => {
-    this.setState({
-      showComponent: true,
-    });
-  };
-
-  _toggleDialog = () => {
+  closeAddTripDialog = () => {
     this.setState({ 
-      isOpen: !this.state.isOpen 
+      isAddTripDialogOpen: false
     })
   }
   
   render() {
+    const { isAddTripDialogOpen, trips } = this.state;
     return (
       <div className="screen-wrapper trips-screen">
         <header>
           <h3>Trips</h3>
           <a href="#add-content" onClick={ e => {
             e.preventDefault();
-            this._onButtonClick();
+            this.setState({
+              isAddTripDialogOpen: true,
+            });
           }}>ADD NEW TRIP <i className="zmdi zmdi-plus-square"></i></a>
+          <AddTripDialog closeDialog={this.closeAddTripDialog} isOpen={isAddTripDialogOpen} />
         </header>
         <section>
-          {GET_TRIPS().map((carObject, i) => {
+          {trips.map((carObject, i) => {
             return (
               <TripItem key={carObject.id} tripId={carObject.id} carType={carObject.carType}
                 driverName={carObject.driverName} isActive={carObject.isActive} />
-              // <TripDetails key={carObject.id} carType={carObject.carType}
-              // driverName={carObject.driverName} isActive={carObject.isActive}/>
-            )
+              )
           })}
-          { this.state.showComponent ? <AddTripDialog toggleDialog={this.state._toggleDialog} isOpen={this.state.isOpen}/> : null }
+          <TripDetails key={({}).id} carType={({}).carType}
+            driverName={({}).driverName} isActive={({}).isActive}/>
         </section>
       </div>
       
@@ -68,48 +62,45 @@ function GET_TRIPS() {
   ]
 }
 
-const AddTripDialog = ({toggleDialog, isOpen}) => (
-  <div>
-    <Dialog
-        icon="inbox"
-        isOpen={isOpen}
-        onClose={toggleDialog}
-        usePortal={true}
-        canOutsideClickClose={false}
-        canEscapeKeyClose={true}
-        title="Adding New Trip">
-      <div className="pt-dialog-body">
-        <p>
-          <strong> In this Dialog you can do something </strong>
-        </p>
-        <label class="pt-label">
-          Driver Name
-          <span className="pt-text-muted">(required)</span>
-          <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
-        </label>
-        <label class="pt-label">
-          Car identifier
-          <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
-        </label>
-        <label class="pt-label">
-          Card number
-          <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
-        </label>
+const AddTripDialog = ({closeDialog, isOpen}) => (
+  <Dialog
+    icon="inbox"
+    isOpen={isOpen}
+    onClose={closeDialog}
+    usePortal={true}
+    canOutsideClickClose={false}
+    canEscapeKeyClose={true}
+    title="Adding New Trip">
+    <div className="pt-dialog-body">
+      <p>
+        <strong> In this Dialog you can do something </strong>
+      </p>
+      <label className="pt-label">
+        Driver Name
+        <span className="pt-text-muted">(required)</span>
+        <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+      </label>
+      <label className="pt-label">
+        Car identifier
+        <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+      </label>
+      <label className="pt-label">
+        Card number
+        <input className="pt-input" type="text" placeholder="Text input" dir="auto" />
+      </label>
+    </div>
+    <div className="pt-dialog-footer">
+      <div className="pt-dialog-footer-actions">
+        <Button 
+          onClick={closeDialog}
+          text="Cancel"
+        />
+        <Button 
+          text="Add Trip"
+          icon="add"
+          intent={Intent.PRIMARY}
+        />
       </div>
-      <div className="pt-dialog-footer">
-        <div className="pt-dialog-footer-actions">
-          <Button 
-            text="Add"
-            icon="add"
-            intent={Intent.ADD}
-          />
-          <Button 
-              intent={Intent.DANGER}
-              onClick={toggleDialog}
-              text="Close"
-          />
-        </div>
-      </div>
-    </Dialog>
-  </div>
+    </div>
+  </Dialog>
 )

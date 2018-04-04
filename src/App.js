@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import '@blueprintjs/core/lib/css/blueprint.css';
+
 // Layout
 import Sidebar from 'Layout/Sidebar';
 import AppContainer from 'Layout/AppContainer';
