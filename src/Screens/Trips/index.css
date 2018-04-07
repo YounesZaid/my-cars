@@ -9,6 +9,8 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 2px solid rgba(0, 0, 0, 0.09);
+  cursor: pointer;
+  align-items: center;
 }
 
 .trips-screen .trip-item:hover {
@@ -24,15 +26,10 @@
   display: block;
 }
 
-.trips-screen .trip-item a{
+.trips-screen .trip-item p {
   text-decoration: none;
   color: #555758;
-  display: block;
-  flex-grow: 1;
-}
-
-.trips-screen .trip-item a:hover {
-  color: #3a85aa;
+  margin: 0;
 }
 
 /* Trip Details */
