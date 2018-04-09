@@ -25,7 +25,7 @@ export default class TripsList extends Component {
                this.setState({
                   isAddTripDialogOpen: true,
                });
-            }}>ADD NEW TRIP <i className="zmdi zmdi-plus-square"></i></a>
+            }}>ADD NEW TRIP <i className="zmdi zmdi-plus-square zmdi-hc-lg"></i></a>
             <AddTripDialog closeDialog={this.closeAddTripDialog} isOpen={isAddTripDialogOpen} addTrip={addTrip} />
          </header>,
          <section key={1}>
