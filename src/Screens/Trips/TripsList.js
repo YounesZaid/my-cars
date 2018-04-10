@@ -17,6 +17,29 @@ export default class TripsList extends Component {
    render() {
       const { isAddTripDialogOpen } = this.state;
       const { trips, addTrip } = this.props;
+      if(trips.length > 0) {
+         return [
+            <header key={0}>
+               <h3>Trips</h3>
+               <a href="#add-content" onClick={e => {
+                  e.preventDefault();
+                  this.setState({
+                     isAddTripDialogOpen: true,
+                  });
+               }}>ADD NEW TRIP <i className="zmdi zmdi-plus-square zmdi-hc-lg"></i></a>
+               <AddTripDialog closeDialog={this.closeAddTripDialog} isOpen={isAddTripDialogOpen} addTrip={addTrip} />
+            </header>,
+            <section key={1}>
+               {trips.map((carObject, i) => {
+                  return (
+                     <TripItem key={carObject.id} tripId={carObject.id} carType={carObject.carType}
+                        driverName={carObject.driverName} isActive={carObject.isActive} />
+                  )
+               })}
+            </section>
+         ]
+      }
+      // if not found then return blank page error
       return [
          <header key={0}>
             <h3>Trips</h3>
@@ -29,12 +52,7 @@ export default class TripsList extends Component {
             <AddTripDialog closeDialog={this.closeAddTripDialog} isOpen={isAddTripDialogOpen} addTrip={addTrip} />
          </header>,
          <section key={1}>
-            {trips.map((carObject, i) => {
-               return (
-                  <TripItem key={carObject.id} tripId={carObject.id} carType={carObject.carType}
-                     driverName={carObject.driverName} isActive={carObject.isActive} />
-               )
-            })}
+            <h3> please add a trip :) </h3>
          </section>
       ]
    }
