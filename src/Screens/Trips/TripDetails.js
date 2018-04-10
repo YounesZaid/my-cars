@@ -30,7 +30,7 @@ export default class TripDetails extends Component {
             <h3>NOT FOUND</h3>
          </header>,
          <section key={1}>
-            <h3>No trip was found ..</h3>
+            <h3 className="blank-details-page">No trip details was found ..!</h3>
          </section>
       ];
    }

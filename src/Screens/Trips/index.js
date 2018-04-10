@@ -69,7 +69,6 @@ firebase.initializeApp({
    messagingSenderId: "1069816540295"
 });
 
-// const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
 

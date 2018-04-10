@@ -52,7 +52,7 @@ export default class TripsList extends Component {
             <AddTripDialog closeDialog={this.closeAddTripDialog} isOpen={isAddTripDialogOpen} addTrip={addTrip} />
          </header>,
          <section key={1}>
-            <h3> please add a trip :) </h3>
+            <h2 className="blank-list-page"> <i className="zmdi zmdi-pin zmdi-hc-2x"></i> please add a trip.. :) </h2>
          </section>
       ]
    }

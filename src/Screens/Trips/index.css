@@ -88,23 +88,16 @@
   width: 100%;
 }
 
+/* Error items section */
 
+.trips-screen > section .blank-list-page {
+   color: rgba(255, 0, 0, 0.3);
+   text-align: center;
+   margin: auto;
+}
 
-
-
-/* Test list */
-
-/* .trip-item ol {counter-reset: repas;} on initialise et nomme un compteur */
-
-/* .trip-item li:before {
-	content: counter(repas); /* on affiche le compteur//
-	padding: 0 20px 6px;
-	margin-right: 8px;
-	vertical-align: top;
-	background: #678;
-	-moz-border-radius: 60px;
-	border-radius: 60px;
-	font-weight: bold;
-	font-size: 0.8em;
-	color: white;		
-} */
+.trips-screen > section .blank-details-page {
+   color: rgba(255, 0, 0, 0.3);
+   text-align: center;
+   margin: auto;
+}
