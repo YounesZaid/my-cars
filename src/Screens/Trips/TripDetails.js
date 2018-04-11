@@ -1,16 +1,40 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import {db} from './config';
 
 export default class TripDetails extends Component {
+
+   state = {
+      tripsItems: [],
+   }
+
+   componentDidMount = () => {
+      db.collection("trips").onSnapshot((DocRef) => {
+         const items = [];
+         DocRef.forEach(doc => {
+            let docItem = {
+               driverName: doc.data().driverName,
+               carType: doc.data().carType,
+               id: doc.id,
+               isActive: doc.data().isActive, 
+               posted: doc.data().posted
+            }
+            items.push(docItem);
+         });
+         this.setState({
+            tripsItems: items
+         })
+      });
+   }
    render() {
-      const { match, trips } = this.props;
-      const tripId = parseInt(match.params.tripId, 10); //parseInt( stringToParse, somethingSpecial!! )
-      const _trips = trips.filter(trip => trip.id === tripId);
+      const { match } = this.props;
+      const tripId = match.params.tripId; //parseInt( stringToParse, somethingSpecial!! )
+      const _trips = this.state.tripsItems.filter(trip => trip.id === tripId);
       if (_trips.length > 0) {
          const selectedTrip = _trips[0];
          return [
             <header key={0}>
-               <h3>Trip / {selectedTrip.driverName} Number : {tripId} </h3>
+               <h3>Trip Map / <span className="trip-details-info">{selectedTrip.driverName} / docId : {tripId}</span></h3>
             </header>,
             <section key={1}>
                <div className="trip-map">

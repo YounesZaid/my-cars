@@ -33,7 +33,7 @@ export default class TripsList extends Component {
                {trips.map((carObject, i) => {
                   return (
                      <TripItem key={carObject.id} tripId={carObject.id} carType={carObject.carType}
-                        driverName={carObject.driverName} isActive={carObject.isActive} />
+                        driverName={carObject.driverName} isActive={carObject.isActive} posted={carObject.posted}/>
                   )
                })}
             </section>

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import * as firebase from 'firebase';
+
+import moment from 'moment';
 
 import './index.css';
 
 import TripDetails from './TripDetails';
 import TripsList from './TripsList';
+import {db} from './config';
 
 // const firebase = window.firebase;
 
@@ -20,7 +22,7 @@ export default class TripsScreen extends Component {
          driverName: driverName,
          carType: carType,
          isActive: true,
-         id: this.state.trips.length +1
+         posted: moment().format('MMMM Do YYYY, h:mm:ss a')
       })
       .then(function(docRef) {
             console.log("Document written with ID: ", docRef.id);
@@ -31,12 +33,18 @@ export default class TripsScreen extends Component {
    }
 
    componentDidMount = () => {
-
-      db.collection("trips").onSnapshot((querySnapshot) => {
+      db.collection("trips").orderBy('posted','desc').onSnapshot((querySnapshot) => {
          const tripItems = [];
          querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data().carType} ${doc.data().driverName} ${doc.data().id} `);
-             tripItems.push(doc.data())
+            console.log(`${doc.id} => ${doc.data().carType} ${doc.data().driverName}`);
+            let docItem = {
+               driverName: doc.data().driverName,
+               carType: doc.data().carType,
+               id: doc.id,
+               isActive: doc.data().isActive, 
+               posted: doc.data().posted
+            }
+            tripItems.push(docItem);
          });
          this.setState({
             trips: tripItems
@@ -60,20 +68,9 @@ export default class TripsScreen extends Component {
    }
 }
 
-firebase.initializeApp({
-   apiKey: "AIzaSyAuuKkl37npoOCFRJ7jEaH8R4LpqEvQryg",
-   authDomain: "my-cars-85072.firebaseapp.com",
-   databaseURL: "https://my-cars-85072.firebaseio.com",
-   projectId: "my-cars-85072",
-   storageBucket: "",
-   messagingSenderId: "1069816540295"
-});
+// Initialize the moment js
+require('moment');
 
-// Required for side-effects
-require("firebase/firestore");
-
-// Initialize Cloud Firestore through Firebase
-const db = firebase.firestore();
 
 
 // The Old State without FireStore
