@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import * as firebase from 'firebase';
 
 import moment from 'moment';
 
@@ -25,7 +26,7 @@ export default class TripsScreen extends Component {
          posted: moment().format('MMMM Do YYYY, h:mm:ss a')
       })
       .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
+            console.log("Document written with ID: ", firebase.firestore.FieldPath.documentId());
       })
       .catch(function(error) {
             console.error("Error adding document: ", error);

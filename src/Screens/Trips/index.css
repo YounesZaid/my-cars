@@ -105,9 +105,14 @@
    margin: auto;
 }
 
-.trips-screen > section .blank-details-page {
+.trips-screen .blank-details-page {
    color: rgba(255, 0, 0, 0.3);
-   text-align: center;
+   /* text-align: center;
+   margin: auto; */
+}
+
+.trips-screen section > .spinner-three-bounce {
+   color: #e8764d;
    margin: auto;
 }
 /* //border: transparent solid 1px; */

@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+// import * as firebase from 'firebase';
 import {db} from './config';
 
 export default class TripDetails extends Component {
 
    state = {
-      tripsItems: [],
+      tripsItem:[],
    }
 
    componentDidMount = () => {
+      // // this is how we can get the element by id
+      // const { match } = this.props;
+      // const tripId = match.params.tripId;
+      // where(firebase.firestore.FieldPath.documentId(), '=', 'tripId')
+      
       db.collection("trips").onSnapshot((DocRef) => {
-         const items = [];
+         const item = [];
          DocRef.forEach(doc => {
             let docItem = {
                driverName: doc.data().driverName,
@@ -19,17 +25,18 @@ export default class TripDetails extends Component {
                isActive: doc.data().isActive, 
                posted: doc.data().posted
             }
-            items.push(docItem);
+            item.push(docItem);
          });
          this.setState({
-            tripsItems: items
+            tripsItem: item
          })
       });
    }
+
    render() {
       const { match } = this.props;
       const tripId = match.params.tripId; //parseInt( stringToParse, somethingSpecial!! )
-      const _trips = this.state.tripsItems.filter(trip => trip.id === tripId);
+      const _trips = this.state.tripsItem.filter(trip => trip.id === tripId);
       if (_trips.length > 0) {
          const selectedTrip = _trips[0];
          return [
@@ -51,10 +58,11 @@ export default class TripDetails extends Component {
       // not found
       return [
          <header key={0}>
-            <h3>NOT FOUND</h3>
+            <h3 className="blank-details-page"> No trip details was found ..! </h3>
          </header>,
          <section key={1}>
-            <h3 className="blank-details-page">No trip details was found ..!</h3>
+            <Spinner name="three-bounce" fadeIn=".1" className="spinner-three-bounce"/>
+            {/* <h3 className="blank-details-page">No trip details was found ..!</h3> */}
          </section>
       ];
    }
@@ -81,3 +89,5 @@ class Map extends Component {
       );
    }
 }
+
+var Spinner = require('react-spinkit');
