@@ -7,6 +7,7 @@ export default class TripDetails extends Component {
 
    state = {
       tripsItem:[],
+      isLoading: true
    }
 
    componentDidMount = () => {
@@ -28,7 +29,8 @@ export default class TripDetails extends Component {
             item.push(docItem);
          });
          this.setState({
-            tripsItem: item
+            tripsItem: item,
+            isLoading: false
          })
       });
    }
@@ -40,12 +42,13 @@ export default class TripDetails extends Component {
       if (_trips.length > 0) {
          const selectedTrip = _trips[0];
          return [
+            // this.state.isLoading ? <Spinner name="three-bounce" fadeIn=".1" className="spinner-three-bounce"/> :
             <header key={0}>
                <h3>Trip Map / <span className="trip-details-info">{selectedTrip.driverName} / docId : {tripId}</span></h3>
             </header>,
             <section key={1}>
                <div className="trip-map">
-                  <Map />
+                  <Map trip={tripsItem}/>
                   <div className="trip-detail">
                      <span>Driver: {selectedTrip.driverName}</span>
                      <span>Car: {selectedTrip.carType}</span>
@@ -58,10 +61,10 @@ export default class TripDetails extends Component {
       // not found
       return [
          <header key={0}>
-            <h3 className="blank-details-page"> No trip details was found ..! </h3>
+            {/* <h3 className="blank-details-page"> No trip details was found ..! </h3> */}
          </header>,
          <section key={1}>
-            <Spinner name="three-bounce" fadeIn=".1" className="spinner-three-bounce"/>
+            <Spinner name="three-bounce" fadeIn="quarter" className="spinner-three-bounce"/>
             {/* <h3 className="blank-details-page">No trip details was found ..!</h3> */}
          </section>
       ];
@@ -69,6 +72,12 @@ export default class TripDetails extends Component {
 }
 
 class Map extends Component {
+
+   state = {
+      fuel: 50,
+      state: "working"
+   }
+
    static defaultProps = {
       center: {
          lat: 34.000677,
@@ -77,6 +86,26 @@ class Map extends Component {
       zoom: 12
    };
 
+   content = "fuel : " + this.state.fuel + "</br> car state : " + this.state.state;
+
+   renderMarkers(map, maps) {
+      // this.state.center.forEach(location =>{
+
+      // });
+      let marker = new maps.Marker({
+        position: this.props.center,
+        map,
+        title: 'Rabat',
+        animation: maps.Animation.DROP,
+      });
+      marker.addListener('click', () => {
+         infowindow.open(map, marker);
+      });
+      let infowindow = new maps.InfoWindow({
+         content: this.content
+      });
+   }
+   
    render() {
       return (
          <div className="map-container">
@@ -84,6 +113,9 @@ class Map extends Component {
                bootstrapURLKeys={{ key: 'AIzaSyDJoL_iLPgGVhaKt2-HVPeL-Cr6Dpo4Ru8' }}
                defaultCenter={this.props.center}
                defaultZoom={this.props.zoom}
+               onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
+               onChildClick={(e) => alert(e)}
+               yesIWantToUseGoogleMapApiInternals={true}
             />
          </div>
       );
