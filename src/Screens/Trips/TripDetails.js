@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
+// import GoogleMapReact from 'google-map-react';
 // import * as firebase from 'firebase';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import {db} from './config';
 
 export default class TripDetails extends Component {
@@ -48,7 +49,13 @@ export default class TripDetails extends Component {
             </header>,
             <section key={1}>
                <div className="trip-map">
-                  <Map trip={tripsItem}/>
+                  <Map 
+                     isMarkerShown
+                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD394ITapfHaHcDZ6G68DEmh8nZQPpfujA&libraries=geometry,drawing,places"                     
+                     loadingElement={<div style={{ height: `100%` }} />}
+                     containerElement={<div className="map-container"/>}
+                     mapElement={<div style={{ height: `100%` }} />}
+                  />
                   <div className="trip-detail">
                      <span>Driver: {selectedTrip.driverName}</span>
                      <span>Car: {selectedTrip.carType}</span>
@@ -71,55 +78,24 @@ export default class TripDetails extends Component {
    }
 }
 
-class Map extends Component {
+const Map = withScriptjs (withGoogleMap((props) => (
+   // <div className="map-container">
+      <GoogleMap
+         defaultZoom={props.zoom}
+         defaultCenter={props.center}
+      >
+         {props.isMarkerShown && <Marker position={props.center} />}
+      </GoogleMap>
+   // </div>
+)))
 
-   state = {
-      fuel: 50,
-      state: "working"
-   }
-
-   static defaultProps = {
-      center: {
-         lat: 34.000677,
-         lng: -6.849732
-      },
-      zoom: 12
-   };
-
-   content = "fuel : " + this.state.fuel + "</br> car state : " + this.state.state;
-
-   renderMarkers(map, maps) {
-      // this.state.center.forEach(location =>{
-
-      // });
-      let marker = new maps.Marker({
-        position: this.props.center,
-        map,
-        title: 'Rabat',
-        animation: maps.Animation.DROP,
-      });
-      marker.addListener('click', () => {
-         infowindow.open(map, marker);
-      });
-      let infowindow = new maps.InfoWindow({
-         content: this.content
-      });
-   }
-   
-   render() {
-      return (
-         <div className="map-container">
-            <GoogleMapReact
-               bootstrapURLKeys={{ key: 'AIzaSyDJoL_iLPgGVhaKt2-HVPeL-Cr6Dpo4Ru8' }}
-               defaultCenter={this.props.center}
-               defaultZoom={this.props.zoom}
-               onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
-               onChildClick={(e) => alert(e)}
-               yesIWantToUseGoogleMapApiInternals={true}
-            />
-         </div>
-      );
-   }
+Map.defaultProps = {
+   center: {
+      lat: 34.000677,
+      lng: -6.849732
+   },
+   zoom: 12
 }
+ 
 
-var Spinner = require('react-spinkit');
+const Spinner = require('react-spinkit');

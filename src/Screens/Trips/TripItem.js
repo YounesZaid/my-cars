@@ -22,7 +22,7 @@ const TripItem = ({ tripId, posted, carType, driverName, isActive, history }) =>
    </div>
 )
 
-TripItem.defaulProps = {
+TripItem.defaultProps = {
    carType: '',
    driverName: '',
    isActive: false
