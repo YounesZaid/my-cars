@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
 // import GoogleMapReact from 'google-map-react';
 // import * as firebase from 'firebase';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { compose, withProps, lifecycle } from 'recompose';
+import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps";
 import {db} from './config';
 
+const google = window.google;
 export default class TripDetails extends Component {
-
+   
    state = {
       tripsItem:[],
-      isLoading: true
+      isLoading: true,
+      directions: null
    }
+   // onMapLoad = () => {
+   //    const DirectionsService = new google.maps.DirectionsService();
+      
+   //    DirectionsService.route({
+   //      origin: new google.maps.LatLng(34.0007678, -6.8524419),
+   //      destination: new google.maps.LatLng(34.0006948, -6.8501645),
+   //      travelMode: google.maps.TravelMode.DRIVING,
+   //    }, (result, status) => {
+   //      if (status === google.maps.DirectionsStatus.OK) {
+   //        this.setState({
+   //          directions: result,
+   //        });
+   //      } else {
+   //        console.error(`error fetching directions ${result}`);
+   //      }
+   //    });
+   // }
 
    componentDidMount = () => {
       // // this is how we can get the element by id
       // const { match } = this.props;
       // const tripId = match.params.tripId;
       // where(firebase.firestore.FieldPath.documentId(), '=', 'tripId')
-      
       db.collection("trips").onSnapshot((DocRef) => {
          const item = [];
          DocRef.forEach(doc => {
@@ -34,6 +53,7 @@ export default class TripDetails extends Component {
             isLoading: false
          })
       });
+      // this.onMapLoad();
    }
 
    render() {
@@ -49,13 +69,7 @@ export default class TripDetails extends Component {
             </header>,
             <section key={1}>
                <div className="trip-map">
-                  <Map 
-                     isMarkerShown
-                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD394ITapfHaHcDZ6G68DEmh8nZQPpfujA&libraries=geometry,drawing,places"                     
-                     loadingElement={<div style={{ height: `100%` }} />}
-                     containerElement={<div className="map-container"/>}
-                     mapElement={<div style={{ height: `100%` }} />}
-                  />
+                  <Map />
                   <div className="trip-detail">
                      <span>Driver: {selectedTrip.driverName}</span>
                      <span>Car: {selectedTrip.carType}</span>
@@ -78,16 +92,41 @@ export default class TripDetails extends Component {
    }
 }
 
-const Map = withScriptjs (withGoogleMap((props) => (
-   // <div className="map-container">
-      <GoogleMap
-         defaultZoom={props.zoom}
-         defaultCenter={props.center}
-      >
-         {props.isMarkerShown && <Marker position={props.center} />}
-      </GoogleMap>
-   // </div>
-)))
+
+const Map = compose( withProps({
+   googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyD394ITapfHaHcDZ6G68DEmh8nZQPpfujA&libraries=geometry,drawing,places",                    
+   loadingElement: <div style={{ height: `100%` }} />,
+   containerElement: <div className="map-container"/>,
+   mapElement: <div style={{ height: `100%` }} />
+}), withScriptjs, withGoogleMap, lifecycle({
+      componentDidMount() {
+         const DirectionsService = new google.maps.DirectionsService();
+
+         DirectionsService.route({
+            origin: new google.maps.LatLng(34.0021349, -6.8568629),
+            destination: new google.maps.LatLng(34.0006948, -6.8501645),
+            travelMode: google.maps.TravelMode.DRIVING,
+         }, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+               this.setState({
+               directions: result,
+               });
+            } else {
+               console.error(`error fetching directions ${result}`);
+            }
+         });
+      }
+   })
+)(props =>
+   <GoogleMap
+      defaultZoom={props.zoom}
+      defaultCenter={props.center}
+      ref={props.onMapLoad}
+   >
+      {/* {props.isMarkerShown && <Marker position={props.center} />} */}
+      {props.directions && <DirectionsRenderer directions={props.directions} />}
+   </GoogleMap>
+);
 
 Map.defaultProps = {
    center: {
