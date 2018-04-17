@@ -3,3 +3,40 @@
 .pt-input {
   width: 100%;
 }
+
+/* driver item */
+
+.driver-screen .driver-item {
+   display: flex;
+   align-items: center;
+   padding: 10px;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+   border-radius: 3px;
+   cursor: pointer;
+}
+
+.driver-screen .driver-item:hover {
+   background-color: #e5ebeb;
+   transition: all .3s;
+ }
+
+.driver-screen .driver-item > img {
+   border-radius: 40px;
+   margin-right: 30px;
+}
+
+.driver-screen .driver-item .driver-infos {
+   display: flex;
+   flex-grow: 1;
+   font-size: 18px;
+   font-weight: 400;
+}
+
+.driver-screen .driver-item .driver-infos span {
+   margin-right: 30px;
+}
+
+.driver-screen section > .spinner-three-bounce {
+   color: #e8764d;
+   margin: auto;
+}

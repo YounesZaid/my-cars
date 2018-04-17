@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import * as firebase from 'firebase';
 import { compose, withProps, lifecycle } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps";
-import {db} from './config';
+import {db} from '../../Database/config';
 
 const google = window.google;
 export default class TripDetails extends Component {

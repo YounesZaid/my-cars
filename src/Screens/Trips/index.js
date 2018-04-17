@@ -5,10 +5,10 @@ import * as firebase from 'firebase';
 import moment from 'moment';
 
 import './index.css';
+import {db} from '../../Database/config';
 
 import TripDetails from './TripDetails';
 import TripsList from './TripsList';
-import {db} from './config';
 
 // const firebase = window.firebase;
 

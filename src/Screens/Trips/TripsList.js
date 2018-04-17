@@ -78,7 +78,7 @@ class AddTripDialog extends Component {
             title="Adding New Trip">
             <div className="pt-dialog-body">
                <p>
-                  <strong> In this Dialog you can do something </strong>
+                  <strong> In this Dialog you can add a new trip </strong>
                </p>
                <label className="pt-label">
                   Driver Name
