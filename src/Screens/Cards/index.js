@@ -14,6 +14,14 @@ export default class CardsScreen extends Component {
       isAddCardDialogOpen: false,
    }
 
+   deleteCard = (cardId) => {
+      db.collection("cards").doc(cardId).delete().then(function() {
+            console.log("Document successfully deleted!");
+      }).catch(function(error) {
+            console.error("Error removing document: ", error);
+      });
+   }
+
    addCard = (cardType, cardIdentifier) => {
       db.collection("cards").add({
          cardType: cardType,
@@ -71,7 +79,7 @@ export default class CardsScreen extends Component {
          <section id="cards-container">
                {cards.map((card, i) => {
                   return (
-                     <CardItem key={card.cardId} card={card}/>
+                     <CardItem key={card.cardId} card={card} deleteCard={this.deleteCard}/>
                   )
                })}
          </section>

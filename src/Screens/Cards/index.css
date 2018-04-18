@@ -4,13 +4,11 @@
   width: 100%;
 }
 
-.cards-screen #cards-container{
-   display: flex;
+/* .cards-screen #cards-container{
    flex-direction: row;
-   justify-content: space-around;
    flex-wrap: wrap;
    flex-grow: 0;
-}
+} */
 
 .cards-screen #cards-container .pt-card {
    margin-top: 10px;
