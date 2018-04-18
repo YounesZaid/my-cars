@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-// import GoogleMapReact from 'google-map-react';
-// import * as firebase from 'firebase';
-import { compose, withProps, lifecycle } from 'recompose';
-import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer } from "react-google-maps";
+import { compose, withProps, withHandlers } from 'recompose';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
+
 import {db} from '../../Database/config';
 
-const google = window.google;
+// const google = window.google;
 export default class TripDetails extends Component {
    
    state = {
@@ -93,48 +93,55 @@ export default class TripDetails extends Component {
 }
 
 
-const Map = compose( withProps({
-   googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyD394ITapfHaHcDZ6G68DEmh8nZQPpfujA&libraries=geometry,drawing,places",                    
-   loadingElement: <div style={{ height: `100%` }} />,
-   containerElement: <div className="map-container"/>,
-   mapElement: <div style={{ height: `100%` }} />
-}), withScriptjs, withGoogleMap, lifecycle({
-      componentDidMount() {
-         const DirectionsService = new google.maps.DirectionsService();
-
-         DirectionsService.route({
-            origin: new google.maps.LatLng(34.0021349, -6.8568629),
-            destination: new google.maps.LatLng(34.0006948, -6.8501645),
-            travelMode: google.maps.TravelMode.DRIVING,
-         }, (result, status) => {
-            if (status === google.maps.DirectionsStatus.OK) {
-               this.setState({
-               directions: result,
-               });
-            } else {
-               console.error(`error fetching directions ${result}`);
-            }
-         });
-      }
-   })
+const Map = compose( 
+   withProps({
+      googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyD394ITapfHaHcDZ6G68DEmh8nZQPpfujA&libraries=geometry,drawing,places",                    
+      loadingElement: <div style={{ height: `100%` }} />,
+      containerElement: <div className="map-container"/>,
+      mapElement: <div style={{ height: `100%` }} />
+   }),
+   withHandlers({
+      onMarkerClustererClick: () => (markerClusterer) => {
+        const clickedMarkers = markerClusterer.getMarkers()
+        console.log(`Current clicked markers length: ${clickedMarkers.length}`)
+        console.log(clickedMarkers)
+      },
+   }),
+   withScriptjs,
+   withGoogleMap
 )(props =>
    <GoogleMap
-      defaultZoom={props.zoom}
-      defaultCenter={props.center}
+      defaultZoom={12}
+      defaultCenter={{lat: 34.002271,lng: -6.8543258}}
       ref={props.onMapLoad}
    >
-      {/* {props.isMarkerShown && <Marker position={props.center} />} */}
-      {props.directions && <DirectionsRenderer directions={props.directions} />}
+      <MarkerClusterer
+         onClick={props.onMarkerClustererClick}
+         averageCenter
+         enableRetinaIcons
+         gridSize={60}
+      >
+         {props.markers.map((marker, i) => (
+            <Marker
+               key={i}
+               position={{ lat: marker.lat, lng: marker.lng }}
+            />
+         ))}
+      </MarkerClusterer>
    </GoogleMap>
 );
 
 Map.defaultProps = {
-   center: {
-      lat: 34.000677,
-      lng: -6.849732
-   },
+   markers: [
+      {lat: 34.002271,lng: -6.8543258},
+      {lat: 34.002109,lng: -6.854280},
+      {lat: 34.003172,lng: -6.852823},
+      {lat: 34.002802,lng: -6.851271},
+      {lat: 34.001915,lng: -6.850802},
+      {lat: 34.000556,lng: -6.850090},
+      {lat: 33.997885,lng: -6.847561},
+   ],
    zoom: 12
 }
- 
 
 const Spinner = require('react-spinkit');

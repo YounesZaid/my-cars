@@ -69,23 +69,8 @@ export default class TripsScreen extends Component {
    }
 }
 
-// Initialize the moment js
-require('moment');
 
 
 
-// The Old State without FireStore
-// function GET_TRIPS() {
-//    return [
-//       { id: 1, carType: 'Mercedes', driverName: 'Younes', isActive: true },
-//       { id: 2, carType: 'Mercedes 2', driverName: 'Younes', isActive: true },
-//       { id: 3, carType: 'Mercedes 3', driverName: 'Younes', isActive: false },
-//       { id: 4, carType: 'Mercedes 4', driverName: 'Younes', isActive: true },
-//       { id: 5, carType: 'Mercedes 5', driverName: 'Younes', isActive: false },
-//       { id: 6, carType: 'Mercedes 6', driverName: 'Younes', isActive: false },
-//       { id: 7, carType: 'Mercedes 7', driverName: 'Younes', isActive: true },
-//       { id: 8, carType: 'Mercedes 7', driverName: 'Younes', isActive: true },
-//       { id: 9, carType: 'Mercedes 7', driverName: 'Younes', isActive: true },
-//    ]
-// }
+
 

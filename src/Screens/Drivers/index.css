@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-/* driver item */
+/* driver item Screeen */
 
 .driver-screen .driver-item {
    display: flex;
@@ -27,6 +27,7 @@
 
 .driver-screen .driver-item .driver-infos {
    display: flex;
+   flex-direction: column;
    flex-grow: 1;
    font-size: 18px;
    font-weight: 400;
@@ -40,3 +41,73 @@
    color: #e8764d;
    margin: auto;
 }
+
+/* Driver Details Screen */
+
+/* .driver-screen #driver-section {
+   flex-wrap: wrap;
+} */
+
+.driver-screen .driver-details-info {
+   display: flex;
+   flex-direction: row;
+   flex-grow: 1;
+   border: 1px solid rgba(0, 0, 0, 0.09);
+   border-radius: 3px;
+   margin-bottom: 1px;
+}
+
+.driver-screen .driver-details-info .informations {
+   display: flex;
+   flex-direction: column;
+   padding: 10px;
+   justify-content: space-around;
+}
+
+.driver-screen .driver-details-info .informations > h4 {
+   margin-bottom: 10px;
+}
+
+.driver-screen .driver-details-info > img {
+   border-radius: 56px;
+   padding: 10px;
+   height: 8em;
+}
+
+.driver-screen .map-card-container{
+   display: flex;
+   flex-grow: 6;
+}
+
+.driver-screen .map-card-container .driver-map-container {
+   background-color: peru;
+    flex: 7;
+    position: relative;
+}
+
+.driver-screen .map-card-container .driver-map-info {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+}
+
+.driver-screen .map-card-container .driver-card-info {
+   /* display: flex;
+   flex-direction: column;
+   justify-content: space-around; */
+   border-radius: 3px;
+   border: 1px solid rgba(0, 0, 0, 0.09);
+   background-color: rgb(232, 118, 77, 0.07);
+}
+
+.driver-screen .map-card-container .driver-card-info > h5,
+.driver-screen .map-card-container .driver-card-info > p {
+   margin: 0;
+}
+
+.driver-screen .map-card-container .driver-card-info > p {
+   text-align: center;
+   font-weight: 300;
+    padding: 10px
+}
+
