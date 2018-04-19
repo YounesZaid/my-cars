@@ -3,3 +3,9 @@
 .pt-input {
   width: 100%;
 }
+
+/* car Item  */
+
+.cars-screen .car-item {
+   margin-bottom: 10px;
+}

@@ -2,51 +2,53 @@ import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
+
 import {db} from '../../Database/config';
 
 export default class DriverDetails extends Component {
    state = {
-      driverItems: {},
+      driverItems: [],
    }
 
    componentDidMount = () => {
-      db.collection("drivers").onSnapshot((QuerySnapshot) => {
-         // const driverCollection = [];
-         QuerySnapshot.forEach((doc) => {
+      db.collection("drivers").onSnapshot((DocRef) => {
+         const items = [];
+         DocRef.forEach((doc) => {
             console.log(`${doc.id} => Success`);
             let docItem = {
                driverFirstName: doc.data().driverFirstName,
                driverLastName: doc.data().driverLastName,
                driverRegistrationNumber: doc.data().driverRegistrationNumber,
                driverPhoneNumber: doc.data().driverPhoneNumber,
+               posted: doc.data().posted,
                driverId: doc.id
             }
-            // driverCollection.push(docItem);
-            this.setState({
-               driverItems: docItem
-            });
+            items.push(docItem);
+         });
+         this.setState({
+            driverItems: items
          });
       });
    }
 
    render() {
-      // const { match } = this.props;
+      const { match } = this.props;
       const { driverItems } = this.state;
-      // const driverId = match.params.driverId;
-      // const driver = driverItems.filter(driver => driver.driverId === driverId );
-      // if(driver.length > 0){
-      //    const driverSelected = driver[0];
+      const itemId = match.params.driverId;
+      const driver = driverItems.filter(item => item.driverId === itemId );
+      if(driver.length > 0){
+         const driverSelected = driver[0];
          return [
             <header key={0}>
-               <h3>Driver Details / {driverItems.driverFirstName} / docId : {driverItems.driverId}</h3>
+               <h3>Driver Details / {driverSelected.driverFirstName} / docId : {driverSelected.driverId}</h3>
             </header>,
             <section key={1} id="driver-section">
                <div className="driver-details-info">
                   <img src="https://s3.amazonaws.com/assets.materialup.com/users/pictures/000/014/117/thumb/TcZxZKU2_400x400.jpg?1507620119" alt="driver-profile" />
                   <div className="informations">
-                     <h4><span>{driverItems.driverFirstName} {driverItems.driverLastName}</span></h4>
-                     <h4>Registration Number : <span>{driverItems.driverRegistrationNumber}</span></h4>
-                     <h4>Phone Number : <span>{driverItems.driverPhoneNumber}</span></h4>
+                     <h4><span>{driverSelected.driverFirstName} {driverSelected.driverLastName}</span></h4>
+                     <h4>Registration Number : <span>{driverSelected.driverRegistrationNumber}</span></h4>
+                     <h4>Phone Number : <span>{driverSelected.driverPhoneNumber}</span></h4>
                   </div>
                </div>
                <div className="map-card-container">
@@ -61,15 +63,15 @@ export default class DriverDetails extends Component {
                </div>
             </section>
          ]
-   //    }
-   //    return [
-   //       <header key={0}>
-   //          <h3>Driver Details Not Found</h3>
-   //       </header>,
-   //       <section key={1}>
-   //          <h1>Please check again</h1>
-   //       </section>
-   //    ]
+      }
+      return [
+         <header key={0}>
+            <h3>Driver Details Not Found</h3>
+         </header>,
+         <section key={1}>
+            <h1>Please check again</h1>
+         </section>
+      ]
    }
 }
 
@@ -93,7 +95,6 @@ const Map = compose(
    <GoogleMap
       defaultZoom={12}
       defaultCenter={{lat: 34.002271,lng: -6.8543258}}
-      ref={props.onMapLoad}
    >
       <MarkerClusterer
          onClick={props.onMarkerClustererClick}

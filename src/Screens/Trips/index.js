@@ -59,6 +59,7 @@ export default class TripsScreen extends Component {
       return (
          <div className="screen-wrapper trips-screen">
             <Route path={`${match.url}/:tripId`} render={(props) => {
+               debugger
                return <TripDetails trips={trips} {...props} />
             }} />
             <Route exact path={match.url} render={(props) => {

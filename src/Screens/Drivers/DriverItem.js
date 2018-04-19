@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 const DriverItem = ({ driverId, driver, history, deleteDriver}) => (
    <div className="driver-item">
       <div className="driver-infos" onClick={e => {
-      history.push(`/drivers/${driverId}`);
+         history.push(`/drivers/${driverId}`);
       }}>
          <img src="https://s3.amazonaws.com/assets.materialup.com/users/pictures/000/014/117/thumb/TcZxZKU2_400x400.jpg?1507620119" alt="driver-profile" />
          <span><i className="zmdi zmdi-account-box-o"></i> {driver.driverFirstName} {driver.driverLastName}</span>
@@ -12,6 +12,7 @@ const DriverItem = ({ driverId, driver, history, deleteDriver}) => (
          <span><i className="zmdi zmdi-assignment-o"></i> {driver.driverPhoneNumber}</span> */}
       </div>
       <a href="#delete-driver" onClick={(e) => {
+         e.preventDefault();
          deleteDriver(driverId);
          // alert("cilcked");
       }}><i className="zmdi zmdi-close zmdi-hc-3x"></i></a>

@@ -32,7 +32,8 @@ export default class DriverList extends Component {
             <section key={1}>
                {drivers.map((driver, i) => {
                   return (
-                     <DriverItem key={driver.driverId} driverId={driver.driverId} driver={driver} deleteDriver={deleteDriver} />
+                     <DriverItem key={driver.driverId} driverId={driver.driverId} 
+                        driver={driver} deleteDriver={deleteDriver} />
                   )
                })}
             </section>

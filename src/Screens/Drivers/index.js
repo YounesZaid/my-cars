@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+
 import moment from 'moment';
 
-import {db} from '../../Database/config';
 import './index.css';
+import {db} from '../../Database/config';
 
 
-import DriversList from './DriversList';
 import DriverDetails from './DriverDetails';
+import DriversList from './DriversList';
 
 export default class DriversScreen extends Component {
    state = {
@@ -40,7 +41,7 @@ export default class DriversScreen extends Component {
 
    componentDidMount = () => {
       db.collection("drivers").orderBy('posted','desc').onSnapshot((QuerySnapshot) => {
-         const items = [];
+         const driverItems = [];
          QuerySnapshot.forEach((doc) => {
             console.log(`${doc.id} => ${doc.data().driverFirstName} ${doc.data().driverLastName} ${doc.data().driverRegistrationNumber} ${doc.data().driverPhoneNumber}`);
             let docItem = {
@@ -50,10 +51,10 @@ export default class DriversScreen extends Component {
                driverPhoneNumber: doc.data().driverPhoneNumber,
                driverId: doc.id
             }
-            items.push(docItem);
+            driverItems.push(docItem);
          });
          this.setState({
-            drivers: items
+            drivers: driverItems
          })
       });
    }
@@ -63,9 +64,6 @@ export default class DriversScreen extends Component {
       const { match } = this.props;
       return(
          <div className="screen-wrapper driver-screen">
-            {/* <Route path={`${match.url}:/driverId`} render={(props) => {
-               return <DriverDetails drivers={drivers} {...props} />
-            }} /> */}
             <Route path={`${match.url}:/driverId`} render={(props) => {
                return <DriverDetails drivers={drivers} {...props}/>
             }} />
