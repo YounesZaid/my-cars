@@ -14,6 +14,14 @@ export default class DriversScreen extends Component {
       drivers: []
    }
 
+   deleteDriver = (driverId) => {
+      db.collection("drivers").doc(driverId).delete().then(function() {
+            console.log("Document successfully deleted!");
+      }).catch(function(error) {
+            console.error("Error removing document: ", error);
+      });
+   }
+
    addDriver = (driverFirstName, driverLastName, driverRegistrationNumber, driverPhoneNumber) => {
       db.collection("drivers").add({
          driverFirstName: driverFirstName,
@@ -32,7 +40,7 @@ export default class DriversScreen extends Component {
 
    componentDidMount = () => {
       db.collection("drivers").orderBy('posted','desc').onSnapshot((QuerySnapshot) => {
-         const driverCollection = [];
+         const items = [];
          QuerySnapshot.forEach((doc) => {
             console.log(`${doc.id} => ${doc.data().driverFirstName} ${doc.data().driverLastName} ${doc.data().driverRegistrationNumber} ${doc.data().driverPhoneNumber}`);
             let docItem = {
@@ -42,10 +50,10 @@ export default class DriversScreen extends Component {
                driverPhoneNumber: doc.data().driverPhoneNumber,
                driverId: doc.id
             }
-            driverCollection.push(docItem);
+            items.push(docItem);
          });
          this.setState({
-            drivers: driverCollection
+            drivers: items
          })
       });
    }
@@ -62,7 +70,7 @@ export default class DriversScreen extends Component {
                return <DriverDetails drivers={drivers} {...props}/>
             }} />
             <Route exact path={match.url} render={(props) => {
-               return <DriverDetails drivers={drivers} {...props}/>
+               return <DriversList drivers={drivers} addDriver={this.addDriver} deleteDriver={this.deleteDriver} />
             }} />
          </div>
       )

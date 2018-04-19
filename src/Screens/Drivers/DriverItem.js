@@ -1,17 +1,20 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-const DriverItem = ({ driverId, driver, history}) => (
-   <div className="driver-item" onClick={e => {
+const DriverItem = ({ driverId, driver, history, deleteDriver}) => (
+   <div className="driver-item">
+      <div className="driver-infos" onClick={e => {
       history.push(`/drivers/${driverId}`);
-   }}>
-      <img src="https://s3.amazonaws.com/assets.materialup.com/users/pictures/000/014/117/thumb/TcZxZKU2_400x400.jpg?1507620119" alt="driver-profile" />
-      <div className="driver-infos">
+      }}>
+         <img src="https://s3.amazonaws.com/assets.materialup.com/users/pictures/000/014/117/thumb/TcZxZKU2_400x400.jpg?1507620119" alt="driver-profile" />
          <span><i className="zmdi zmdi-account-box-o"></i> {driver.driverFirstName} {driver.driverLastName}</span>
          {/* <span><i className="zmdi zmdi-account-box-phone"></i> {driver.driverRegistrationNumber}</span>
          <span><i className="zmdi zmdi-assignment-o"></i> {driver.driverPhoneNumber}</span> */}
       </div>
-      <a href="#delete-driver"><i className="zmdi zmdi-close zmdi-hc-3x"></i></a>
+      <a href="#delete-driver" onClick={(e) => {
+         deleteDriver(driverId);
+         // alert("cilcked");
+      }}><i className="zmdi zmdi-close zmdi-hc-3x"></i></a>
    </div>
 )
 

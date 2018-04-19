@@ -16,7 +16,7 @@ export default class DriverList extends Component {
 
    render() {
       const { isAddDriverDialogOpen } = this.state;
-      const { drivers, addDriver } = this.props;
+      const { drivers, addDriver, deleteDriver } = this.props;
       if (drivers.length > 0) {
          return [
             <header key={0}>
@@ -32,7 +32,7 @@ export default class DriverList extends Component {
             <section key={1}>
                {drivers.map((driver, i) => {
                   return (
-                     <DriverItem key={driver.driverId} driverId={driver.driverId} driver={driver} />
+                     <DriverItem key={driver.driverId} driverId={driver.driverId} driver={driver} deleteDriver={deleteDriver} />
                   )
                })}
             </section>
