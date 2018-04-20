@@ -14,7 +14,7 @@ export default class DriverDetails extends Component {
   }
 
   componentDidMount = () => {
-    db.collection("drivers").doc(`${this.props.match.params.tripId}`).onSnapshot((doc) => {
+    db.collection("drivers").doc(`${this.props.match.params.driverId}`).onSnapshot((doc) => {
       if (doc.exists) {
         this.setState({
           driver: {
