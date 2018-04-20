@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
-import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
+// import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Spinner from 'react-spinkit';
 
 import { db } from 'Database/config';
@@ -106,23 +106,22 @@ const Map = compose(
   withGoogleMap
 )(props =>
   <GoogleMap
-    defaultZoom={12}
-    defaultCenter={{ lat: 34.002271, lng: -6.8543258 }}
-    ref={props.onMapLoad}
+    defaultZoom={props.zoom}
+    defaultCenter={props.markers[0]}
   >
-    <MarkerClusterer
+    {/* <MarkerClusterer
       onClick={props.onMarkerClustererClick}
       averageCenter
       enableRetinaIcons
       gridSize={60}
-    >
+    > */}
       {props.markers.map((marker, i) => (
         <Marker
           key={i}
           position={{ lat: marker.lat, lng: marker.lng }}
         />
       ))}
-    </MarkerClusterer>
+    {/* </MarkerClusterer> */}
   </GoogleMap>
 );
 
@@ -136,5 +135,5 @@ Map.defaultProps = {
     { lat: 34.000556, lng: -6.850090 },
     { lat: 33.997885, lng: -6.847561 },
   ],
-  zoom: 12
+  zoom: 16
 }

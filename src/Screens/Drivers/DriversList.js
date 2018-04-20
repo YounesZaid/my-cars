@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Dialog, Intent } from '@blueprintjs/core';
 import { db } from 'Database/config';
-import * as firebase from 'firebase';
 import moment from 'moment';
 import Spinner from 'react-spinkit';
 
