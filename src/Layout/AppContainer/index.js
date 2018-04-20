@@ -43,9 +43,9 @@ const AppContainer = ({ toggleDrawer }) => (
                <Route exact path='/cars' component={CarsScreen} />
                <Route exact path='/drivers' component={DriversScreen} />
                <Route exact path='/cards' component={CardsScreen} />
-               <Route>
+               {/* <Route>
                   <Redirect to='/trips' />
-               </Route>
+               </Route> */}
             </Switch>
          {/* </Router> */}
       </section>

@@ -10,7 +10,7 @@ export default class CardItem extends Component {
       return (
          <Card interactive={true} elevation={Elevation.TWO}>
             <h5><a href="#card">Card : {card.cardId}</a></h5>
-            <p>Card informations</p>
+            <h4>Card informations</h4>
             <p>card for : {card.cardType}</p>
             <p>card identifier : {card.cardIdentifier}</p>
             <Button onClick={(e) => {

@@ -6,6 +6,16 @@
 
 /* car Item  */
 
+.cars-screen section > .spinner-three-bounce {
+   color: #e8764d;
+   margin: auto;
+}
+
 .cars-screen .car-item {
    margin-bottom: 10px;
+}
+
+.cars-screen .car-item .car-header {
+   display: flex;
+   justify-content: space-between;
 }
