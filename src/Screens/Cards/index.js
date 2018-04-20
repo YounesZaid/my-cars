@@ -46,7 +46,7 @@ export default class CardsScreen extends Component {
       db.collection("cards").orderBy('posted','desc').onSnapshot((DocRef) => {
          const items = [];
          DocRef.forEach(doc => {
-            console.log(`${doc.id} => ${doc.data().cardType} ${doc.data().cardIdentifier}`);
+            console.log(`${doc.id} => Get Cards collection with success`);
             let docItem = {
                cardType: doc.data().cardType,
                cardIdentifier: doc.data().cardIdentifier,

@@ -1,10 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
-const TripItem = ({ tripId, posted, carType, driverName, isActive, history }) => (
-   <div className="trip-item" onClick={e => {
-      history.push(`/trips/${tripId}`)
-   }}>
+const TripItem = ({ tripId, posted, carType, driverName, isActive, onItemClicked }) => (
+   <div className="trip-item" onClick={onItemClicked}>
       {/* <p href="#trip-item" className="trip-content">
          <span>{carType} / {driverName}</span>
       </p>
@@ -28,4 +25,4 @@ TripItem.defaultProps = {
    isActive: false
 }
 
-export default withRouter(TripItem);
+export default TripItem;

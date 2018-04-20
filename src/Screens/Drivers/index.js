@@ -43,7 +43,7 @@ export default class DriversScreen extends Component {
       db.collection("drivers").orderBy('posted','desc').onSnapshot((QuerySnapshot) => {
          const driverItems = [];
          QuerySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data().driverFirstName} ${doc.data().driverLastName} ${doc.data().driverRegistrationNumber} ${doc.data().driverPhoneNumber}`);
+            console.log(`${doc.id} => Get drivers collection with success`);
             let docItem = {
                driverFirstName: doc.data().driverFirstName,
                driverLastName: doc.data().driverLastName,

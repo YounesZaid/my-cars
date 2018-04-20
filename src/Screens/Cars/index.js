@@ -42,7 +42,7 @@ export default class CarsScreen extends Component {
       db.collection("cars").orderBy('posted', 'desc').onSnapshot((QuerySnapshot) => {
          const carItems = [];
          QuerySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => Get element with Success`);
+            console.log(`${doc.id} => Get Cars Collection with Success`);
             let docItem = {
                carName: doc.data().carName,
                carMatricule: doc.data().carMatricule,
