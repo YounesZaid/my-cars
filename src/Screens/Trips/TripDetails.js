@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
+import Spinner from 'react-spinkit';
 
 import { db } from 'Database/config';
 
@@ -12,42 +13,31 @@ export default class TripDetails extends Component {
     trip: null,
     isLoading: true,
   }
-  // onMapLoad = () => {
-  //    const DirectionsService = new google.maps.DirectionsService();
-
-  //    DirectionsService.route({
-  //      origin: new google.maps.LatLng(34.0007678, -6.8524419),
-  //      destination: new google.maps.LatLng(34.0006948, -6.8501645),
-  //      travelMode: google.maps.TravelMode.DRIVING,
-  //    }, (result, status) => {
-  //      if (status === google.maps.DirectionsStatus.OK) {
-  //        this.setState({
-  //          directions: result,
-  //        });
-  //      } else {
-  //        console.error(`error fetching directions ${result}`);
-  //      }
-  //    });
-  // }
-
+  
   componentDidMount = () => {
     // // this is how we can get the element by id
     // const { match } = this.props;
     // const tripId = match.params.tripId;
     // where(firebase.firestore.FieldPath.documentId(), '=', 'tripId')
     db.collection("trips").doc(`${this.props.match.params.tripId}`).onSnapshot((doc) => {
-      this.setState({
-        trip: {
-          driverName: doc.data().driverName,
-          carType: doc.data().carType,
-          id: doc.id,
-          isActive: doc.data().isActive,
-          posted: doc.data().posted
-        },
-        isLoading: false
-      })
+      if(doc.exists) {
+        this.setState({
+          trip: {
+            driverName: doc.data().driverName,
+            carType: doc.data().carType,
+            id: doc.id,
+            isActive: doc.data().isActive,
+            posted: doc.data().posted
+          },
+          isLoading: false
+        })
+      } else {
+        // 1
+        // this.setState({ trip: null, isLoading: false })
+        // 2
+        this.props.history.replace(`/trips`);
+      }
     });
-    // this.onMapLoad();
   }
 
   render() {
@@ -71,7 +61,9 @@ export default class TripDetails extends Component {
           {/* <h3 className="blank-details-page"> No trip details was found ..! </h3> */}
         </header>,
         <section key={1}>
-          <h3 className="blank-details-page">No trip was found ..!</h3>
+          <h3 className="blank-details-page"> 
+            <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No trip was found ..!
+          </h3>
         </section>
       ]
     }
@@ -146,5 +138,3 @@ Map.defaultProps = {
   ],
   zoom: 12
 }
-
-const Spinner = require('react-spinkit');

@@ -16,6 +16,15 @@
 
 
 /* section */
-/* 
-display
-*/
+
+.cards-screen > section .blank-list-page {
+  color: rgba(255, 0, 0, 0.3);
+  text-align: center;
+  margin: auto;
+}
+
+.cards-screen section > .spinner-three-bounce {
+  color: #e8764d;
+  margin: auto;
+}
+

@@ -50,6 +50,12 @@
    margin: auto;
 }
 
+.driver-screen > section .blank-list-page {
+  color: rgba(255, 0, 0, 0.3);
+  text-align: center;
+  margin: auto;
+}
+
 /* Driver Details Screen */
 
 /* .driver-screen #driver-section {
