@@ -37,17 +37,15 @@ const AppContainer = ({ toggleDrawer }) => (
       </header>
       <div id="header-search-form" />
       <section id="app-content-wrapper">
-         {/* <Router> */}
-            <Switch>
-               <Route path='/trips' component={TripsScreen} />
-               <Route path='/cars' component={CarsScreen} />
-               <Route path='/drivers' component={DriversScreen} />
-               <Route exact path='/cards' component={CardsScreen} />
-               {/* <Route>
-                  <Redirect to='/trips' />
-               </Route> */}
-            </Switch>
-         {/* </Router> */}
+        <Switch>
+          <Route path='/trips' component={TripsScreen} />
+          <Route path='/cars' component={CarsScreen} />
+          <Route path='/drivers' component={DriversScreen} />
+          <Route exact path='/cards' component={CardsScreen} />
+          <Route>
+            <Redirect to='/trips' />
+          </Route>
+        </Switch>
       </section>
    </div>
 )
