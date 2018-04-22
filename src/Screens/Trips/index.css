@@ -8,10 +8,15 @@
   font-size: 18px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.09); */
   cursor: pointer;
   align-items: center;
   border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.trips-screen .trip-item:nth-child(even) {
+  background-color: rgba(210, 204, 202, 0.3);
 }
 
 .trips-screen .trip-item .item-icon {
@@ -41,7 +46,7 @@
 } */
 
 .trips-screen .trip-item:hover {
-  background-color: #e5ebeb;
+  background-color: rgba(167, 164, 163, 0.3);
   transition: all .3s;
 }
 
@@ -64,16 +69,17 @@
 .trips-screen .trip-map {
   flex-grow: 1;
   position: relative;
+  background-color: rgba(10, 8, 8, 0.3);
 }
 
-.trips-screen .trip-details-info {
+/* .trips-screen .trip-details-info {
    color: red;
-}
+} */
 
 .trips-screen .trip-detail {
   position: absolute;
-  top: 36px;
-  right: 20px;
+  top: 83px;
+  right: 23px;
   border-radius: 3px;
   padding: 12px;
   background-color: white;
@@ -85,6 +91,19 @@
   width: 100%;
   height: 100%;
   position: absolute;
+  padding: 3px 3px;
+  padding-top: 38px;
+}
+
+.trips-screen .trip-map > h3 {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 30px;
+  top: 6px;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6)
 }
 
 .trips-screen .trip-detail span {

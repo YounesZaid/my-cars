@@ -55,21 +55,35 @@ export default class DriverDetails extends Component {
       </header>,
       <section key={1} id="driver-section">
         <div className="driver-details-info">
-          <img src="https://s3.amazonaws.com/assets.materialup.com/users/pictures/000/014/117/thumb/TcZxZKU2_400x400.jpg?1507620119" alt="driver-profile" />
-          <div className="informations">
+          <div className="img-name">
+            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/dvdwinden/128.jpg" alt="driver-profile" />
             <h4><span>{driver.driverFirstName} {driver.driverLastName}</span></h4>
-            <h4>Registration Number : <span>{driver.driverRegistrationNumber}</span></h4>
-            <h4>Phone Number : <span>{driver.driverPhoneNumber}</span></h4>
+          </div>
+          <div className="informations">
+            <div className="phone-container">
+              <p className="container-title">Phone </p>
+              <p>{driver.driverPhoneNumber}</p>
+            </div>
+            <div className="registration-container">
+              <p className="container-title">Registration </p>
+              <p>{driver.driverRegistrationNumber}</p>
+            </div>
+            <div className="note-container">
+              <p className="container-title">Registration date </p>
+              <p> 12/08/1999</p>
+            </div>
           </div>
         </div>
         <div className="map-card-container">
-          <div className="driver-map-container">
+          <aside className="driver-map-container">
             <Map />
-          </div>
+          </aside>
           <aside className="driver-card-info">
             <p>Information about your subscription card</p>
-            <h5>Card Number :</h5>
-            <h5>Consomation :</h5>
+            <div className="driver-card">
+              <h5>Card Number :</h5>
+              <h5>Consomation :</h5>
+            </div>
           </aside>
         </div>
       </section>
@@ -98,19 +112,19 @@ const Map = compose(
     defaultZoom={12}
     defaultCenter={{ lat: 34.002271, lng: -6.8543258 }}
   >
-    <MarkerClusterer
+    {/* <MarkerClusterer
       onClick={props.onMarkerClustererClick}
       averageCenter
       enableRetinaIcons
       gridSize={60}
-    >
-      {props.markers.map((marker, i) => (
-        <Marker
-          key={i}
-          position={{ lat: marker.lat, lng: marker.lng }}
-        />
-      ))}
-    </MarkerClusterer>
+    > */}
+    {props.markers.map((marker, i) => (
+      <Marker
+        key={i}
+        position={{ lat: marker.lat, lng: marker.lng }}
+      />
+    ))}
+    {/* </MarkerClusterer> */}
   </GoogleMap>
 );
 

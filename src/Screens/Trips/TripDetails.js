@@ -13,14 +13,14 @@ export default class TripDetails extends Component {
     trip: null,
     isLoading: true,
   }
-  
+
   componentDidMount = () => {
     // // this is how we can get the element by id
     // const { match } = this.props;
     // const tripId = match.params.tripId;
     // where(firebase.firestore.FieldPath.documentId(), '=', 'tripId')
     db.collection("trips").doc(`${this.props.match.params.tripId}`).onSnapshot((doc) => {
-      if(doc.exists) {
+      if (doc.exists) {
         this.setState({
           trip: {
             driverName: doc.data().driverName,
@@ -61,7 +61,7 @@ export default class TripDetails extends Component {
           {/* <h3 className="blank-details-page"> No trip details was found ..! </h3> */}
         </header>,
         <section key={1}>
-          <h3 className="blank-details-page"> 
+          <h3 className="blank-details-page">
             <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No trip was found ..!
           </h3>
         </section>
@@ -71,10 +71,11 @@ export default class TripDetails extends Component {
     return [
       // this.state.isLoading ? <Spinner name="three-bounce" fadeIn=".1" className="spinner-three-bounce"/> :
       <header key={0}>
-        <h3>Trip Map / <span className="trip-details-info">{trip.driverName} / docId : {trip.id}</span></h3>
+        <h3>Trip Map </h3>
       </header>,
       <section key={1}>
         <div className="trip-map">
+          <h3> visualize your vehicle in real time</h3>
           <Map />
           <div className="trip-detail">
             <span>Driver: {trip.driverName}</span>
@@ -115,12 +116,12 @@ const Map = compose(
       enableRetinaIcons
       gridSize={60}
     > */}
-      {props.markers.map((marker, i) => (
-        <Marker
-          key={i}
-          position={{ lat: marker.lat, lng: marker.lng }}
-        />
-      ))}
+    {props.markers.map((marker, i) => (
+      <Marker
+        key={i}
+        position={{ lat: marker.lat, lng: marker.lng }}
+      />
+    ))}
     {/* </MarkerClusterer> */}
   </GoogleMap>
 );

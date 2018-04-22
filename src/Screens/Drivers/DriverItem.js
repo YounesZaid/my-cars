@@ -3,8 +3,8 @@ import React from 'react';
 const DriverItem = ({ driverId, driver, onItemClicked, deleteDriver }) => (
   <div className="driver-item">
     <div className="driver-infos" onClick={onItemClicked}>
-      <img src="https://s3.amazonaws.com/assets.materialup.com/users/pictures/000/014/117/thumb/TcZxZKU2_400x400.jpg?1507620119" alt="driver-profile" />
-      <span><i className="zmdi zmdi-account-box-o"></i> {driver.driverFirstName} {driver.driverLastName}</span>
+      <img src="https://s3.amazonaws.com/uifaces/faces/twitter/dvdwinden/128.jpg" alt="driver-profile" />
+      <h3>{driver.driverFirstName} {driver.driverLastName}</h3>
       {/* <span><i className="zmdi zmdi-account-box-phone"></i> {driver.driverRegistrationNumber}</span>
          <span><i className="zmdi zmdi-assignment-o"></i> {driver.driverPhoneNumber}</span> */}
     </div>
@@ -12,7 +12,7 @@ const DriverItem = ({ driverId, driver, onItemClicked, deleteDriver }) => (
       e.preventDefault();
       deleteDriver(driver.driverId);
       // alert("cilcked");
-    }}><i className="zmdi zmdi-close zmdi-hc-3x"></i></a>
+    }}><i className="zmdi zmdi-close zmdi-hc-2x"></i></a>
   </div>
 )
 
