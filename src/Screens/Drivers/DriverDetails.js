@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
-import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
+// import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Spinner from 'react-spinkit';
 
 import { db } from 'Database/config';
@@ -11,6 +11,14 @@ export default class DriverDetails extends Component {
   state = {
     driver: null,
     isLoading: true
+  }
+
+  deleteDriver = (driverId) => {
+    db.collection("drivers").doc(driverId).delete().then(function () {
+      console.log("Document successfully deleted!");
+    }).catch(function (error) {
+      console.error("Error removing document: ", error);
+    });
   }
 
   componentDidMount = () => {
@@ -51,7 +59,17 @@ export default class DriverDetails extends Component {
     // Else
     return [
       <header key={0}>
-        <h3>Driver Details / {driver.driverFirstName} / docId : {driver.driverId}</h3>
+        <h3>Driver Details </h3>
+        <div>
+          <button type="button" className="pt-button" onClick={e => {
+            e.preventDefault();
+            alert("content edited !");
+          }}><i className="zmdi zmdi-border-color"></i></button>
+          <button type="button" className="pt-button" onClick={e => {
+            e.preventDefault();
+            this.deleteDriver(driver.driverId);
+          }}><i className="zmdi zmdi-close"></i></button>
+        </div>
       </header>,
       <section key={1} id="driver-section">
         <div className="driver-details-info">
@@ -68,9 +86,16 @@ export default class DriverDetails extends Component {
               <p className="container-title">Registration </p>
               <p>{driver.driverRegistrationNumber}</p>
             </div>
-            <div className="note-container">
-              <p className="container-title">Registration date </p>
+            <div className="hireDate-container">
+              <p className="container-title">hire date </p>
               <p> 12/08/1999</p>
+            </div>
+            <div className="note-container">
+              <p className="container-title">Note</p>
+              <p> 
+                Write something about this driver, Lorem ipsum dolor sit amet consectetur,
+                adipisicing elit.
+              </p>
             </div>
           </div>
         </div>
@@ -79,7 +104,6 @@ export default class DriverDetails extends Component {
             <Map />
           </aside>
           <aside className="driver-card-info">
-            <p>Information about your subscription card</p>
             <div className="driver-card">
               <h5>Card Number :</h5>
               <h5>Consomation :</h5>

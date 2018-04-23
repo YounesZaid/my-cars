@@ -14,6 +14,14 @@ export default class TripDetails extends Component {
     isLoading: true,
   }
 
+  deleteTrip = (tripId) => {
+    db.collection("trips").doc(tripId).delete().then(function () {
+      alert("Document successfully deleted!");
+    }).catch(function (error) {
+      console.error("Error removing document: ", error);
+    });
+  }
+
   componentDidMount = () => {
     // // this is how we can get the element by id
     // const { match } = this.props;
@@ -72,6 +80,16 @@ export default class TripDetails extends Component {
       // this.state.isLoading ? <Spinner name="three-bounce" fadeIn=".1" className="spinner-three-bounce"/> :
       <header key={0}>
         <h3>Trip Map </h3>
+        <div>
+          <button type="button" className="pt-button" onClick={e => {
+            e.preventDefault();
+            alert("content edited !");
+          }}><i className="zmdi zmdi-border-color"></i></button>
+          <button type="button" className="pt-button" onClick={e => {
+            e.preventDefault();
+            this.deleteTrip(trip.id);
+          }}><i className="zmdi zmdi-close"></i></button>
+        </div>
       </header>,
       <section key={1}>
         <div className="trip-map">

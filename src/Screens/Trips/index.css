@@ -1,4 +1,15 @@
-/* .trips-screen {} */
+/* .trips-screen No Trips */
+
+.trips-screen > section .blank-list-page > a {
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+.trips-screen > section .blank-list-page > a:hover {
+  color: #e8764d;
+}
 
 /* Trip Items */
 
@@ -65,6 +76,19 @@
 }
 
 /* Trip Details */
+
+.trips-screen .pt-button {
+  min-width: 43px;
+  border-radius: 0px;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  transition: all .3s;
+}
+
+.trips-screen .zmdi:hover {
+  color: #106ba3; 
+}
 
 .trips-screen .trip-map {
   flex-grow: 1;

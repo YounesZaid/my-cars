@@ -144,7 +144,7 @@ class AddCarDialog extends Component {
           </p>
           <label className="pt-label">
             Car name
-                  <span className="pt-text-muted">(required)</span>
+            <span className="pt-text-muted">(required)</span>
             <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carName} onChange={(e) => {
               e.preventDefault();
               this.setState({
@@ -154,7 +154,7 @@ class AddCarDialog extends Component {
           </label>
           <label className="pt-label">
             Car matricule
-                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carMatricule} onChange={(e) => {
+              <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carMatricule} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 carMatricule: e.target.value
@@ -162,8 +162,8 @@ class AddCarDialog extends Component {
             }} />
           </label>
           <label className="pt-label">
-            Card type
-                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carType} onChange={(e) => {
+            Car type
+              <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carType} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 carType: e.target.value
@@ -171,8 +171,8 @@ class AddCarDialog extends Component {
             }} />
           </label>
           <label className="pt-label">
-            Card number places
-                  <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carPlaces} onChange={(e) => {
+            Car number places
+              <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carPlaces} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 carPlaces: e.target.value
