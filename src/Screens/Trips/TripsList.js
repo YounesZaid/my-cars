@@ -14,15 +14,15 @@ export default class TripsList extends Component {
     isAddTripDialogOpen: false,
   }
 
-  addTrip = (driverName, carType) => {
+  addTrip = (driverId, carId, cardId) => {
     db.collection("trips").add({
-      driverName,
-      carType,
+      driverId,
+      carId,
+      cardId,
       isActive: true,
       posted: moment().format('MMMM Do YYYY, h:mm:ss a')
     })
       .then(docRef => {
-        alert(`Trip with the driver ${driverName} was added successfully!`);
         console.log("Document written with ID: ", firebase.firestore.FieldPath.documentId());
       })
       .catch(error => {
@@ -34,32 +34,44 @@ export default class TripsList extends Component {
   componentDidMount() {
     db.collection("trips").orderBy('posted', 'desc').onSnapshot((querySnapshot) => {
       const tripItems = [];
+      const driverIdsDocPromises = [];
+      // const carIdsDocPromises = [];
+      // const cardIdsDocPromises = [];
       querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => Get trips collection with success`);
-        const docItem = {
-          driverName: doc.data().driverName,
-          carType: doc.data().carType,
+        const data = doc.data();
+        const promise = db.collection("drivers").doc(data.driverId).get();
+        driverIdsDocPromises.push(promise);
+        tripItems.push({
+          driverId: data.driverId,
+          carId: data.carId,
+          cardId: data.cardId,
           id: doc.id,
-          isActive: doc.data().isActive,
-          posted: doc.data().posted
-        }
-        tripItems.push(docItem);
+          isActive: data.isActive,
+          posted: data.posted
+        });
       });
-      this.setState({
-        trips: tripItems,
-        isLoading: false,
-      })
-      //  this.setState({
-      //    trips: querySnapshot.map(doc => {
-      //      return {
-      //       riverName: doc.data().driverName,
-      //       carType: doc.data().carType,
-      //       id: doc.id,
-      //       isActive: doc.data().isActive, 
-      //       posted: doc.data().posted
-      //      }
-      //    })
-      //  })
+
+      Promise.all(driverIdsDocPromises)
+        .then(driverDocs => {
+          driverDocs.forEach(driverDoc => {
+            tripItems.forEach((tripObj, i) => {
+              if (tripObj.driverId === driverDoc.id) {
+                tripItems[i] = {
+                  ...tripObj,
+                  ...(driverDoc.data())
+                }
+              }
+            })
+          });
+          this.setState({
+            trips: tripItems,
+            isLoading: false,
+          })
+        })
+        .catch(error => {
+          // SOMETHING WENT WRONG!
+          alert("OuPs ! Failed to Load the items .. !")
+        })
     });
   }
 
@@ -106,8 +118,8 @@ export default class TripsList extends Component {
       <section key={1}>
         {trips.map((trip, i) => {
           return (
-            <TripItem key={trip.id} tripId={trip.id} carType={trip.carType}
-              driverName={trip.driverName} isActive={trip.isActive} posted={trip.posted}
+            <TripItem key={trip.id} trip={trip} tripId={trip.id} carId={trip.carId}
+              driverId={trip.driverId} isActive={trip.isActive} posted={trip.posted}
               onItemClicked={e => {
                 e.preventDefault();
                 this.props.history.push(`/trips/${trip.id}`);
@@ -122,11 +134,123 @@ export default class TripsList extends Component {
 
 class AddTripDialog extends Component {
   state = {
-    carType: '',
-    driverName: ''
+    drivers: [],
+    cars: [],
+    cards: [],
+    driverId: null,
+    carId: null,
+    cardId: null
+  }
+
+  _getDriversAndCardsAndCars = () => {
+    // const driversPromise = db.collection("drivers").orderBy('posted', 'desc').get();
+    // const carsPromise = db.collection("cars").orderBy('posted', 'desc').get();
+    // const cardsPromise = db.collection("cards").orderBy('posted', 'desc').get();
+    // Promise.all(driversPromise, carsPromise, cardsPromise)
+    //   .then(responses => {
+    //     // set State
+    //     console.log('LOADED')
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+    db.collection("drivers").orderBy('posted', 'desc').onSnapshot(driverDoc => {
+      const driverItems = [];
+      driverDoc.forEach((doc) => {
+        const data = doc.data();
+        let docItem = {
+          driverFirstName: data.driverFirstName,
+          driverLastName: data.driverLastName,
+          driverId: doc.id
+        }
+        driverItems.push(docItem);
+      });
+      db.collection("cars").orderBy('posted', 'desc').onSnapshot(carDoc => {
+        const carItems = [];
+        carDoc.forEach((doc) => {
+          let docItem = {
+            carName: doc.data().carName,
+            carId: doc.id
+          }
+          carItems.push(docItem);
+        });
+        db.collection("cards").orderBy('posted', 'desc').onSnapshot((DocRef) => {
+          const cardItems = [];
+          DocRef.forEach(doc => {
+            let docItem = {
+              cardType: doc.data().cardType,
+              cardId: doc.id,
+            }
+            cardItems.push(docItem);
+          });
+         this.setState({
+           drivers: driverItems,
+           cars: carItems,
+           cards: cardItems
+         })
+        });
+      });
+    });
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isOpen && nextProps.isOpen) {
+      // we're opening the dialog
+      this._getDriversAndCardsAndCars();
+    }
+  }
+
+  componentDidMount() {
+    // .onSnapshot((querySnapshot) => {
+    //   const driversItems = [];
+    //   querySnapshot.forEach((doc) => {
+    //     console.log(`${doc.id} => Get drivers collection with success`);
+    //     let docItem = {
+    //       driverFirstName: doc.data().driverFirstName,
+    //       driverLastName: doc.data().driverLastName,
+    //       driverId: doc.id
+    //     }
+    //     driverItems.push(docItem);
+    //   });
+    //   this.setState({
+    //     drivers: driversItems,
+    //   })
+    // });
+
+    // db.collection("cars").orderBy('posted', 'desc').onSnapshot((QuerySnapshot) => {
+    //   const carsItems = [];
+    //   QuerySnapshot.forEach((doc) => {
+    //     console.log(`${doc.id} => Get Cars Collection with Success`);
+    //     let docItem = {
+    //       carName: doc.data().carName,
+    //       carId: doc.id
+    //     }
+    //     carsItems.push(docItem);
+    //   });
+    //   this.setState({
+    //     cars: carsItems,
+    //   })
+    // });
+
+    // db.collection("cards").orderBy('posted', 'desc').onSnapshot((DocRef) => {
+    //   const cardsItems = [];
+    //   DocRef.forEach(doc => {
+    //     console.log(`${doc.id} => Get Cards collection with success`);
+    //     let docItem = {
+    //       cardType: doc.data().cardType,
+    //       cardId: doc.id,
+    //     }
+    //     cardsItems.push(docItem);
+    //   });
+    //   this.setState({
+    //     cards: cardsItems,
+    //   })
+    // });
   }
 
   render() {
+    const { drivers, cars, cards, driverId, carId, cardId } = this.state;
     return (
       <Dialog
         icon="inbox"
@@ -141,27 +265,52 @@ class AddTripDialog extends Component {
             <strong> In this Dialog you can add a new trip </strong>
           </p>
           <label className="pt-label">
-            Driver Name
-                  <span className="pt-text-muted">(required)</span>
-            <input className="pt-input" type="text" placeholder="Your driver name" name="driverName" value={this.state.driverName} onChange={(e) => {
-              e.preventDefault();
-              this.setState({
-                driverName: e.target.value
-              });
-            }} />
+            Driver name
+            <div className="pt-select">
+              <select onChange={e => {
+                e.preventDefault();
+                this.setState({
+                  driverId: e.target.value
+                });
+              }}>
+                <option defaultValue>Choose a driver...</option>
+                {drivers.map((driver, i) => {
+                  return <option key={i} value={driver.driverId}>{driver.driverFirstName} {driver.driverLastName}</option>
+                })}
+              </select>
+            </div>
           </label>
           <label className="pt-label">
-            Car Type
-                  <input className="pt-input" type="text" placeholder="Your car type" name="carType" value={this.state.carType} onChange={(e) => {
-              e.preventDefault();
-              this.setState({
-                carType: e.target.value
-              });
-            }} />
+            Car type
+            <div className="pt-select">
+              <select onChange={e => {
+                e.preventDefault();
+                this.setState({
+                  carId: e.target.value
+                })
+              }}>
+                <option defaultValue>Choose a car...</option>
+                {cars.map((car, i) => {
+                  return <option key={i} value={car.carId}>{car.carName}</option>
+                })}
+              </select>
+            </div>
           </label>
           <label className="pt-label">
             Card number
-                  <input className="pt-input" type="text" placeholder="Your card number" dir="auto" />
+            <div className="pt-select">
+              <select onChange={e => {
+                e.preventDefault();
+                this.setState({
+                  cardId: e.target.value
+                })
+              }}>
+                <option defaultValue>Choose a card...</option>
+                {cards.map((card, i) => {
+                  return <option key={i} value={card.cardId}>{card.cardType}</option>
+                })}
+              </select>
+            </div>
           </label>
         </div>
         <div className="pt-dialog-footer">
@@ -173,14 +322,11 @@ class AddTripDialog extends Component {
             <Button
               text="Add Trip"
               icon="add"
+              disabled={!driverId || !cardId || !carId}
               intent={Intent.PRIMARY}
               onClick={(e) => {
                 e.preventDefault();
-                this.props.addTrip(this.state.driverName, this.state.carType);
-                this.setState({
-                  carType: '',
-                  driverName: ''
-                })
+                this.props.addTrip(driverId, carId, cardId);
                 this.props.closeDialog();
               }}
             />

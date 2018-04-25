@@ -69,6 +69,10 @@
   display: block;
 }
 
+.trips-screen .trip-item #driverFullName {
+  margin-right: 8px;
+}
+
 .trips-screen .trip-item p {
   text-decoration: none;
   color: #555758;
@@ -93,7 +97,7 @@
 .trips-screen .trip-map {
   flex-grow: 1;
   position: relative;
-  background-color: rgba(10, 8, 8, 0.3);
+  background-color: white;
 }
 
 /* .trips-screen .trip-details-info {
@@ -138,6 +142,10 @@
 
 .pt-input {
   width: 100%;
+}
+
+.pt-label .pt-select select {
+  outline: none;
 }
 
 /* Error items section */

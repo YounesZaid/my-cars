@@ -69,13 +69,6 @@ export default class CardsList extends Component {
       return [
         <header key={0}>
           <h3>Cards</h3>
-          <a href="#add-content" onClick={e => {
-            e.preventDefault();
-            this.setState({
-              isAddCardDialogOpen: true,
-            });
-          }}> ADD NEW CARD <i className="zmdi zmdi-plus-square zmdi-hc-lg"></i></a>
-          <AddCardDialog closeDialog={this.closeAddCardDialog} isAddCardDialogOpen={isAddCardDialogOpen} addCard={this.addCard} />
         </header>,
         <section key={1} id="cards-container">
           {isLoading && <Spinner name="three-bounce" fadeIn="quarter" className="spinner-three-bounce" />}

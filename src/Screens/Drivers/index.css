@@ -3,6 +3,20 @@
 .pt-input {
   width: 100%;
 }
+/* No drivers Items */
+
+.driver-screen > section .blank-list-page > a {
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+.driver-screen > section .blank-list-page > a:hover {
+  color: #e8764d;
+}
+
+/* End  */
 
 .driver-screen .pt-button {
   min-width: 43px;
@@ -92,6 +106,7 @@
 
 .driver-screen .driver-details-info {
   display: flex;
+  flex-shrink: 1;
   /* flex-direction: row; */
   /* flex-grow: 1; */
   border: 2px solid rgba(0, 0, 0, 0.09);
@@ -102,18 +117,30 @@
 
 
 
-.driver-screen .driver-details-info .img-name {
+/* .driver-screen .driver-details-info .img-name {
   margin-right: 30px;
   margin-bottom: 10px;
   padding: 10px;
   padding-bottom: 0;
   text-align: center;
+} */
+
+.driver-screen .driver-details-info .img-name {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 128px;
+  height: 120px;
+  padding: 10px;
+  text-align: center;
+  margin-right: 20px;
 }
 
 .driver-screen .driver-details-info .img-name > img {
-  border-radius: 7px;
-  margin-bottom: 5px;
-  width: 100px;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  margin-bottom: 8px;
 }
 
 .driver-screen .driver-details-info .img-name > h4 {
@@ -149,12 +176,12 @@
   font-size: 16px;
   font-weight: 400;
   margin-right: 20px;
-  min-width: 18%;
-  /* position: relative; */
+  min-width: 8em;
+  position: relative;
   color: black;
 }
 
-@media (max-width: 940px) {
+/* @media (max-width: 940px) {
   .driver-screen .driver-details-info .informations .container-title {
     min-width: 25%;
     
@@ -189,13 +216,13 @@
   .driver-screen .driver-details-info .informations .phone-container, .registration-container, .hireDate-container, .note-container {
     margin-bottom: 3px;
   }
-}
-/* .driver-screen .driver-details-info .informations .container-title::after {
+} */
+.driver-screen .driver-details-info .informations .container-title::after {
   content: ':';
   position: absolute;
   right: 0;
   left: inherit;
-} */
+}
 
 /* .driver-screen .driver-details-info .informations > h4 {
    margin-bottom: 10px;

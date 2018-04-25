@@ -4,18 +4,58 @@
   width: 100%;
 }
 
+/* Buttons */
+
+
+/* No drivers Items */
+
+.cards-screen > section .blank-list-page > a {
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+.cards-screen > section .blank-list-page > a:hover {
+  color: #e8764d;
+}
+
+/* End  */
+
 /* .cards-screen #cards-container{
    flex-direction: row;
    flex-wrap: wrap;
    flex-grow: 0;
 } */
 
-.cards-screen #cards-container .pt-card {
+/* .cards-screen #cards-container .pt-card {
    margin-top: 10px;
-}
+} */
 
 
 /* section */
+
+.cards-screen .card-item {
+  margin-bottom: 10px;
+}
+
+.cards-screen .card-item .card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-edit-button {
+  background-color: white;
+  border-radius: 1px;
+  height: 25px;
+  width: 50px;
+  cursor: pointer;
+  outline: none;
+}
+
+.cards-screen .zmdi:hover {
+  color: #106ba3; 
+}
 
 .cards-screen > section .blank-list-page {
   color: rgba(255, 0, 0, 0.3);
@@ -27,4 +67,6 @@
   color: #e8764d;
   margin: auto;
 }
+
+
 

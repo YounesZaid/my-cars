@@ -23,10 +23,6 @@ export default class TripDetails extends Component {
   }
 
   componentDidMount = () => {
-    // // this is how we can get the element by id
-    // const { match } = this.props;
-    // const tripId = match.params.tripId;
-    // where(firebase.firestore.FieldPath.documentId(), '=', 'tripId')
     db.collection("trips").doc(`${this.props.match.params.tripId}`).onSnapshot((doc) => {
       if (doc.exists) {
         this.setState({

@@ -131,7 +131,7 @@
   font-size: 18px;
   font-weight: 400;
   margin: 0;
-  min-width: 19%;
+  min-width: 8em;
 }
 
 .cars-screen .car-title .informations-wrapper .name-wrapper > p:nth-child(2),
@@ -142,19 +142,6 @@
   color: #747672a6;
 }
 
-@media (min-width: 800px) {
-  .cars-screen .car-title .informations-wrapper .name-wrapper > p:nth-child(1),
-  .cars-screen .car-title .informations-wrapper .matricule-wrapper > p:nth-child(1)  {
-    min-width: 30%;
-  }
-}
-
-@media (min-width: 400px) {
-  .cars-screen .car-title .informations-wrapper .name-wrapper > p:nth-child(1),
-  .cars-screen .car-title .informations-wrapper .matricule-wrapper > p:nth-child(1)  {
-    min-width: 50%;
-  }
-}
 .cars-screen .car-content {
   /* background-color: rgb(55, 80, 72); */
   display: flex;

@@ -76,7 +76,7 @@ export default class DriverList extends Component {
         <section key={1}>
           {isLoading && <Spinner name="three-bounce" fadeIn="quarter" className="spinner-three-bounce" />}
           {!isLoading && <h2 className="blank-list-page">
-            <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No trips found! ..
+            <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No drivers found! ..
             <a href="#add-content" onClick={e => {
               e.preventDefault();
               this.setState({
