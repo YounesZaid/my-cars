@@ -22,7 +22,7 @@ export default class CardItem extends Component {
         <button type="button" className="card-edit-button" onClick={e => {
           alert("item to edit");
         }}>
-          <i className="zmdi zmdi-border-color"></i>
+          <i className="zmdi zmdi-border-color btn-edit"></i>
         </button>
       </Card>
     )

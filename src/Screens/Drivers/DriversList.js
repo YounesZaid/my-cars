@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Dialog, Intent } from '@blueprintjs/core';
+import { Button, Dialog, Intent, Tooltip } from '@blueprintjs/core';
+// import { DateInput } from "@blueprintjs/datetime";
 import { db } from 'Database/config';
 import moment from 'moment';
 import Spinner from 'react-spinkit';
 
+import AppToaster from 'Components/Toast';
 import DriverItem from './DriverItem';
 
 export default class DriverList extends Component {
@@ -13,30 +15,52 @@ export default class DriverList extends Component {
     isAddDriverDialogOpen: false,
   }
 
-  addDriver = (driverFirstName, driverLastName, driverRegistrationNumber, driverPhoneNumber) => {
+  showAddDriverToast = () => {
+    AppToaster.show({
+      message: "Driver added successfully !",
+      intent: "success"
+    });
+  }
+
+  showDeleteDriverToast = () => {
+    AppToaster.show({
+      message: "Driver deleted :( ",
+      intent: "danger"
+    });
+  }
+
+  showErrorLoadingToast = () => {
+    AppToaster.show({
+      message: "SOMETHING WENT WRONG!",
+      intent: "danger"
+    });
+  }
+
+  deleteDriver = (driverId) => {
+    db.collection("drivers").doc(driverId).delete().then(docRef => {
+      this.showDeleteDriverToast();
+    }).catch(function (error) {
+      console.error("Error removing document: ", error);
+    });
+  }
+
+  addDriver = (driverFirstName, driverLastName, driverRegistrationNumber, driverPhoneNumber, driverHireDate, cardId) => {
     db.collection("drivers").add({
       driverFirstName,
       driverLastName,
       driverRegistrationNumber,
       driverPhoneNumber,
-      posted: moment().format('MMMM Do YYYY, h:mm:ss a')
+      driverHireDate,
+      cardId,
+      postedDriverAt: moment().format('MMMM Do YYYY, h:mm:ss a')
     })
-      .then(function (docRef) {
-        alert(`Trip with the driver ${driverFirstName} was added successfully!`);
-        console.log("Document written with ID: ", docRef.id);
+      .then(docRef => {
+        this.showAddDriverToast();
       })
       .catch(function (error) {
         alert("Something went wrong!");
         console.error("Error adding document: ", error);
       });
-  }
-
-  deleteDriver = (driverId) => {
-    db.collection("drivers").doc(driverId).delete().then(function () {
-      console.log("Document successfully deleted!");
-    }).catch(function (error) {
-      console.error("Error removing document: ", error);
-    });
   }
 
   closeAddDriverDialog = () => {
@@ -46,25 +70,48 @@ export default class DriverList extends Component {
   }
 
   componentDidMount() {
-    db.collection("drivers").orderBy('posted', 'desc').onSnapshot((QuerySnapshot) => {
-      const driversItems = [];
+    db.collection("drivers").orderBy('postedDriverAt', 'desc').onSnapshot((QuerySnapshot) => {
+      const driverItems = [];
+      const cardIdsDocPromises = [];
       QuerySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => Get drivers collection with success`);
-        let docItem = {
-          driverFirstName: doc.data().driverFirstName,
-          driverLastName: doc.data().driverLastName,
-          driverRegistrationNumber: doc.data().driverRegistrationNumber,
-          driverPhoneNumber: doc.data().driverPhoneNumber,
+        const data = doc.data();
+        const promise = db.collection("cards").doc(data.cardId).get();
+        cardIdsDocPromises.push(promise);
+        driverItems.push({
+          driverFirstName: data.driverFirstName,
+          driverLastName: data.driverLastName,
+          driverRegistrationNumber: data.driverRegistrationNumber,
+          driverPhoneNumber: data.driverPhoneNumber,
+          driverHireDate: data.driverHireDate,
+          postedDriverAt: data.postedDriverAt,
+          cardId: data.cardId,
           driverId: doc.id
-        }
-        driversItems.push(docItem);
+        });
       });
-      this.setState({
-        drivers: driversItems,
-        isLoading: false
+
+      Promise.all(cardIdsDocPromises).then(cardDocs => {
+        cardDocs.forEach(cardDoc => {
+          driverItems.forEach((driverObject, i) => {
+            if (driverObject.cardId === cardDoc.id){
+              driverItems[i] = {
+                ...driverObject,
+                ...(cardDoc.data())
+              }
+            }
+          })
+        });
+        this.setState({
+          drivers: driverItems,
+          isLoading: false
+        })
       })
+      .catch(error => {
+        this.showErrorLoadingToast();
+      })
+
     });
   }
+  
 
   render() {
     const { isAddDriverDialogOpen, isLoading, drivers } = this.state;
@@ -120,10 +167,39 @@ class AddDriverDialog extends Component {
     driverFirstName: '',
     driverLastName: '',
     driverRegistrationNumber: '',
-    driverPhoneNumber: ''
+    driverPhoneNumber: '',
+    driverHireDate: moment().format('MMMM Do YYYY'),
+    cards: [],
+    cardId: null
+  }
+
+  _getCards = () => {
+    db.collection("cards").orderBy('postedCardAt', 'desc').onSnapshot(cardDoc => {
+      const cardItems = [];
+      cardDoc.forEach(doc => {
+        const data = doc.data();
+        const docItem = {
+          cardType: data.cardType,
+          cardIdentifier: data.cardIdentifier,
+          cardId: doc.id,
+          postedCardAt: data.postedCardAt
+        }
+        cardItems.push(docItem);
+      });
+      this.setState({
+        cards: cardItems
+      })
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isAddDriverDialogOpen && nextProps.isAddDriverDialogOpen) {
+      // we're opening the dialog
+      this._getCards();
+    }
   }
   render() {
-    const { driverFirstName, driverLastName, driverPhoneNumber, driverRegistrationNumber } = this.state;
+    const { driverFirstName, driverLastName, driverPhoneNumber, driverRegistrationNumber, driverHireDate, cardId, cards } = this.state;
     const { addDriver, isAddDriverDialogOpen, closeDialog } = this.props;
     return (
       <Dialog
@@ -133,7 +209,7 @@ class AddDriverDialog extends Component {
         usePortal={true}
         canOutsideClickClose={false}
         canEscapeKeyClose={true}
-        title="Adding New Card">
+        title="Adding New Driver">
         <div className="pt-dialog-body">
           <p>
             <strong> In this Dialog you can add driver information </strong>
@@ -160,7 +236,7 @@ class AddDriverDialog extends Component {
           </label>
           <label className="pt-label">
             Phone number
-                  <input className="pt-input" type="text" placeholder="driver phone number" dir="auto" name="driverPhoneNumber" value={driverPhoneNumber} onChange={(e) => {
+            <input className="pt-input" type="text" placeholder="Example +21260000..." dir="auto" name="driverPhoneNumber" value={driverPhoneNumber} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 driverPhoneNumber: e.target.value
@@ -169,32 +245,73 @@ class AddDriverDialog extends Component {
           </label>
           <label className="pt-label">
             Registration number
-                  <input className="pt-input" type="text" placeholder="driver registration number" dir="auto" name="driverRegistrationNumber" value={driverRegistrationNumber} onChange={(e) => {
+            <input className="pt-input" type="text" placeholder="driver registration number" dir="auto" name="driverRegistrationNumber" value={driverRegistrationNumber} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 driverRegistrationNumber: e.target.value
               })
             }} />
           </label>
+          <label className="pt-label">
+            Hire date
+            <input className="pt-input" type="date" name="driverHireDate" value={driverHireDate} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                driverHireDate: e.target.value
+              });
+            }} />
+          </label>
+          <label className="pt-label">
+            Card Type
+            <div className="pt-select">
+              <select onChange={e => {
+                e.preventDefault();
+                this.setState({
+                  cardId: e.target.value
+                })
+              }}>
+                <option defaultValue>Choose a card...</option>
+                {cards.map((card, i) => {
+                  return <option key={i} value={card.cardId}>{card.cardType}</option>
+                })}
+              </select>
+            </div>
+          </label>
+          {/* <Label className="pt-label">
+            Hire date
+              <DateInput
+                value={this.state.hireDate}
+                closeOnSelection= {true}
+                popoverProps={{ position: Position.BOTTOM }}
+                formatDate={date => moment(date).format('MMMM Do YYYY')}
+                parseDate={str => new Date(str)}
+                onChange={e => {
+                  this.setState({
+                    hireDate: e.target.value
+                  });
+                  console.log(this.state.hireDate);
+                }}
+              />
+          </Label> */}
         </div>
         <div className="pt-dialog-footer">
           <div className="pt-dialog-footer-actions">
-            <Button
-              intent={Intent.DANGER}
-              onClick={this.props.closeDialog}
-              text="Close"
-            />
+            <Tooltip content="This button is hooked up to close the dialog.">
+              <Button intent={Intent.DANGER} onClick={closeDialog}>Close</Button>
+            </Tooltip>
             <Button
               text="Add"
               icon="add"
-              intent={Intent.ADD}
+              disabled={!driverFirstName || !driverLastName || !driverRegistrationNumber || !driverPhoneNumber || !driverHireDate}
+              intent={Intent.PRIMARY}
               onClick={() => {
-                addDriver(driverFirstName, driverLastName, driverRegistrationNumber, driverPhoneNumber);
+                addDriver(driverFirstName, driverLastName, driverRegistrationNumber, driverPhoneNumber, driverHireDate, cardId);
                 this.setState({
                   driverFirstName: '',
                   driverLastName: '',
                   driverRegistrationNumber: '',
-                  driverPhoneNumber: ''
+                  driverPhoneNumber: '',
+                  driverHireDate: moment().format('MMMM Do YYYY')
                 })
                 closeDialog();
               }}

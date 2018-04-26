@@ -5,6 +5,7 @@
   "homepage": "https://youneszaid.github.io/my-cars",
   "dependencies": {
     "@blueprintjs/core": "^2.0.1",
+    "@blueprintjs/datetime": "^2.0.2",
     "ajv": "^6.4.0",
     "classnames": "^2.2.5",
     "firebase": "^4.12.0",

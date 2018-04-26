@@ -4,6 +4,7 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 // import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Spinner from 'react-spinkit';
 
+import AppToaster from 'Components/Toast';
 import { db } from 'Database/config';
 
 export default class DriverDetails extends Component {
@@ -13,9 +14,23 @@ export default class DriverDetails extends Component {
     isLoading: true
   }
 
+  showDeleteDriverToast = () => {
+    AppToaster.show({
+      message: "Driver deleted :( ",
+      intent: "danger"
+    });
+  }
+
+  showErrorLoadingToast = () => {
+    AppToaster.show({
+      message: "SOMETHING WENT WRONG!",
+      intent: "danger"
+    });
+  }
+
   deleteDriver = (driverId) => {
-    db.collection("drivers").doc(driverId).delete().then(function () {
-      console.log("Document successfully deleted!");
+    db.collection("drivers").doc(driverId).delete().then(docRef => {
+      this.showDeleteDriverToast();
     }).catch(function (error) {
       console.error("Error removing document: ", error);
     });
@@ -24,16 +39,25 @@ export default class DriverDetails extends Component {
   componentDidMount = () => {
     db.collection("drivers").doc(`${this.props.match.params.driverId}`).onSnapshot((doc) => {
       if (doc.exists) {
-        this.setState({
-          driver: {
-            driverFirstName: doc.data().driverFirstName,
-            driverLastName: doc.data().driverLastName,
-            driverRegistrationNumber: doc.data().driverRegistrationNumber,
-            driverPhoneNumber: doc.data().driverPhoneNumber,
-            posted: doc.data().posted,
-            driverId: doc.id
-          },
-          isLoading: false
+        const data = doc.data();
+        const cardIdsDocPromises = [];
+        const promise = db.collection("cards").doc(data.cardId).get();
+        cardIdsDocPromises.push(promise);
+        Promise.all(cardIdsDocPromises).then(cardDocs => {
+          cardDocs.forEach(cardDoc => {
+            if (data.cardId === cardDoc.id){
+              this.setState({
+                driver: {
+                  ...data,
+                  ...(cardDoc.data())
+                },
+                isLoading: false
+              })
+            }
+          });
+        })
+        .catch(error => {
+          this.showErrorLoadingToast();
         })
       } else {
         // 1
@@ -88,7 +112,7 @@ export default class DriverDetails extends Component {
             </div>
             <div className="hireDate-container">
               <p className="container-title">hire date </p>
-              <p> 12/08/1999</p>
+              <p>{driver.driverHireDate}</p>
             </div>
             <div className="note-container">
               <p className="container-title">Note</p>
@@ -105,8 +129,18 @@ export default class DriverDetails extends Component {
           </aside>
           <aside className="driver-card-info">
             <div className="driver-card">
-              <h5>Card Number :</h5>
-              <h5>Consomation :</h5>
+              <div>
+                <h4>Card Number :</h4>
+                <p>{driver.cardIdentifier}</p>
+              </div>
+              <div>
+                <h4>Card Type :</h4>
+                <p>{driver.cardType}</p>
+              </div>
+              <div>
+                <h4>Consomation :</h4>
+                <p>Soon ...</p>
+              </div>
             </div>
           </aside>
         </div>

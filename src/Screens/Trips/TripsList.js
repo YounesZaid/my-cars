@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Dialog, Intent } from '@blueprintjs/core';
+import { Button, Dialog, Intent, Tooltip } from '@blueprintjs/core';
 import { db } from 'Database/config';
-import * as firebase from 'firebase';
 import moment from 'moment';
 import Spinner from 'react-spinkit';
 
+import AppToaster from 'Components/Toast';
 import TripItem from './TripItem';
 
 export default class TripsList extends Component {
@@ -14,29 +14,46 @@ export default class TripsList extends Component {
     isAddTripDialogOpen: false,
   }
 
+  showAddTripToast = () => {
+    AppToaster.show({
+      message: "Trip added successfully !",
+      intent: "success"
+    });
+  }
+
+  showErrorToast = (error) => {
+    AppToaster.show({
+      message: `Something went wrong ! ${error}`,
+      intent: "danger"
+    });
+  }
+
+
+  // showAddErrorTripToast = () => {
+  //   AppToaster.show({
+  //     message: "Trip not added please try again !",
+  //     intent: "success",
+  //   });
+  // }
+
   addTrip = (driverId, carId, cardId) => {
     db.collection("trips").add({
       driverId,
       carId,
       cardId,
       isActive: true,
-      posted: moment().format('MMMM Do YYYY, h:mm:ss a')
-    })
-      .then(docRef => {
-        console.log("Document written with ID: ", firebase.firestore.FieldPath.documentId());
-      })
-      .catch(error => {
-        alert('Something went wrong!');
-        console.error("Error adding document: ", error);
-      });
+      postedTripAt: moment().format('MMMM Do YYYY, h:mm:ss a')
+    }).then(docRef => {
+      this.showAddTripToast();
+    }).catch(error => {
+      this.showErrorToast(error);
+    });
   }
 
   componentDidMount() {
-    db.collection("trips").orderBy('posted', 'desc').onSnapshot((querySnapshot) => {
+    db.collection("trips").orderBy('postedTripAt', 'desc').onSnapshot((querySnapshot) => {
       const tripItems = [];
       const driverIdsDocPromises = [];
-      // const carIdsDocPromises = [];
-      // const cardIdsDocPromises = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         const promise = db.collection("drivers").doc(data.driverId).get();
@@ -47,7 +64,7 @@ export default class TripsList extends Component {
           cardId: data.cardId,
           id: doc.id,
           isActive: data.isActive,
-          posted: data.posted
+          postedTripAt: data.postedTripAt
         });
       });
 
@@ -70,7 +87,7 @@ export default class TripsList extends Component {
         })
         .catch(error => {
           // SOMETHING WENT WRONG!
-          alert("OuPs ! Failed to Load the items .. !")
+          this.showErrorToast(error);
         })
     });
   }
@@ -119,7 +136,7 @@ export default class TripsList extends Component {
         {trips.map((trip, i) => {
           return (
             <TripItem key={trip.id} trip={trip} tripId={trip.id} carId={trip.carId}
-              driverId={trip.driverId} isActive={trip.isActive} posted={trip.posted}
+              driverId={trip.driverId} isActive={trip.isActive} postedTripAt={trip.postedTripAt}
               onItemClicked={e => {
                 e.preventDefault();
                 this.props.history.push(`/trips/${trip.id}`);
@@ -154,18 +171,18 @@ class AddTripDialog extends Component {
     //   .catch(error => {
     //     console.log(error)
     //   })
-    db.collection("drivers").orderBy('posted', 'desc').onSnapshot(driverDoc => {
+    db.collection("drivers").orderBy('postedDriverAt', 'desc').onSnapshot(driverDoc => {
       const driverItems = [];
       driverDoc.forEach((doc) => {
         const data = doc.data();
-        let docItem = {
+        const docItem = {
           driverFirstName: data.driverFirstName,
           driverLastName: data.driverLastName,
           driverId: doc.id
         }
         driverItems.push(docItem);
       });
-      db.collection("cars").orderBy('posted', 'desc').onSnapshot(carDoc => {
+      db.collection("cars").orderBy('postedCarAt', 'desc').onSnapshot(carDoc => {
         const carItems = [];
         carDoc.forEach((doc) => {
           let docItem = {
@@ -174,7 +191,7 @@ class AddTripDialog extends Component {
           }
           carItems.push(docItem);
         });
-        db.collection("cards").orderBy('posted', 'desc').onSnapshot((DocRef) => {
+        db.collection("cards").orderBy('postedCardAt', 'desc').onSnapshot((DocRef) => {
           const cardItems = [];
           DocRef.forEach(doc => {
             let docItem = {
@@ -183,11 +200,11 @@ class AddTripDialog extends Component {
             }
             cardItems.push(docItem);
           });
-         this.setState({
-           drivers: driverItems,
-           cars: carItems,
-           cards: cardItems
-         })
+          this.setState({
+            drivers: driverItems,
+            cars: carItems,
+            cards: cardItems
+          })
         });
       });
     });
@@ -253,6 +270,7 @@ class AddTripDialog extends Component {
     const { drivers, cars, cards, driverId, carId, cardId } = this.state;
     return (
       <Dialog
+        isCloseButtonShown={true}
         icon="inbox"
         isOpen={this.props.isOpen}
         onClose={this.props.closeDialog}
@@ -315,10 +333,9 @@ class AddTripDialog extends Component {
         </div>
         <div className="pt-dialog-footer">
           <div className="pt-dialog-footer-actions">
-            <Button
-              onClick={this.props.closeDialog}
-              text="Cancel"
-            />
+            <Tooltip content="This button is hooked up to close the dialog.">
+              <Button intent={Intent.DANGER} onClick={this.props.closeDialog}>Close</Button>
+            </Tooltip>
             <Button
               text="Add Trip"
               icon="add"
@@ -327,6 +344,11 @@ class AddTripDialog extends Component {
               onClick={(e) => {
                 e.preventDefault();
                 this.props.addTrip(driverId, carId, cardId);
+                this.setState({
+                  driverId: '',
+                  carId: '',
+                  cardId: ''
+                })
                 this.props.closeDialog();
               }}
             />

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Dialog, Intent } from "@blueprintjs/core";
+import { Button, Dialog, Intent, Tooltip } from "@blueprintjs/core";
 import Spinner from 'react-spinkit';
 import moment from 'moment';
 import { db } from 'Database/config';
 
+import AppToaster from 'Components/Toast';
 import CarItem from './CarItem';
 
 export default class CarsList extends Component {
@@ -14,10 +15,24 @@ export default class CarsList extends Component {
     isAddCarDialogOpen: false,
   }
 
+  showAddCarToast = () => {
+    AppToaster.show({
+      message: "Car added successfully !",
+      intent: "success"
+    });
+  }
+
+  showDeleteCarToast = () => {
+    AppToaster.show({
+      message: "Car deleted :(",
+      intent: "danger"
+    });
+  }
+
   deleteCar = (carId) => {
-    db.collection("cars").doc(carId).delete().then(function () {
-      console.log("Document successfully deleted!");
-    }).catch(function (error) {
+    db.collection("cars").doc(carId).delete().then(docRef => {
+      this.showDeleteCarToast();
+    }).catch(error => {
       console.error("Error removing document: ", error);
     });
   }
@@ -28,13 +43,12 @@ export default class CarsList extends Component {
       carMatricule,
       carType,
       carPlaces,
-      posted: moment().format('MMMM Do YYYY, h:mm:ss a')
+      postedCarAt: moment().format('MMMM Do YYYY, h:mm:ss a')
     })
-      .then(function (docRef) {
-        alert(`Trip with the driver ${carName} was added successfully!`);
-        console.log("Document written with ID: ", docRef.id);
+      .then(docRef => {
+        this.showAddCarToast();
       })
-      .catch(function (error) {
+      .catch((error) => {
         alert('Something went wrong!');
         console.error("Error adding document: ", error);
       });
@@ -47,22 +61,22 @@ export default class CarsList extends Component {
   }
 
   componentDidMount() {
-    db.collection("cars").orderBy('posted', 'desc').onSnapshot((QuerySnapshot) => {
-      const carsItems = [];
+    db.collection("cars").orderBy('postedCarAt', 'desc').onSnapshot((QuerySnapshot) => {
+      const carItems = [];
       QuerySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => Get Cars Collection with Success`);
+        const data = doc.data();
         let docItem = {
-          carName: doc.data().carName,
-          carMatricule: doc.data().carMatricule,
-          carType: doc.data().carType,
-          carPlaces: doc.data().carPlaces,
-          posted: doc.data().posted,
+          carName: data.carName,
+          carMatricule: data.carMatricule,
+          carType: data.carType,
+          carPlaces: data.carPlaces,
+          postedCarAt: data.postedCarAt,
           carId: doc.id
         }
-        carsItems.push(docItem);
+        carItems.push(docItem);
       });
       this.setState({
-        cars: carsItems,
+        cars: carItems,
         isLoading: false
       })
     });
@@ -124,7 +138,7 @@ class AddCarDialog extends Component {
     carName: '',
     carMatricule: '',
     carType: '',
-    carPlaces: '',
+    carPlaces: 0,
   }
   render() {
     const { isAddCarDialogOpen, closeDialog, addCar } = this.props;
@@ -137,7 +151,7 @@ class AddCarDialog extends Component {
         usePortal={true}
         canOutsideClickClose={false}
         canEscapeKeyClose={true}
-        title="Adding New Card">
+        title="Adding New Car">
         <div className="pt-dialog-body">
           <p>
             <strong> In this Dialog you can do something </strong>
@@ -145,7 +159,7 @@ class AddCarDialog extends Component {
           <label className="pt-label">
             Car name
             <span className="pt-text-muted">(required)</span>
-            <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carName} onChange={(e) => {
+            <input className="pt-input" type="text" placeholder="Example Dacia" dir="auto" name="" value={carName} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 carName: e.target.value
@@ -154,7 +168,7 @@ class AddCarDialog extends Component {
           </label>
           <label className="pt-label">
             Car matricule
-              <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carMatricule} onChange={(e) => {
+            <input className="pt-input" type="text" placeholder="Expamlpe 1-A-755" dir="auto" name="" value={carMatricule} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 carMatricule: e.target.value
@@ -163,7 +177,7 @@ class AddCarDialog extends Component {
           </label>
           <label className="pt-label">
             Car type
-              <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carType} onChange={(e) => {
+            <input className="pt-input" type="text" placeholder="Example Diesel" dir="auto" name="" value={carType} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 carType: e.target.value
@@ -172,25 +186,35 @@ class AddCarDialog extends Component {
           </label>
           <label className="pt-label">
             Car number places
-              <input className="pt-input" type="text" placeholder="Text input" dir="auto" name="" value={carPlaces} onChange={(e) => {
+            <input className="pt-input" type="number" min="0" max="10" value={carPlaces} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 carPlaces: e.target.value
               });
             }} />
+            {/* <NumericInput
+              value={carPlaces}
+              max={10}
+              min={0}
+              onChange={(e) => {
+                this.setState({
+                  carPlaces: e.target.value
+                });
+                alert(carPlaces);
+              }}
+            /> */}
           </label>
         </div>
         <div className="pt-dialog-footer">
           <div className="pt-dialog-footer-actions">
-            <Button
-              intent={Intent.DANGER}
-              onClick={closeDialog}
-              text="Close"
-            />
+            <Tooltip content="This button is hooked up to close the dialog.">
+              <Button intent={Intent.DANGER} onClick={closeDialog}>Close</Button>
+            </Tooltip>
             <Button
               text="Add"
               icon="add"
-              intent={Intent.ADD}
+              disabled={!carName || !carMatricule || !carType || !carPlaces}
+              intent={Intent.PRIMARY}
               onClick={() => {
                 addCar(carName, carMatricule, carType, carPlaces)
                 this.setState({

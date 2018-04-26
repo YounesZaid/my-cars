@@ -4,6 +4,7 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 // import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Spinner from 'react-spinkit';
 
+import AppToaster from 'Components/Toast';
 import { db } from 'Database/config';
 
 // const google = window.google;
@@ -14,10 +15,17 @@ export default class TripDetails extends Component {
     isLoading: true,
   }
 
+  showDeleteTripToast = () => {
+    AppToaster.show({ 
+      message: "Trip Deleted :(",
+      intent: "danger"
+    });
+  }
+
   deleteTrip = (tripId) => {
-    db.collection("trips").doc(tripId).delete().then(function () {
-      alert("Document successfully deleted!");
-    }).catch(function (error) {
+    db.collection("trips").doc(tripId).delete().then(docref => {
+      this.showDeleteTripToast();
+    }).catch((error) => {
       console.error("Error removing document: ", error);
     });
   }

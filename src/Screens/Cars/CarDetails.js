@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Spinner from 'react-spinkit';
 
+import AppToaster from 'Components/Toast';
 import { db } from 'Database/config';
 
 
@@ -10,9 +11,16 @@ export default class CarDetails extends Component {
     isLoading: true
   }
 
-  deleteDriver = (carId) => {
-    db.collection("casrs").doc(carId).delete().then(function () {
-      console.log("Document successfully deleted!");
+  showDeleteCarToast = () => {
+    AppToaster.show({
+      message: "Car deleted :(",
+      intent: "danger"
+    });
+  }
+
+  deleteCar = (carId) => {
+    db.collection("cars").doc(carId).delete().then(docRef => {
+      this.showDeleteCarToast();
     }).catch(function (error) {
       console.error("Error removing document: ", error);
     });
@@ -21,13 +29,14 @@ export default class CarDetails extends Component {
   componentDidMount = () => {
     db.collection("cars").doc(`${this.props.match.params.carId}`).onSnapshot((doc) => {
       if (doc.exists) {
+        const data = doc.data();
         this.setState({
           car: {
-            carName: doc.data().carName,
-            carMatricule: doc.data().carMatricule,
-            carType: doc.data().carType,
-            carPlaces: doc.data().carPlaces,
-            posted: doc.data().posted,
+            carName: data.carName,
+            carMatricule: data.carMatricule,
+            carType: data.carType,
+            carPlaces: data.carPlaces,
+            postedCarAt: data.postedCarAt,
             carId: doc.id
           },
           isLoading: false
@@ -61,7 +70,7 @@ export default class CarDetails extends Component {
           }}><i className="zmdi zmdi-border-color zmdi-icon"></i></button>
           <button type="button" className="pt-button" onClick={e => {
             e.preventDefault();
-            this.deleteTrip(car.carId);
+            this.deleteCar(car.carId);
           }}><i className="zmdi zmdi-close zmdi-icon"></i></button>
         </div>
       </header>,

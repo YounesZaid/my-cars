@@ -46,11 +46,21 @@
 
 .card-edit-button {
   background-color: white;
+  padding: 0;
   border-radius: 1px;
-  height: 25px;
-  width: 50px;
+  height: 30px;
+  width: 38px;
   cursor: pointer;
   outline: none;
+
+}
+
+.cards-screen .zmdi, .btn-edit {
+  cursor: pointer;
+}
+
+.cards-screen .btn-edit {
+  width: 100%;
 }
 
 .cards-screen .zmdi:hover {

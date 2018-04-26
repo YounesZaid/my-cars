@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Dialog, Intent } from "@blueprintjs/core";
-import * as firebase from 'firebase';
+import { Button, Dialog, Intent, Tooltip } from "@blueprintjs/core";
 import moment from 'moment';
 import Spinner from 'react-spinkit';
 import { db } from 'Database/config';
 
+import AppToaster from 'Components/Toast';
 import CardItem from './CardItem';
 
 export default class CardsList extends Component {
@@ -14,9 +14,23 @@ export default class CardsList extends Component {
     isAddCardDialogOpen: false,
   }
 
+  showDeleteCardToast = () => {
+    AppToaster.show({
+      message: "Card deleted :(",
+      intent: "danger"
+    });
+  }
+
+  showAddCardToast = () => {
+    AppToaster.show({
+      message: "Card added Successfully !",
+      intent: "success"
+    });
+  }
+
   deleteCard = (cardId) => {
-    db.collection("cards").doc(cardId).delete().then(function () {
-      console.log("Document successfully deleted!");
+    db.collection("cards").doc(cardId).delete().then(doRef => {
+      this.showDeleteCardToast();
     }).catch(function (error) {
       console.error("Error removing document: ", error);
     });
@@ -26,11 +40,10 @@ export default class CardsList extends Component {
     db.collection("cards").add({
       cardType,
       cardIdentifier,
-      posted: moment().format('MMMM Do YYYY, h:mm:ss a')
+      postedCardAt: moment().format('MMMM Do YYYY, h:mm:ss a')
     })
-      .then(function (docRef) {
-        alert(`Trip with the driver ${cardType} was added successfully!`);
-        console.log("Document written with ID: ", firebase.firestore.FieldPath.documentId());
+      .then(docRef => {
+        this.showAddCardToast();
       })
       .catch(function (error) {
         alert('Something went wrong!');
@@ -45,20 +58,20 @@ export default class CardsList extends Component {
   }
 
   componentDidMount() {
-    db.collection("cards").orderBy('posted', 'desc').onSnapshot((DocRef) => {
-      const cardsItems = [];
+    db.collection("cards").orderBy('postedCardAt', 'desc').onSnapshot((DocRef) => {
+      const cardItems = [];
       DocRef.forEach(doc => {
-        console.log(`${doc.id} => Get Cards collection with success`);
+        const data = doc.data();
         let docItem = {
-          cardType: doc.data().cardType,
-          cardIdentifier: doc.data().cardIdentifier,
+          cardType: data.cardType,
+          cardIdentifier: data.cardIdentifier,
           cardId: doc.id,
-          posted: doc.data().posted
+          postedCardAt: data.postedCardAt
         }
-        cardsItems.push(docItem);
+        cardItems.push(docItem);
       });
       this.setState({
-        cards: cardsItems,
+        cards: cardItems,
         isLoading: false
       })
     });
@@ -133,7 +146,7 @@ class AddCardDialog extends Component {
           <label className="pt-label">
             Card type
                   <span className="pt-text-muted">(required)</span>
-            <input className="pt-input" type="text" placeholder="your card type here" dir="auto" name="cardType" value={cardType} onChange={(e) => {
+            <input className="pt-input" type="text" placeholder="Example diesel or gasoline" dir="auto" name="cardType" value={cardType} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 cardType: e.target.value
@@ -142,7 +155,7 @@ class AddCardDialog extends Component {
           </label>
           <label className="pt-label">
             Card identifier
-                  <input className="pt-input" type="text" placeholder="your card identifer here" dir="auto" name="cardIdentifier" value={cardIdentifier} onChange={(e) => {
+                  <input className="pt-input" type="text" placeholder="card-..." dir="auto" name="cardIdentifier" value={cardIdentifier} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 cardIdentifier: e.target.value
@@ -152,15 +165,14 @@ class AddCardDialog extends Component {
         </div>
         <div className="pt-dialog-footer">
           <div className="pt-dialog-footer-actions">
-            <Button
-              intent={Intent.DANGER}
-              onClick={this.props.closeDialog}
-              text="Close"
-            />
+            <Tooltip content="This button is hooked up to close the dialog.">
+              <Button intent={Intent.DANGER} onClick={this.props.closeDialog}>Close</Button>
+            </Tooltip>
             <Button
               text="Add"
               icon="add"
-              intent={Intent.ADD}
+              disabled={!cardType || !cardIdentifier}
+              intent={Intent.PRIMARY}
               onClick={(e) => {
                 e.preventDefault();
                 addCard(cardType, cardIdentifier);
