@@ -272,7 +272,7 @@ class AddDriverDialog extends Component {
               }}>
                 <option defaultValue>Choose a card...</option>
                 {cards.map((card, i) => {
-                  return <option key={i} value={card.cardId}>{card.cardType}</option>
+                  return <option key={i} value={card.cardId}>{card.cardIdentifier}</option>
                 })}
               </select>
             </div>

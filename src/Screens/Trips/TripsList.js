@@ -194,8 +194,10 @@ class AddTripDialog extends Component {
         db.collection("cards").orderBy('postedCardAt', 'desc').onSnapshot((DocRef) => {
           const cardItems = [];
           DocRef.forEach(doc => {
+            const data = doc.data();
             let docItem = {
-              cardType: doc.data().cardType,
+              cardType: data.cardType,
+              cardIdentifier: data.cardIdentifier,
               cardId: doc.id,
             }
             cardItems.push(docItem);
@@ -325,7 +327,7 @@ class AddTripDialog extends Component {
               }}>
                 <option defaultValue>Choose a card...</option>
                 {cards.map((card, i) => {
-                  return <option key={i} value={card.cardId}>{card.cardType}</option>
+                  return <option key={i} value={card.cardId}>{card.cardIdentifier}</option>
                 })}
               </select>
             </div>
