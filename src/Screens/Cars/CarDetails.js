@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Spinner from 'react-spinkit';
 import { Button, Dialog, Intent, Tooltip } from '@blueprintjs/core';
 
-import data from './data.json';
+// import data from './data.json';
+import BarChart from 'Components/Charts/BarChart';
 import AppToaster from 'Components/Toast';
 import { db } from 'Database/config';
 
@@ -78,6 +79,21 @@ export default class CarDetails extends Component {
 
   render() {
     const { car, isLoading, isUpdateCarDialogOpen } = this.state;
+    const data = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'Fuel Consumption in Leter',
+          backgroundColor: 'rgba(75,192,192,0.2)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+          hoverBorderColor: 'rgba(75,192,192,1)',
+          //data returned by cars collection
+          data: [65, 59, 80, 81, 56, 55, 50]
+        }
+      ]
+    };
     if (isLoading) {
       return [
         <header key={0}>
@@ -108,8 +124,9 @@ export default class CarDetails extends Component {
       </header>,
       <section key={1}>
         <div className="car-title">
-          {/* <img src="http://www.pngmart.com/files/4/Car-PNG-HD.png" alt="car"/> */}
-          <i className="zmdi zmdi-car zmdi-hc-5x"></i>
+          <div className="image-wrapper">
+            <img src="http://www.pngmart.com/files/4/Car-PNG-HD.png" alt="car"/>
+          </div>
           <div className="informations-wrapper">
             <div className="name-wrapper">
               <p>Car name </p>
@@ -132,6 +149,7 @@ export default class CarDetails extends Component {
           </div>
         </div>
         <div className="car-content">
+          <BarChart data={data} />
         </div>
       </section>
     ]

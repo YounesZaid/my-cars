@@ -97,18 +97,22 @@
 .cars-screen .car-title {
   /* background-color: aquamarine; */
   display: flex;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.5); */
   align-items: center;
   padding: 20px;
   padding-bottom: 0;
   margin-bottom: 7px;
+  justify-content: space-around;
 }
 
-.cars-screen .car-title > img {
-  width: 30%;
-  max-width: 100%;
-  height: 30%;
-  margin-right: 20px;
+.cars-screen .car-title .image-wrapper {
+  width: 190px;
+  height: 125px;
+  /* margin-right: 20px; */
+}
+.cars-screen .car-title .image-wrapper > img {
+  width: 100%;
+  height: 100%;
 }
 
 .cars-screen .zmdi-car {
@@ -118,12 +122,11 @@
 .cars-screen .car-title .informations-wrapper {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .cars-screen .name-wrapper, .matricule-wrapper {
   display: flex;
-  flex-grow: 1;
   margin-bottom: 10px;
 }
 
@@ -146,5 +149,6 @@
 .cars-screen .car-content {
   /* background-color: rgb(55, 80, 72); */
   display: flex;
-  flex-grow: 2;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
