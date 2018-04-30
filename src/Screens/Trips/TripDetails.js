@@ -33,13 +33,15 @@ export default class TripDetails extends Component {
   componentDidMount = () => {
     db.collection("trips").doc(`${this.props.match.params.tripId}`).onSnapshot((doc) => {
       if (doc.exists) {
+        const data = doc.data();
         this.setState({
           trip: {
-            driverName: doc.data().driverName,
-            carType: doc.data().carType,
+            driverName: data.driverName,
+            carType: data.carType,
             id: doc.id,
-            isActive: doc.data().isActive,
-            posted: doc.data().posted
+            isActive: data.isActive,
+            locations: data.locations,
+            postedTripAt: data.postedTripAt
           },
           isLoading: false
         })
@@ -98,7 +100,7 @@ export default class TripDetails extends Component {
       <section key={1}>
         <div className="trip-map">
           <h3> visualize your vehicle in real time</h3>
-          <Map />
+          <Map locations={trip.locations}/>
           <div className="trip-detail">
             <span>Driver: {trip.driverName}</span>
             <span>Car: {trip.carType}</span>
@@ -138,13 +140,15 @@ const Map = compose(
       enableRetinaIcons
       gridSize={60}
     > */}
-    {props.markers.map((marker, i) => (
+    {props.locations.map((location, i) => (
       <Marker
         key={i}
-        position={{ lat: marker.lat, lng: marker.lng }}
+        position={{ lat: location.latitude, lng: location.longitude }}
+        icon="https://cdn.iconscout.com/public/images/icon/free/png-64/carlocation-3b70688f41f1e7e7-64x64.png"
       />
     ))}
     {/* </MarkerClusterer> */}
+    {/* <Marker position={{lat: props.locataion._lat, lng: props.locataion._long}}/> */}
   </GoogleMap>
 );
 
@@ -158,5 +162,5 @@ Map.defaultProps = {
     { lat: 34.000556, lng: -6.850090 },
     { lat: 33.997885, lng: -6.847561 },
   ],
-  zoom: 16
+  zoom: 16,
 }

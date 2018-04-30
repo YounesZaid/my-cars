@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { Button, Dialog, Intent, Tooltip } from '@blueprintjs/core';
 // import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Spinner from 'react-spinkit';
 
@@ -11,7 +12,21 @@ export default class DriverDetails extends Component {
 
   state = {
     driver: null,
-    isLoading: true
+    isLoading: true,
+    isUpdateDriverDialogOpen: false,
+  }
+
+  closeUpdateDialog = () => {
+    this.setState({
+      isUpdateDriverDialogOpen: false
+    })
+  }
+
+  showUpdatedDriverToast = (name) => {
+    AppToaster.show({
+      message: "Driver " + name + " is updated successfully √ ",
+      intent: "success"
+    });
   }
 
   showDeleteDriverToast = () => {
@@ -25,6 +40,21 @@ export default class DriverDetails extends Component {
     AppToaster.show({
       message: "SOMETHING WENT WRONG!",
       intent: "danger"
+    });
+  }
+
+  updateDriver = (driverFirstName, driverLastName, driverPhoneNumber, driverRegistrationNumber, driverHireDate, cardId) => {
+    db.collection("drivers").doc(`${this.props.match.params.driverId}`).update({
+      driverFirstName,
+      driverLastName,
+      driverPhoneNumber,
+      driverRegistrationNumber,
+      driverHireDate,
+      cardId,
+    }).then(() => {
+      this.showUpdatedDriverToast(driverFirstName);
+    }).catch(error => {
+      alert("SOMETHING WENT WRONG !");
     });
   }
 
@@ -45,7 +75,7 @@ export default class DriverDetails extends Component {
         cardIdsDocPromises.push(promise);
         Promise.all(cardIdsDocPromises).then(cardDocs => {
           cardDocs.forEach(cardDoc => {
-            if (data.cardId === cardDoc.id){
+            if (data.cardId === cardDoc.id) {
               this.setState({
                 driver: {
                   ...data,
@@ -56,9 +86,9 @@ export default class DriverDetails extends Component {
             }
           });
         })
-        .catch(error => {
-          this.showErrorLoadingToast();
-        })
+          .catch(error => {
+            this.showErrorLoadingToast();
+          })
       } else {
         // 1
         // this.setState({ trip: null, isLoading: false })
@@ -69,7 +99,7 @@ export default class DriverDetails extends Component {
   }
 
   render() {
-    const { driver, isLoading } = this.state;
+    const { driver, isLoading, isUpdateDriverDialogOpen } = this.state;
     if (isLoading) {
       return [
         <header key={0}>
@@ -87,8 +117,12 @@ export default class DriverDetails extends Component {
         <div>
           <button type="button" className="pt-button" onClick={e => {
             e.preventDefault();
-            alert("content edited !");
+            console.log("open");
+            this.setState({
+              isUpdateDriverDialogOpen: true
+            });
           }}><i className="zmdi zmdi-border-color"></i></button>
+          <UpdateDriverDialog driver={driver} closeUpdateDialog={this.closeUpdateDialog} isUpdateDriverDialogOpen={isUpdateDriverDialogOpen} updateDriver={this.updateDriver} />
           <button type="button" className="pt-button" onClick={e => {
             e.preventDefault();
             this.deleteDriver(driver.driverId);
@@ -116,7 +150,7 @@ export default class DriverDetails extends Component {
             </div>
             <div className="note-container">
               <p className="container-title">Note</p>
-              <p> 
+              <p>
                 Write something about this driver, Lorem ipsum dolor sit amet consectetur,
                 adipisicing elit.
               </p>
@@ -197,4 +231,139 @@ Map.defaultProps = {
     { lat: 33.997885, lng: -6.847561 },
   ],
   zoom: 12
+}
+
+class UpdateDriverDialog extends Component {
+  state = {
+    driverFirstName: this.props.driver.driverFirstName,
+    driverLastName: this.props.driver.driverLastName,
+    driverPhoneNumber: this.props.driver.driverPhoneNumber,
+    driverRegistrationNumber: this.props.driver.driverRegistrationNumber,
+    driverHireDate: this.props.driver.driverHireDate,
+    cardId: this.props.driver.cardId,
+    cards: []
+  }
+
+  _getCardsForUpdate = () => {
+    db.collection("cards").orderBy('postedCardAt', 'desc').onSnapshot(cardDoc => {
+      const cardItems = [];
+      cardDoc.forEach(doc => {
+        const data = doc.data();
+        const docItem = {
+          cardType: data.cardType,
+          cardIdentifier: data.cardIdentifier,
+          cardId: doc.id,
+        }
+        cardItems.push(docItem);
+      })
+      this.setState({
+        cards: cardItems
+      })
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isUpdateDriverDialogOpen && nextProps.isUpdateDriverDialogOpen) {
+      this._getCardsForUpdate();
+    }
+  }
+
+  render() {
+    const { driverFirstName, driverLastName, driverPhoneNumber, driverRegistrationNumber, driverHireDate, cardId, cards } = this.state;
+    const { isUpdateDriverDialogOpen, closeUpdateDialog, updateDriver } = this.props;
+    return (
+      <Dialog
+        icon="inbox"
+        isOpen={isUpdateDriverDialogOpen}
+        onClose={closeUpdateDialog}
+        usePortal={true}
+        canOutsideClickClose={false}
+        canEscapeKeyClose={true}
+        title="Update Driver">
+        <div className="pt-dialog-body">
+          <p>
+            <strong> In this Dialog you can Update your driver informations </strong>
+          </p>
+          <label className="pt-label">
+            First Name
+              <span className="pt-text-muted"></span>
+            <input className="pt-input" type="text" placeholder="driver first name" name="driverFirstName" value={driverFirstName} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                driverFirstName: e.target.value
+              })
+            }} />
+          </label>
+          <label className="pt-label">
+            Last Name
+              <span className="pt-text-muted"></span>
+            <input className="pt-input" type="text" placeholder="driver last name" dir="auto" name="driverLastName" value={driverLastName} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                driverLastName: e.target.value
+              })
+            }} />
+          </label>
+          <label className="pt-label">
+            Phone number
+            <input className="pt-input" type="text" placeholder="Example +21260000..." dir="auto" name="driverPhoneNumber" value={driverPhoneNumber} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                driverPhoneNumber: e.target.value
+              })
+            }} />
+          </label>
+          <label className="pt-label">
+            Registration number
+            <input className="pt-input" type="text" placeholder="driver registration number" dir="auto" name="driverRegistrationNumber" value={driverRegistrationNumber} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                driverRegistrationNumber: e.target.value
+              })
+            }} />
+          </label>
+          <label className="pt-label">
+            Hire date
+            <input className="pt-input" type="date" name="driverHireDate" value={driverHireDate} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                driverHireDate: e.target.value
+              })
+            }} />
+          </label>
+          <label className="pt-label">
+            Card Type
+            <div className="pt-select">
+              <select onChange={e => {
+                e.preventDefault();
+                this.setState({
+                  cardId: e.target.value
+                })
+              }}>
+                <option defaultValue>Choose a card...</option>
+                {cards.map((card, i) => {
+                  return <option key={i} value={card.cardId}>{card.cardIdentifier}</option>
+                })}
+              </select>
+            </div>
+          </label>
+        </div>
+        <div className="pt-dialog-footer">
+          <div className="pt-dialog-footer-actions">
+            <Tooltip content="This button is hooked up to close the dialog.">
+              <Button intent={Intent.DANGER} onClick={closeUpdateDialog}>Close</Button>
+            </Tooltip>
+            <Button
+              text="Update"
+              intent={Intent.PRIMARY}
+              onClick={() => {
+                updateDriver(driverFirstName, driverLastName, driverPhoneNumber, driverRegistrationNumber, driverHireDate, cardId);
+                closeUpdateDialog();
+              }}
+            />
+          </div>
+        </div>
+      </Dialog>
+    )
+  }
 }

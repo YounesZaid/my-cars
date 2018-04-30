@@ -42,6 +42,15 @@ export default class TripsList extends Component {
       carId,
       cardId,
       isActive: true,
+      locations:[
+        { latitude: 34.002271, longitude: -6.8543258 },
+        { latitude: 34.002109, longitude: -6.854280 },
+        { latitude: 34.003172, longitude: -6.852823 },
+        { latitude: 34.002802, longitude: -6.851271 },
+        { latitude: 34.001915, longitude: -6.850802 },
+        { latitude: 34.000556, longitude: -6.850090 },
+        { latitude: 33.997885, longitude: -6.847561 },
+      ],
       postedTripAt: moment().format('MMMM Do YYYY, h:mm:ss a')
     }).then(docRef => {
       this.showAddTripToast();

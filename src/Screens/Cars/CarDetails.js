@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Spinner from 'react-spinkit';
+import { Button, Dialog, Intent, Tooltip } from '@blueprintjs/core';
 
+import data from './data.json';
 import AppToaster from 'Components/Toast';
 import { db } from 'Database/config';
 
@@ -8,7 +10,8 @@ import { db } from 'Database/config';
 export default class CarDetails extends Component {
   state = {
     car: null,
-    isLoading: true
+    isLoading: true,
+    isUpdateCarDialogOpen: false
   }
 
   showDeleteCarToast = () => {
@@ -18,12 +21,38 @@ export default class CarDetails extends Component {
     });
   }
 
+  showUpdatedCarToast = (name) => {
+    AppToaster.show({
+      message: "car "+name+" is updated successfully √ ",
+      intent: "success"
+    });
+  }
+
+  updateCar = (carName, carMatricule, carType, carPlaces) => {
+    db.collection("cars").doc(`${this.props.match.params.carId}`).update({
+      carName,
+      carMatricule,
+      carType,
+      carPlaces,
+    }).then(() => {
+      this.showUpdatedCarToast(carName);
+    }).catch(error => {
+      alert("SOMETHIMG WENT WRONG !");
+    })
+  }
+
   deleteCar = (carId) => {
     db.collection("cars").doc(carId).delete().then(docRef => {
       this.showDeleteCarToast();
     }).catch(function (error) {
       console.error("Error removing document: ", error);
     });
+  }
+
+  closeUpdateDialog = () => {
+    this.setState({
+      isUpdateCarDialogOpen: false
+    })
   }
 
   componentDidMount = () => {
@@ -48,7 +77,7 @@ export default class CarDetails extends Component {
   }
 
   render() {
-    const { car, isLoading } = this.state;
+    const { car, isLoading, isUpdateCarDialogOpen } = this.state;
     if (isLoading) {
       return [
         <header key={0}>
@@ -66,12 +95,15 @@ export default class CarDetails extends Component {
         <div>
           <button type="button" className="pt-button" onClick={e => {
             e.preventDefault();
-            alert("content edited !");
+            this.setState({
+              isUpdateCarDialogOpen: true
+            })
           }}><i className="zmdi zmdi-border-color zmdi-icon"></i></button>
           <button type="button" className="pt-button" onClick={e => {
             e.preventDefault();
             this.deleteCar(car.carId);
           }}><i className="zmdi zmdi-close zmdi-icon"></i></button>
+          <UpdateCarDialog car={car} closeUpdateDialog={this.closeUpdateDialog} isUpdateCarDialogOpen={isUpdateCarDialogOpen} updateCar={this.updateCar}/>
         </div>
       </header>,
       <section key={1}>
@@ -100,9 +132,90 @@ export default class CarDetails extends Component {
           </div>
         </div>
         <div className="car-content">
-
         </div>
       </section>
     ]
   }
 }
+
+class UpdateCarDialog extends Component {
+  state = {
+    carName: this.props.car.carName,
+    carMatricule: this.props.car.carMatricule,
+    carType: this.props.car.carType,
+    carPlaces: this.props.car.carPlaces,
+  }
+  render() {
+    const { isUpdateCarDialogOpen, closeUpdateDialog, updateCar} = this.props;
+    const { carName, carMatricule, carType, carPlaces } = this.state;
+    return (
+      <Dialog
+        icon="inbox"
+        isOpen={isUpdateCarDialogOpen}
+        onClose={closeUpdateDialog}
+        usePortal={true}
+        canOutsideClickClose={false}
+        canEscapeKeyClose={true}
+        title="Update Car">
+        <div className="pt-dialog-body">
+          <p>
+            <strong> In this Dialog you can Update your car informations </strong>
+          </p>
+          <label className="pt-label">
+            Car name
+            <span className="pt-text-muted">(required)</span>
+            <input className="pt-input" type="text" placeholder="Example Dacia" dir="auto" name="" value={carName} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                carName: e.target.value
+              });
+            }} />
+          </label>
+          <label className="pt-label">
+            Car matricule
+            <input className="pt-input" type="text" placeholder="Expamlpe 1-A-755" dir="auto" name="" value={carMatricule} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                carMatricule: e.target.value
+              });
+            }} />
+          </label>
+          <label className="pt-label">
+            Car type
+            <input className="pt-input" type="text" placeholder="Example Diesel" dir="auto" name="" value={carType} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                carType: e.target.value
+              });
+            }} />
+          </label>
+          <label className="pt-label">
+            Car number places
+            <input className="pt-input" type="number" min="0" max="10" value={carPlaces} onChange={(e) => {
+              e.preventDefault();
+              this.setState({
+                carPlaces: e.target.value
+              });
+            }} />
+          </label>
+        </div>
+        <div className="pt-dialog-footer">
+          <div className="pt-dialog-footer-actions">
+            <Tooltip content="This button is hooked up to close the dialog.">
+              <Button intent={Intent.DANGER} onClick={closeUpdateDialog}>Close</Button>
+            </Tooltip>
+            <Button
+              text="Update"
+              intent={Intent.PRIMARY}
+              onClick={() => {
+                updateCar(carName, carMatricule, carType, carPlaces);
+                closeUpdateDialog();
+              }}
+            />
+          </div>
+        </div>
+      </Dialog>
+    )
+  }
+}
+
