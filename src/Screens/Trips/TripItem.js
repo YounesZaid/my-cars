@@ -10,7 +10,7 @@ const TripItem = ({ trip, tripId, postedTripAt, carId, driverId, isActive, onIte
       </span> */}
       <ul>
          <li className="li-dirveName"><i className="zmdi zmdi-account-circle item-icon"></i><span id="driverFullName">{trip.driverFirstName}</span>{trip.driverLastName} </li>
-         <li><i className="zmdi zmdi-car item-icon"></i> {carId} </li>
+         <li><i className="zmdi zmdi-car item-icon"></i> {trip.carName} </li>
          <li><i className="zmdi zmdi-calendar item-icon"></i> {postedTripAt}</li>
       </ul>
       <span className="isActive">

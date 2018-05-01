@@ -144,7 +144,7 @@ const Map = compose(
       <Marker
         key={i}
         position={{ lat: location.latitude, lng: location.longitude }}
-        icon="https://cdn.iconscout.com/public/images/icon/free/png-64/carlocation-3b70688f41f1e7e7-64x64.png"
+        icon="https://cdn0.iconfinder.com/data/icons/travel-vacation/289/travel-transport-hotel-vacation-holidays-tourist-tourism-travelling-traveling_54-32.png"
       />
     ))}
     {/* </MarkerClusterer> */}

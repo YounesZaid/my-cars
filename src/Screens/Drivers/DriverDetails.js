@@ -58,8 +58,8 @@ export default class DriverDetails extends Component {
     });
   }
 
-  deleteDriver = (driverId) => {
-    db.collection("drivers").doc(driverId).delete().then(docRef => {
+  deleteDriver = () => {
+    db.collection("drivers").doc(this.props.match.params.driverId).delete().then(docRef => {
       this.showDeleteDriverToast();
     }).catch(function (error) {
       console.error("Error removing document: ", error);
@@ -125,7 +125,7 @@ export default class DriverDetails extends Component {
           <UpdateDriverDialog driver={driver} closeUpdateDialog={this.closeUpdateDialog} isUpdateDriverDialogOpen={isUpdateDriverDialogOpen} updateDriver={this.updateDriver} />
           <button type="button" className="pt-button" onClick={e => {
             e.preventDefault();
-            this.deleteDriver(driver.driverId);
+            this.deleteDriver();
           }}><i className="zmdi zmdi-close"></i></button>
         </div>
       </header>,

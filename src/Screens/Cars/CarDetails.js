@@ -90,7 +90,7 @@ export default class CarDetails extends Component {
           hoverBackgroundColor: 'rgba(75,192,192,0.4)',
           hoverBorderColor: 'rgba(75,192,192,1)',
           //data returned by cars collection
-          data: [65, 59, 80, 81, 56, 55, 50]
+          data: [65, 59, 80, 81, 56, 60, 80]
         }
       ]
     };
