@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { Button, Intent, Popover, PopoverInteractionKind, Position } from "@blueprintjs/core";
 // import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Spinner from 'react-spinkit';
 
@@ -16,7 +17,7 @@ export default class TripDetails extends Component {
   }
 
   showDeleteTripToast = () => {
-    AppToaster.show({ 
+    AppToaster.show({
       message: "Trip Deleted :(",
       icon: "warning-sign",
       intent: "danger"
@@ -92,16 +93,28 @@ export default class TripDetails extends Component {
             e.preventDefault();
             alert("content edited !");
           }}><i className="zmdi zmdi-border-color"></i></button>
-          <button type="button" className="pt-button edit-btn" onClick={e => {
-            e.preventDefault();
-            this.deleteTrip(trip.id);
-          }}><i className="zmdi zmdi-close"></i></button>
+          <Popover
+            interactionKind={PopoverInteractionKind.CLICK}
+            popoverClassName="pt-popover-content-sizing"
+            position={Position.TOP}
+          >
+            <button type="button" className="pt-button edit-btn"><i className="zmdi zmdi-close"></i></button>
+            <div>
+              <h5>Confirm deletion</h5>
+              <p>Are you sure you want to delete these items? You won't be able to recover them.</p>
+              <Button intent={Intent.PRIMARY} className="pt-popover-dismiss" style={{ marginRight: 10 }}>Dismiss</Button>
+              <Button intent={Intent.DANGER} className="pt-popover-dismiss" onClick={e => {
+                e.preventDefault();
+                this.deleteTrip(trip.id);
+              }}>Delete</Button>
+            </div>
+          </Popover>
         </div>
       </header>,
       <section key={1}>
         <div className="trip-map">
           <h3> visualize your vehicle in real time</h3>
-          <Map locations={trip.locations}/>
+          <Map locations={trip.locations} />
           <div className="trip-detail">
             <span>Driver: {trip.driverName}</span>
             <span>Car: {trip.carType}</span>

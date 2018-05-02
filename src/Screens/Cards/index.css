@@ -55,6 +55,15 @@
   justify-content: space-between;
 }
 
+.cards-screen .card-item .zmdi-close {
+  color: rgba(0, 0, 0, 0.09);
+  transition: all .3s;
+}
+
+.cards-screen .card-item .zmdi-close:hover {
+  color: #106ba3;
+} 
+
 .card-edit-button {
   background-color: white;
   padding: 0;

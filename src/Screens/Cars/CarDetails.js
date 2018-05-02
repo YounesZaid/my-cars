@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Spinner from 'react-spinkit';
-import { Button, Dialog, Intent, Tooltip } from '@blueprintjs/core';
+import { Button, Dialog, Intent, Tooltip, Popover, PopoverInteractionKind, Position } from "@blueprintjs/core";
+
 
 // import data from './data.json';
 import BarChart from 'Components/Charts/BarChart';
@@ -24,7 +25,7 @@ export default class CarDetails extends Component {
 
   showUpdatedCarToast = (name) => {
     AppToaster.show({
-      message: "car "+name+" is updated successfully √ ",
+      message: "car " + name + " is updated successfully √ ",
       intent: "success"
     });
   }
@@ -115,17 +116,29 @@ export default class CarDetails extends Component {
               isUpdateCarDialogOpen: true
             })
           }}><i className="zmdi zmdi-border-color zmdi-icon"></i></button>
-          <button type="button" className="pt-button edit-btn" onClick={e => {
-            e.preventDefault();
-            this.deleteCar(car.carId);
-          }}><i className="zmdi zmdi-close zmdi-icon"></i></button>
-          <UpdateCarDialog car={car} closeUpdateDialog={this.closeUpdateDialog} isUpdateCarDialogOpen={isUpdateCarDialogOpen} updateCar={this.updateCar}/>
+          <Popover
+            interactionKind={PopoverInteractionKind.CLICK}
+            popoverClassName="pt-popover-content-sizing"
+            position={Position.TOP}
+          >
+            <button type="button" className="pt-button edit-btn"><i className="zmdi zmdi-close zmdi-icon"></i></button>
+            <div>
+              <h5>Confirm deletion</h5>
+              <p>Are you sure you want to delete these items? You won't be able to recover them.</p>
+              <Button intent={Intent.PRIMARY} className="pt-popover-dismiss" style={{ marginRight: 10 }}>Dismiss</Button>
+              <Button intent={Intent.DANGER} className="pt-popover-dismiss" onClick={e => {
+                e.preventDefault();
+                this.deleteCar(car.carId);
+              }}>Delete</Button>
+            </div>
+          </Popover>
+          <UpdateCarDialog car={car} closeUpdateDialog={this.closeUpdateDialog} isUpdateCarDialogOpen={isUpdateCarDialogOpen} updateCar={this.updateCar} />
         </div>
       </header>,
       <section key={1}>
         <div className="car-title">
           <div className="image-wrapper">
-            <img src="http://www.pngmart.com/files/4/Car-PNG-HD.png" alt="car"/>
+            <img src="http://www.pngmart.com/files/4/Car-PNG-HD.png" alt="car" />
           </div>
           <div className="informations-wrapper">
             <div className="name-wrapper">
@@ -164,7 +177,7 @@ class UpdateCarDialog extends Component {
     carPlaces: this.props.car.carPlaces,
   }
   render() {
-    const { isUpdateCarDialogOpen, closeUpdateDialog, updateCar} = this.props;
+    const { isUpdateCarDialogOpen, closeUpdateDialog, updateCar } = this.props;
     const { carName, carMatricule, carType, carPlaces } = this.state;
     return (
       <Dialog

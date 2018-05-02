@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
-import { Button, Dialog, Intent, Tooltip } from '@blueprintjs/core';
+import { Button, Dialog, Intent, Tooltip, Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
 // import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import Spinner from 'react-spinkit';
 
@@ -123,10 +123,19 @@ export default class DriverDetails extends Component {
             });
           }}><i className="zmdi zmdi-border-color"></i></button>
           <UpdateDriverDialog driver={driver} closeUpdateDialog={this.closeUpdateDialog} isUpdateDriverDialogOpen={isUpdateDriverDialogOpen} updateDriver={this.updateDriver} />
-          <button type="button" className="pt-button edit-btn" onClick={e => {
-            e.preventDefault();
-            this.deleteDriver();
-          }}><i className="zmdi zmdi-close"></i></button>
+          <Popover
+            interactionKind={PopoverInteractionKind.CLICK}
+            popoverClassName="pt-popover-content-sizing"
+            position={Position.TOP}
+          >
+            <button type="button" className="pt-button edit-btn"><i className="zmdi zmdi-close"></i></button>
+            <div>
+              <h5>Confirm deletion</h5>
+              <p>Are you sure you want to delete these items? You won't be able to recover them.</p>
+              <Button intent={Intent.PRIMARY} className="pt-popover-dismiss" style={{ marginRight: 10 }}>Dismiss</Button>
+              <Button intent={Intent.DANGER} className="pt-popover-dismiss" onClick={this.deleteDriver}>Delete</Button>
+            </div>
+          </Popover>
         </div>
       </header>,
       <section key={1} id="driver-section">

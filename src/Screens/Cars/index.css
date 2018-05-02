@@ -49,6 +49,17 @@
   margin-bottom: 5px;
   transition: all .3s;
 }
+
+.cars-screen .car-item .zmdi-close {
+  color: rgba(0, 0, 0, 0.09);
+  padding: 10px;
+  transition: all .3s;
+}
+
+.cars-screen .car-item .zmdi-close:hover {
+  color: #106ba3;
+} 
+
 .cars-screen .car-item .car-infos {
   display: flex;
   flex-grow: 1;

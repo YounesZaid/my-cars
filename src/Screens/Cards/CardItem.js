@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Dialog, Intent, Tooltip } from "@blueprintjs/core";
+import { Button, Dialog, Intent, Tooltip, Popover, PopoverInteractionKind, Position } from "@blueprintjs/core";
 import { db } from 'Database/config';
 import { Card, Elevation } from '@blueprintjs/core';
 
@@ -42,10 +42,22 @@ export default class CardItem extends Component {
       <Card elevation={Elevation.ONE} className="card-item">
         <div className="card-header">
           <h5><a href="#card">Card : {cardId}</a></h5>
-          <i className="zmdi zmdi-close zmdi-hc-2x" onClick={(e) => {
-            e.preventDefault();
-            deleteCard(cardId);
-          }}></i>
+          <Popover
+            interactionKind={PopoverInteractionKind.CLICK}
+            popoverClassName="pt-popover-content-sizing"
+            position={Position.TOP}
+          >
+            <a><i className="zmdi zmdi-close zmdi-hc-2x"></i></a>
+            <div>
+              <h5>Confirm deletion</h5>
+              <p>Are you sure you want to delete these items? You won't be able to recover them.</p>
+              <Button intent={Intent.PRIMARY} className="pt-popover-dismiss" style={{ marginRight: 10 }}>Dismiss</Button>
+              <Button intent={Intent.DANGER} className="pt-popover-dismiss" onClick={(e) => {
+                e.preventDefault();
+                deleteCard(cardId);
+              }}>Delete</Button>
+            </div>
+          </Popover>
         </div>
         <h4>Card informations</h4>
         <p>card for : {card.cardType}</p>
@@ -55,7 +67,7 @@ export default class CardItem extends Component {
             isUpdateCardDialogOpen: true
           })
         }}>
-          <UpdateCardDialog card={card} updateCard={this.updateCard} closeDialog={this.closeUpdateCardDialog} isUpdateCardDialogOpen={isUpdateCardDialogOpen}/>
+          <UpdateCardDialog card={card} updateCard={this.updateCard} closeDialog={this.closeUpdateCardDialog} isUpdateCardDialogOpen={isUpdateCardDialogOpen} />
           <i className="zmdi zmdi-border-color btn-edit"></i>
         </button>
       </Card>
@@ -88,7 +100,7 @@ class UpdateCardDialog extends Component {
           <label className="pt-label">
             Card type
             <span className="pt-text-muted">(required)</span>
-            <input className="pt-input" type="text"  dir="auto" name="cardType" value={cardType} onChange={(e) => {
+            <input className="pt-input" type="text" dir="auto" name="cardType" value={cardType} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 cardType: e.target.value
@@ -97,7 +109,7 @@ class UpdateCardDialog extends Component {
           </label>
           <label className="pt-label">
             Card identifier
-            <input className="pt-input" type="text"  dir="auto" name="cardIdentifier" value={cardIdentifier} onChange={(e) => {
+            <input className="pt-input" type="text" dir="auto" name="cardIdentifier" value={cardIdentifier} onChange={(e) => {
               e.preventDefault();
               this.setState({
                 cardIdentifier: e.target.value
