@@ -71,7 +71,7 @@ export default class CardsList extends Component {
         cardItems.push(docItem);
       });
       this.setState({
-        cards: [],
+        cards: cardItems,
         isLoading: false
       })
     });
