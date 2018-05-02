@@ -10,9 +10,9 @@ export default class CardItem extends Component {
     isUpdateCardDialogOpen: false
   }
 
-  closeUpdateCardDialog = () => {
+  closeDialog = () => {
     this.setState({
-      isUpdateCardDialogOpen: false,
+      isUpdateCarDialogOpen: false,
     });
   }
 
@@ -63,11 +63,12 @@ export default class CardItem extends Component {
         <p>card for : {card.cardType}</p>
         <p>card identifier : {card.cardIdentifier}</p>
         <button type="button" className="card-edit-button" onClick={e => {
+          e.preventDefault();
           this.setState({
             isUpdateCardDialogOpen: true
-          })
+          });
         }}>
-          <UpdateCardDialog card={card} updateCard={this.updateCard} closeDialog={this.closeUpdateCardDialog} isUpdateCardDialogOpen={isUpdateCardDialogOpen} />
+          <UpdateCardDialog card={card} updateCard={this.updateCard} closeDialog={this.closeDialog} isUpdateCardDialogOpen={isUpdateCardDialogOpen} />
           <i className="zmdi zmdi-border-color btn-edit"></i>
         </button>
       </Card>

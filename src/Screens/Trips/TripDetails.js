@@ -24,8 +24,15 @@ export default class TripDetails extends Component {
     });
   }
 
-  deleteTrip = (tripId) => {
-    db.collection("trips").doc(tripId).delete().then(docref => {
+  showErrorToast = (error) => {
+    AppToaster.show({
+      message: `Something went wrong ! ${error}`,
+      intent: "danger"
+    });
+  }
+
+  deleteTrip = () => {
+    db.collection("trips").doc(this.props.match.params.tripId).delete().then(docref => {
       this.showDeleteTripToast();
     }).catch((error) => {
       console.error("Error removing document: ", error);
@@ -34,25 +41,45 @@ export default class TripDetails extends Component {
 
   componentDidMount = () => {
     db.collection("trips").doc(`${this.props.match.params.tripId}`).onSnapshot((doc) => {
+      const driverAndCarPromises = [[], []];
       if (doc.exists) {
         const data = doc.data();
-        this.setState({
-          trip: {
-            driverName: data.driverName,
-            carType: data.carType,
-            id: doc.id,
-            isActive: data.isActive,
-            locations: data.locations,
-            postedTripAt: data.postedTripAt
-          },
-          isLoading: false
-        })
-      } else {
+        const driverPromise = db.collection("drivers").doc(data.driverId).get();
+        const carPromise = db.collection("cars").doc(data.carId).get();
+        driverAndCarPromises[0].push(driverPromise);
+        driverAndCarPromises[1].push(carPromise);
+        const promise4All = Promise.all(driverAndCarPromises.map(Promise.all, Promise));
+        promise4All
+          .then(driversAndCars => {
+            const driverDocs = driversAndCars[0];
+            const carDocs = driversAndCars[1];
+            driverDocs.forEach(driverDoc => {
+              if (data.driverId === driverDoc.id) {
+                carDocs.forEach(carDoc => {
+                  if (data.carId === carDoc.id) {
+                    this.setState({
+                      trip: {
+                        ...data,
+                        ...(driverDoc.data()),
+                        ...(carDoc.data())
+                      },
+                      isLoading: false
+                    })
+                  }
+                });
+              }
+            });
+            
+          })
+          .catch(error => {
+            this.showErrorToast(error);
+          })
+      }else {
         // 1
         // this.setState({ trip: null, isLoading: false })
         // 2
         this.props.history.replace(`/trips`);
-      }
+      }  
     });
   }
 
@@ -114,10 +141,10 @@ export default class TripDetails extends Component {
       <section key={1}>
         <div className="trip-map">
           <h3> visualize your vehicle in real time</h3>
-          <Map locations={trip.locations} />
+          <Map locations={trip.locations} />  
           <div className="trip-detail">
-            <span>Driver: {trip.driverName}</span>
-            <span>Car: {trip.carType}</span>
+            <span>Driver : {trip.driverFirstName}</span>
+            <span>Car : {trip.carName}</span>
             <span>Availability : {trip.isActive && <b>Active</b>}</span>
           </div>
         </div>
