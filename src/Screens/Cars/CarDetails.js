@@ -109,13 +109,13 @@ export default class CarDetails extends Component {
       <header key={0}>
         <h3>Car Details </h3>
         <div>
-          <button type="button" className="pt-button" onClick={e => {
+          <button type="button" className="pt-button edit-btn" onClick={e => {
             e.preventDefault();
             this.setState({
               isUpdateCarDialogOpen: true
             })
           }}><i className="zmdi zmdi-border-color zmdi-icon"></i></button>
-          <button type="button" className="pt-button" onClick={e => {
+          <button type="button" className="pt-button edit-btn" onClick={e => {
             e.preventDefault();
             this.deleteCar(car.carId);
           }}><i className="zmdi zmdi-close zmdi-icon"></i></button>

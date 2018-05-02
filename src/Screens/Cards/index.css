@@ -20,6 +20,17 @@
   color: #e8764d;
 }
 
+.cards-screen > section .no-card-found-container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.cards-screen > section .no-card-found-container > button {
+  cursor: pointer;
+  outline: none;
+}
+
 /* End  */
 
 /* .cards-screen #cards-container{
@@ -67,10 +78,10 @@
   color: #106ba3; 
 }
 
-.cards-screen > section .blank-list-page {
+.cards-screen > section .blank-text-page {
   color: rgba(255, 0, 0, 0.3);
   text-align: center;
-  margin: auto;
+  margin-bottom: 20px;
 }
 
 .cards-screen section > .spinner-three-bounce {

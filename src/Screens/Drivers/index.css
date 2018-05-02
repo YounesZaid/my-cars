@@ -5,7 +5,7 @@
 }
 /* No drivers Items */
 
-.driver-screen > section .blank-list-page > a {
+/* .driver-screen > section .blank-list-page > a {
   display: block;
   margin-top: 20px;
   text-decoration: none;
@@ -14,11 +14,22 @@
 
 .driver-screen > section .blank-list-page > a:hover {
   color: #e8764d;
+} */
+
+.driver-screen > section .no-driver-found-container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.driver-screen > section .no-driver-found-container > button {
+  cursor: pointer;
+  outline: none;
 }
 
 /* End  */
 
-.driver-screen .pt-button {
+.driver-screen .edit-btn {
   min-width: 43px;
   border-radius: 0px;
   background: none;
@@ -69,13 +80,13 @@
   font-weight: 300;
 }
 
-.driver-screen .driver-item > a {
+.driver-screen .driver-item .zmdi-close {
   color: rgba(0, 0, 0, 0.09);
   padding: 10px;
   transition: all .3s;
 }
 
-.driver-screen .driver-item > a:hover {
+.driver-screen .driver-item .zmdi-close:hover {
   color: #106ba3;
 } 
 
@@ -92,10 +103,10 @@
   margin: auto;
 }
 
-.driver-screen > section .blank-list-page {
+.driver-screen > section .blank-text-page {
   color: rgba(255, 0, 0, 0.3);
   text-align: center;
-  margin: auto;
+  margin-bottom: 20px;
 }
 
 /* Driver Details Screen */

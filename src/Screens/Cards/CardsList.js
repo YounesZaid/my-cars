@@ -71,7 +71,7 @@ export default class CardsList extends Component {
         cardItems.push(docItem);
       });
       this.setState({
-        cards: cardItems,
+        cards: [],
         isLoading: false
       })
     });
@@ -85,16 +85,20 @@ export default class CardsList extends Component {
         </header>,
         <section key={1} id="cards-container">
           {isLoading && <Spinner name="three-bounce" fadeIn="quarter" className="spinner-three-bounce" />}
-          {!isLoading && <h2 className="blank-list-page">
-            <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No cards found! ..
-            <a href="#add-content" onClick={e => {
+          {!isLoading && <div className="no-card-found-container">
+            <h2 className="blank-text-page">
+              No cards found ...!
+            </h2>
+            <button type="button" className="pt-button pt-large pt-intent-primary pt-icon-add" onClick={e => {
               e.preventDefault();
               this.setState({
                 isAddCardDialogOpen: true,
               });
-            }}> ADD NEW CARD <i className="zmdi zmdi-plus-square zmdi-hc-lg"></i></a>
+            }}>
+              PLEASE ADD A NEW CARD
+            </button>
             <AddCardDialog closeDialog={this.closeAddCardDialog} isAddCardDialogOpen={isAddCardDialogOpen} addCard={this.addCard} />
-          </h2>}
+          </div>}
         </section>
       ]
     }

@@ -15,6 +15,17 @@
   color: #e8764d;
 }
 
+.cars-screen > section .no-car-found-container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.cars-screen > section .no-car-found-container > button {
+  cursor: pointer;
+  outline: none;
+}
+
 /* car Item  */
 
 .cars-screen section > .spinner-three-bounce {
@@ -22,10 +33,10 @@
   margin: auto;
 }
 
-.cars-screen > section .blank-list-page {
+.cars-screen > section .blank-text-page {
   color: rgba(255, 0, 0, 0.3);
   text-align: center;
-  margin: auto;
+  margin-bottom: 20px;
 }
 
 .cars-screen .car-item {
@@ -81,7 +92,7 @@
 
 /* Car Details */
 
-.cars-screen .pt-button {
+.cars-screen .edit-btn {
   min-width: 43px;
   border-radius: 0px;
   background: none;

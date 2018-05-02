@@ -91,16 +91,20 @@ export default class CarsList extends Component {
         </header>,
         <section key={1}>
           {isLoading && <Spinner name="three-bounce" fadeIn="quarter" className="spinner-three-bounce" />}
-          {!isLoading && <h2 className="blank-list-page">
-            <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No cars found! ..
-            <a href="#add-content" onClick={e => {
+          {!isLoading && <div className="no-car-found-container">
+            <h2 className="blank-text-page">
+              No cars found ...!
+            </h2>
+            <button type="button" className="pt-button pt-large pt-intent-primary pt-icon-add" onClick={e => {
               e.preventDefault();
               this.setState({
                 isAddCarDialogOpen: true,
               });
-            }}>ADD NEW CAR <i className="zmdi zmdi-plus-square zmdi-hc-lg"></i></a>
+            }}>
+              PLEASE ADD A NEW CAR
+            </button>
             <AddCarDialog closeDialog={this.closeAddCarDialog} isAddCarDialogOpen={isAddCarDialogOpen} addCar={this.addCar} />
-          </h2>}
+          </div>}
         </section>
 
       ]

@@ -92,7 +92,7 @@ export default class DriverList extends Component {
       Promise.all(cardIdsDocPromises).then(cardDocs => {
         cardDocs.forEach(cardDoc => {
           driverItems.forEach((driverObject, i) => {
-            if (driverObject.cardId === cardDoc.id){
+            if (driverObject.cardId === cardDoc.id) {
               driverItems[i] = {
                 ...driverObject,
                 ...(cardDoc.data())
@@ -105,13 +105,13 @@ export default class DriverList extends Component {
           isLoading: false
         })
       })
-      .catch(error => {
-        this.showErrorLoadingToast();
-      })
+        .catch(error => {
+          this.showErrorLoadingToast();
+        })
 
     });
   }
-  
+
 
   render() {
     const { isAddDriverDialogOpen, isLoading, drivers } = this.state;
@@ -122,16 +122,20 @@ export default class DriverList extends Component {
         </header>,
         <section key={1}>
           {isLoading && <Spinner name="three-bounce" fadeIn="quarter" className="spinner-three-bounce" />}
-          {!isLoading && <h2 className="blank-list-page">
-            <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No drivers found! ..
-            <a href="#add-content" onClick={e => {
+          {!isLoading && <div className="no-driver-found-container">
+            <h2 className="blank-text-page">
+              No drivers found ...!
+            </h2>
+            <button type="button" className="pt-button pt-large pt-intent-primary pt-icon-add" onClick={e => {
               e.preventDefault();
               this.setState({
                 isAddDriverDialogOpen: true,
               });
-            }}>ADD NEW DRIVER <i className="zmdi zmdi-plus-square zmdi-hc-lg"></i></a>
+            }}>
+              PLEASE ADD A NEW DRIVER
+            </button>
             <AddDriverDialog closeDialog={this.closeAddDriverDialog} isAddDriverDialogOpen={isAddDriverDialogOpen} addDriver={this.addDriver} />
-          </h2>}
+          </div>}
         </section>
       ]
     }

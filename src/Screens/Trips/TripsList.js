@@ -33,7 +33,7 @@ export default class TripsList extends Component {
       driverId,
       carId,
       isActive: true,
-      locations:[
+      locations: [
         { latitude: 34.002271, longitude: -6.8543258 },
         { latitude: 34.002109, longitude: -6.854280 },
         { latitude: 34.003172, longitude: -6.852823 },
@@ -84,7 +84,7 @@ export default class TripsList extends Component {
             })
           });
           carDocs.forEach(carDoc => {
-            tripItems.forEach((tripObj, i) => {  
+            tripItems.forEach((tripObj, i) => {
               if (tripObj.carId === carDoc.id) {
                 tripItems[i] = {
                   ...tripObj,
@@ -120,16 +120,20 @@ export default class TripsList extends Component {
         </header>,
         <section key={1}>
           {isLoading && <Spinner name="three-bounce" fadeIn="quarter" className="spinner-three-bounce" />}
-          {!isLoading && <h2 className="blank-list-page">
-            <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No trips found! ..
-            <a href="#add-content" onClick={e => {
-              e.preventDefault();
-              this.setState({
-                isAddTripDialogOpen: true,
-              });
-            }}>ADD NEW TRIP <i className="zmdi zmdi-plus-square zmdi-hc-lg"></i></a>
+          {!isLoading && <div className="no-trip-found-container">
+            <h2 className="blank-text-page">
+              <i className="zmdi zmdi-pin zmdi-hc-2x"></i> No trips found ..!
+            </h2>
+            <button type="button" className="pt-button pt-large pt-intent-primary pt-icon-add" onClick={e => {
+                e.preventDefault();
+                this.setState({
+                  isAddTripDialogOpen: true,
+                });
+            }}>
+              PLEASE ADD A NEW TRIP
+            </button>
             <AddTripDialog closeDialog={this.closeAddTripDialog} isOpen={isAddTripDialogOpen} addTrip={this.addTrip} />
-          </h2>}
+          </div>}
         </section>
       ]
     }
@@ -176,9 +180,9 @@ class AddTripDialog extends Component {
     Promise.all([carsPromise, driversPromise])
       .then(carsAndDrivers => {
         const carDocs = carsAndDrivers[0],
-              cars = [];
+          cars = [];
         const driverDocs = carsAndDrivers[1],
-              drivers = [];
+          drivers = [];
         carDocs.forEach(car => {
           cars.push({
             carId: car.id,

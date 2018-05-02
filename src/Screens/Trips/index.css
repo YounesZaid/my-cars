@@ -1,16 +1,21 @@
 /* .trips-screen No Trips */
 
-.trips-screen > section .blank-list-page > a {
-  display: block;
-  margin-top: 20px;
-  text-decoration: none;
-  transition: all .3s;
+.trips-screen > section .blank-text-page {
+  color: rgba(255, 0, 0, 0.3);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.trips-screen > section .blank-list-page > a:hover {
-  color: #e8764d;
+.trips-screen > section .no-trip-found-container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 
+.trips-screen > section .no-trip-found-container > button {
+  cursor: pointer;
+  outline: none;
+}
 /* Trip Items */
 
 .trips-screen .trip-item {
@@ -81,7 +86,7 @@
 
 /* Trip Details */
 
-.trips-screen .pt-button {
+.trips-screen .edit-btn {
   min-width: 43px;
   border-radius: 0px;
   background: none;
@@ -90,9 +95,9 @@
   transition: all .3s;
 }
 
-.trips-screen .zmdi:hover {
+/* .trips-screen .zmdi:hover {
   color: #106ba3; 
-}
+} */
 
 .trips-screen .trip-map {
   flex-grow: 1;
@@ -150,11 +155,6 @@
 
 /* Error items section */
 
-.trips-screen > section .blank-list-page {
-   color: rgba(255, 0, 0, 0.3);
-   text-align: center;
-   margin: auto;
-}
 
 .trips-screen .blank-details-page {
    color: rgba(255, 0, 0, 0.3);

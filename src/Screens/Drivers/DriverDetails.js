@@ -115,7 +115,7 @@ export default class DriverDetails extends Component {
       <header key={0}>
         <h3>Driver Details </h3>
         <div>
-          <button type="button" className="pt-button" onClick={e => {
+          <button type="button" className="pt-button edit-btn" onClick={e => {
             e.preventDefault();
             console.log("open");
             this.setState({
@@ -123,7 +123,7 @@ export default class DriverDetails extends Component {
             });
           }}><i className="zmdi zmdi-border-color"></i></button>
           <UpdateDriverDialog driver={driver} closeUpdateDialog={this.closeUpdateDialog} isUpdateDriverDialogOpen={isUpdateDriverDialogOpen} updateDriver={this.updateDriver} />
-          <button type="button" className="pt-button" onClick={e => {
+          <button type="button" className="pt-button edit-btn" onClick={e => {
             e.preventDefault();
             this.deleteDriver();
           }}><i className="zmdi zmdi-close"></i></button>
@@ -132,7 +132,7 @@ export default class DriverDetails extends Component {
       <section key={1} id="driver-section">
         <div className="driver-details-info">
           <div className="img-name">
-            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/dvdwinden/128.jpg" alt="driver-profile" />
+            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/antonyzotov/128.jpg" alt="driver-profile" />
             <h4><span>{driver.driverFirstName} {driver.driverLastName}</span></h4>
           </div>
           <div className="informations">

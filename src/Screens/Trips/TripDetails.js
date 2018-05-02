@@ -18,6 +18,7 @@ export default class TripDetails extends Component {
   showDeleteTripToast = () => {
     AppToaster.show({ 
       message: "Trip Deleted :(",
+      icon: "warning-sign",
       intent: "danger"
     });
   }
@@ -87,11 +88,11 @@ export default class TripDetails extends Component {
       <header key={0}>
         <h3>Trip Map </h3>
         <div>
-          <button type="button" className="pt-button" onClick={e => {
+          <button type="button" className="pt-button edit-btn" onClick={e => {
             e.preventDefault();
             alert("content edited !");
           }}><i className="zmdi zmdi-border-color"></i></button>
-          <button type="button" className="pt-button" onClick={e => {
+          <button type="button" className="pt-button edit-btn" onClick={e => {
             e.preventDefault();
             this.deleteTrip(trip.id);
           }}><i className="zmdi zmdi-close"></i></button>
