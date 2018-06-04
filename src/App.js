@@ -7,6 +7,7 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css"
 // Layout
 import Sidebar from 'Layout/Sidebar';
 import AppContainer from 'Layout/AppContainer';
+import SigninScreen from 'Screens/Profile/SigninScreen';
 
 export default class App extends Component {
   toggleDrawer = () => {
@@ -15,12 +16,13 @@ export default class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div id="router-container">
-          <Sidebar key={0} toggleDrawer={this.toggleDrawer} />
-          <AppContainer key={1} toggleDrawer={this.toggleDrawer} />
-        </div>
-      </Router>
+      // <Router>
+      //   <div id="router-container">
+      //     <Sidebar key={0} toggleDrawer={this.toggleDrawer} />
+      //     <AppContainer key={1} toggleDrawer={this.toggleDrawer} />
+      //   </div>
+      // </Router>
+      <SigninScreen />
     )
   }
 }
