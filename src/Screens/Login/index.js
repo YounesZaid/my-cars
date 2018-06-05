@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button, Intent, Position, Tooltip } from "@blueprintjs/core";
 import * as firebase from "firebase";
 
 import "./index.css";
@@ -11,7 +10,8 @@ export default class SigninScreen extends Component {
   state = {
     email: 'zaidyounes94@gmail.com',
     password: 'rootroot',
-    showPassword: false
+    isError: false,
+    errorMessage: null,
   }
 
   handleLockClick = () => this.setState({
@@ -21,27 +21,36 @@ export default class SigninScreen extends Component {
   handleSignIn = (email, password) => {
     auth.signInWithEmailAndPassword(email, password).then((data) => {
       // alert('Signed in');
-      alert(JSON.stringify(data));
+      this.setState({
+        isError: false
+      })
     })
       .catch((error) => {
         // Handle Errors here.
-        var errorCode = error.code;
+        // var errorCode = error.code;
         var errorMessage = error.message;
         // ...
-        if (errorCode === 'auth/wrong-password') {
-          alert('Wrong password.');
-        } else {
-          alert(errorMessage);
-        }
+        this.setState({
+          isError: true,
+          errorMessage
+        })
+        // if (errorCode === 'auth/wrong-password') {
+        //   alert('Wrong password.');
+        // } else {
+        //   alert(errorMessage);
+        // }
       });
   }
 
   render() {
-    const { showPassword, email, password } = this.state;
+    const { email, password, isError, errorMessage } = this.state;
     return (
       <div className="container">
         <section className="form-login">
-          <h3 className="form-signin-heading">Logo</h3>
+          <div className="logo">
+            <img alt="" src="images/pin.png"/>
+            {isError && <h4 className="error-message">{errorMessage}</h4>}
+          </div>
           <div className="pt-input-group pt-large ">
             <label className="pt-label">
               <input className="pt-input pt-large emailInput" type="email" placeholder="Email address" dir="auto" name="email" value={email} onChange={(e) => {

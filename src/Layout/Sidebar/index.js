@@ -25,6 +25,10 @@ const Sidebar = ({ toggleDrawer, history, location }) => ([
                e.preventDefault();
                history.push('/cards')
             }}> Cards </a></li>
+            <li><a href="#accounts" className={classnames({ 'active': location.pathname === '/accounts' })} onClick={e => {
+               e.preventDefault();
+               history.push('/accounts')
+            }}> Accounts </a></li>
          </ul>
       </nav>
    </aside>,

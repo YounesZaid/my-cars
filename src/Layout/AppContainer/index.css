@@ -104,6 +104,21 @@
   color: #6d7275;
 }
 
+#app-container > header .header-right > div .goOut-button {
+  margin-left: 40px;
+  background-color: transparent;
+  outline: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+#app-container > header .header-right > div .goOut-button:hover {
+  background-color: #fab69e;
+  color: white;
+}
+
 @media (max-width: 870px) {
   #app-container > header {
     justify-content: space-between;
