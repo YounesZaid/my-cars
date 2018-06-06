@@ -1,0 +1,60 @@
+.accounts-screen > section .account-header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 25px;
+  background-color: rgba(217,130,43, .15);
+}
+
+.accounts-screen > section .account-header .zmdi-account-add {
+  margin-right: 20px;
+  color: #106ba3;
+}
+
+.accounts-screen > section .account-header .page-title{
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.accounts-screen > section .account-form-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.accounts-screen > section .account-form-container .account-form {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.accounts-screen > section .account-form-container .account-form .pt-button {
+  background-color: rgba(156, 156, 156, 0.5);
+  color: white;
+  transition: all .3s;
+  outline: none;
+  cursor: pointer;
+}
+
+.accounts-screen > section .account-form-container .account-form .pt-button:hover {
+  background-color: #136aa2;
+}
+
+.accounts-screen > section .account-form-container .account-submit {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 980px) {
+  .accounts-screen > section .account-form-container{
+    flex-direction: column;
+  }
+
+  .accounts-screen > section .account-form-container .account-submit {
+    margin-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 5px;
+  }
+}
