@@ -1,25 +1,33 @@
-.accounts-screen > section .account-header{
+.accounts-screen .account-header{
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
   align-items: center;
   padding: 12px;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   background-color: rgba(217,130,43, .15);
 }
 
-.accounts-screen > section .account-header .zmdi-account-add {
+.accounts-screen .account-header .zmdi-account-add {
   margin-right: 20px;
   color: #106ba3;
 }
 
-.accounts-screen > section .account-header .page-title{
+.accounts-screen .account-header > h5 {
   font-size: 20px;
   font-weight: 200;
+  margin: 0;
 }
 
 .accounts-screen > section .account-form-container{
   display: flex;
   flex-direction: row;
+}
+
+.accounts-screen > section .pt-label {
+  font-size: 16px;
+  font-weight: 100;
+  margin-bottom: 10px
 }
 
 .accounts-screen > section .account-form-container .account-form {
@@ -39,12 +47,77 @@
   background-color: #136aa2;
 }
 
-.accounts-screen > section .account-form-container .account-submit {
+.accounts-screen > section .account-form-container .account-form .submit-container {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.accounts-screen > section .account-form-container .account-form .submit-container > p {
+  margin: 0;
+  margin-left: 10px;
+  color: rgb(255, 123, 123);
+}
+
+.accounts-screen > section .account-form-container .accounts-list {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;
-  justify-content: center;
+  margin-left: 30px;
+}
+
+
+.accounts-screen > section .account-form-container .accounts-list > h6 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.accounts-screen > section .account-form-container .accounts-list .account-item-container > h6 {
+  margin: 0;
+}
+
+.accounts-screen > section .account-form-container .accounts-list .account-item-container {
+  display: flex;
+  height: auto;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  background-color: #ece4da;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  margin-bottom: 5px;
+  border-radius: 3px;
+  color: #136aa2
+}
+
+.accounts-screen > section .account-form-container .accounts-list .account-item-container > a {
+  outline: none;
+}
+
+.accounts-screen > section .account-form-container .accounts-list .scrollable-div {
+  overflow: scroll;
+  height: 370px;
+  /* padding: 5px */
+}
+
+.accounts-screen > section .account-form-container .accounts-list .list-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.accounts-screen > section .account-form-container .accounts-list .list-header >h6 {
+  font-size: 18px;
+  font-weight: 300;
+  color: #136aa2; 
+  margin: 0;
+  margin-left: 10px;
+}
+.accounts-screen > section .account-form-container .accounts-list .list-header .zmdi-accounts-list {
+  color: #136aa2;
 }
 
 @media (max-width: 980px) {
@@ -52,9 +125,10 @@
     flex-direction: column;
   }
 
-  .accounts-screen > section .account-form-container .account-submit {
+  .accounts-screen > section .account-form-container .accounts-list {
     margin-top: 10px;
     border-top: 1px solid rgba(0, 0, 0, 0.09);
-    padding: 5px;
+    padding: 10px;
+    margin-left: 0;
   }
 }

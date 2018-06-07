@@ -45,6 +45,7 @@
 
 #app-container > header .header-right form {
   display: flex;
+  align-items: center;
   margin: 0;
   padding: 0;
 }
@@ -60,11 +61,10 @@
   color: #3d484f;
 }
 
-#app-container > header .header-right form input {
+#app-container > header .header-right form .pt-input {
   border: 0;
+  outline: none;
   width: 300px;
-  background: transparent;
-  color: #6d7275;
   font-size: 16px;
   font-weight: 300;
 }

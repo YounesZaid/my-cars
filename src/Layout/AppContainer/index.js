@@ -14,9 +14,9 @@ const handleSignOut = () => {
   firebase.auth().signOut().then(() => {
     alert('See u Again ;)');
   })
-  .catch((error) => {
+    .catch((error) => {
       alert('Error while disconnecting : ' + error)
-  });
+    });
 }
 const AppContainer = ({ toggleDrawer }) => (
 
@@ -31,8 +31,9 @@ const AppContainer = ({ toggleDrawer }) => (
       </div>
       <div className="header-right">
         <form>
-          <a href="#search" className="zmdi zmdi-search" onClick={e => { }}> </a>
-          <input defaultValue="Search .." />
+          {/* <input defaultValue="Search .." /> */}
+          <a href="#search" className="zmdi zmdi-search " onClick={e => { }}> </a>
+          <input id="search" className="pt-input " type="search" placeholder="Search..." dir="auto" />
         </form>
         <div>
           <a href="#show-search" className="zmdi zmdi-search" onClick={e => {
@@ -40,13 +41,13 @@ const AppContainer = ({ toggleDrawer }) => (
             document.querySelector('#header-search-form').classList.toggle('is-open');
           }}> </a>
           <p>
-            <span>Hi, caren.</span>
-            <img src="https://s3.amazonaws.com/assets.materialup.com/users/pictures/000/014/117/thumb/TcZxZKU2_400x400.jpg?1507620119" alt="user-profile" />
+            <span>Hi, Younes.</span>
+            <img src="https://lh3.googleusercontent.com/-bslOcKGLOK4/AAAAAAAAAAI/AAAAAAAAAAA/AB6qoq2r_iLwcSUlmYrEjcHmzDJj1s2y4A/s32-c-mo/photo.jpg" alt="user-profile" />
           </p>
           <a href="#search" className="zmdi zmdi-notifications" onClick={e => {
             // const user = firebase.auth().currentUser;
           }}> </a>
-          <button className="goOut-button" onClick={(e) => {
+          <button className="pt-button pt-minimal pt-intent-warning" onClick={(e) => {
             handleSignOut();
           }}>Sign out</button>
         </div>
