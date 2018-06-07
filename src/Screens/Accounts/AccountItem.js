@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Intent, Popover, PopoverInteractionKind, Position } from "@blueprintjs/core";
 
-const AccountItem = () => (
+const AccountItem = ({ user }) => (
   <div className="account-item-container">
-    <h6>Item</h6>
+    <h6>{user.fullName}</h6>
+    <p>{user.email}</p>
     <Popover
       interactionKind={PopoverInteractionKind.CLICK}
       popoverClassName="pt-popover-content-sizing"
