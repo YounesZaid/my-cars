@@ -80,6 +80,13 @@
 
 .accounts-screen > section .account-form-container .accounts-list .account-item-container > h6 {
   margin: 0 5px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.accounts-screen > section .account-form-container .accounts-list .account-item-container > p {
+  margin: 0;
+  color: #777777;
 }
 
 .accounts-screen > section .account-form-container .accounts-list .account-item-container {
@@ -111,6 +118,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-bottom: 5px;
 }
 
 .accounts-screen > section .account-form-container .accounts-list .list-header >h6 {

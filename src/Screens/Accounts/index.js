@@ -185,7 +185,7 @@ class AccountScreen extends Component {
                 <h6>List of users </h6>
               </div>
               <div className="scrollable-div">
-                {users.map((item, i) => <AccountItem key={i} user={user} />)}
+                {users.map((item, i) => <AccountItem key={i} user={item} />)}
               </div>
             </aside>
           </section>

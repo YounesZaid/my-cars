@@ -5,7 +5,9 @@
 }
 
 .container .form-login {
-  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  margin: 70px auto;
   width: 400px;
 }
 
@@ -28,18 +30,24 @@
   margin-bottom: 30px;
 }
 
-.container .form-login .pt-input-group {
+/* .container .form-login .pt-input-group {
   margin-bottom: 20px;
-}
+} */
 
 .container .form-login .signin-button {
   border: none;
   outline: none;
   background-color: #e8774e;
   padding: 20px;
+  margin-top: 20px;
   transition: all .3s;
 }
 
 .container .form-login .signin-button:hover {
   background-color: rgba(232, 119, 78, 0.918);
+}
+
+.container .form-login > a {
+  margin-top: 5px;
+  text-align: center;
 }

@@ -47,9 +47,9 @@ const AppContainer = ({ toggleDrawer }) => (
           <a href="#search" className="zmdi zmdi-notifications" onClick={e => {
             // const user = firebase.auth().currentUser;
           }}> </a>
-          <button className="pt-button pt-minimal pt-intent-warning" onClick={(e) => {
+          <button className="pt-button pt-minimal pt-intent-warning pt-icon-log-out" onClick={(e) => {
             handleSignOut();
-          }}>Sign out</button>
+          }}>Log out</button>
         </div>
       </div>
     </header>

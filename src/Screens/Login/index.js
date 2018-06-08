@@ -76,6 +76,7 @@ export default class SigninScreen extends Component {
           <button type="submit" class="pt-button pt-fill pt-large pt-intent-primary signin-button" onClick={(e) => {
             this.handleSignIn(email, password);
           }}>Sign in</button>
+          <a href="#">Forgot password ?</a>
         </section>
       </div>
     )
