@@ -7,8 +7,16 @@
 .container .form-login {
   display: flex;
   flex-direction: column;
-  margin: 70px auto;
+  align-items: center;
+  margin: 60px auto;
   width: 400px;
+}
+
+.container .form-login .sign-in-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .container .form-login .logo{
@@ -18,8 +26,8 @@
 }
 
 .container .form-login .error-message {
-  color: rgb(255, 159, 159);
-  margin-top: 5px;
+  color: #ffa3a3;
+  margin-top: 10px;
   text-align: center;
   font-size: 16px;
   font-weight: 400;
@@ -40,14 +48,22 @@
   background-color: #e8774e;
   padding: 20px;
   margin-top: 20px;
+  margin-bottom: 10px;
   transition: all .3s;
 }
 
 .container .form-login .signin-button:hover {
-  background-color: rgba(232, 119, 78, 0.918);
+  background-color: rgb(253, 142, 101);
 }
 
 .container .form-login > a {
   margin-top: 5px;
   text-align: center;
+}
+
+@media (max-width: 450px) {
+  .container .form-login {
+    margin: 110px auto;
+    width: 300px;
+  }
 }
