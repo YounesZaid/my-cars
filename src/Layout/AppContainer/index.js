@@ -9,10 +9,21 @@ import DriversScreen from 'Screens/Drivers';
 import CardsScreen from 'Screens/Cards';
 import AccountScreen from 'Screens/Accounts';
 
+import AppToaster from 'Components/Toast';
+
+
+const showLogOutToast = () => {
+  AppToaster.show({
+    message: "See u again",
+    icon: "hand",
+    intent: "warning",
+    timeout: 2000
+  });
+}
 
 const handleSignOut = () => {
   firebase.auth().signOut().then(() => {
-    alert('See u Again ;)');
+    showLogOutToast();
   })
     .catch((error) => {
       alert('Error while disconnecting : ' + error)

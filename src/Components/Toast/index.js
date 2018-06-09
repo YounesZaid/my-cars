@@ -6,4 +6,13 @@ const AppToaster = Toaster.create({
   position: Position.TOP,
 });
 
+export const showToast = (message, intent, timeout, icon) => {
+  AppToaster.show({
+    message,
+    intent,
+    timeout,
+    icon
+  });
+}
+
 export default AppToaster;

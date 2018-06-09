@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Intent, Popover, PopoverInteractionKind, Position } from "@blueprintjs/core";
 
-const AccountItem = ({ user }) => (
+const AccountItem = ({ user, deleteUser}) => (
   <div className="account-item-container">
     <h6>{user.fullName}</h6>
     <p>{user.email}</p>
@@ -16,7 +16,7 @@ const AccountItem = ({ user }) => (
         <Button intent={Intent.PRIMARY} className="pt-popover-dismiss" style={{ marginRight: 10 }}>Dismiss</Button>
         <Button intent={Intent.DANGER} className="pt-popover-dismiss" onClick={(e) => {
           e.preventDefault();
-          alert('deleted')
+          deleteUser(user.userId);
         }}>Delete</Button>
       </div>
     </Popover>

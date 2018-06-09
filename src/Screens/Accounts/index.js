@@ -19,7 +19,15 @@ class AccountScreen extends Component {
     errorMessage: null,
     isError: false,
   }
-  
+
+  deleteUser = (userId) => {
+    db.collection("users").doc(userId).delete().then(() => {
+      this.showSuccessToast("Item deleted :(");
+    }).catch(function (error) {
+      console.error("Error removing document: ", error);
+    });
+  } 
+
   showSuccessToast = (message) => {
     AppToaster.show({
       message: message,
@@ -102,6 +110,7 @@ class AccountScreen extends Component {
           fullName: data.fullName,
           email: data.email,
           postedAt: data.postedAt,
+          userId: doc.id
         }
         userItems.push(docItem);
       });
@@ -185,7 +194,7 @@ class AccountScreen extends Component {
                 <h6>List of users </h6>
               </div>
               <div className="scrollable-div">
-                {users.map((item, i) => <AccountItem key={i} user={item} />)}
+                {users.map((item, i) => <AccountItem key={i} userId={item.userId} user={item} deleteUser={this.deleteUser}/>)}
               </div>
             </aside>
           </section>

@@ -12,6 +12,14 @@
   width: 400px;
 }
 
+.container .form-login .error-message-container {
+  margin-top: 10px;
+}
+
+.container .form-login .error-message-container > span {
+  color: #d04437;
+}
+
 .container .form-login .sign-in-form {
   display: flex;
   flex-direction: column;
@@ -22,12 +30,12 @@
 .container .form-login .logo{
   text-align: center;
   /* margin-top: 60px; */
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .container .form-login .error-message {
-  color: #ffa3a3;
-  margin-top: 10px;
+  color: #d04437;
+  /* margin-top: 10px; */
   text-align: center;
   font-size: 16px;
   font-weight: 400;
