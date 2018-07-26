@@ -9,27 +9,17 @@ import DriversScreen from 'Screens/Drivers';
 import CardsScreen from 'Screens/Cards';
 import AccountScreen from 'Screens/Accounts';
 
-import AppToaster from 'Components/Toast';
-
-
-const showLogOutToast = () => {
-  AppToaster.show({
-    message: "See u again",
-    icon: "hand",
-    intent: "warning",
-    timeout: 2000
-  });
-}
+import { showToast } from 'Components/Toast';
 
 const handleSignOut = () => {
   firebase.auth().signOut().then(() => {
-    showLogOutToast();
+    showToast("See u again", "warning", 1000, "hand");
   })
     .catch((error) => {
       alert('Error while disconnecting : ' + error)
     });
 }
-const AppContainer = ({ toggleDrawer }) => (
+const AppContainer = ({ toggleDrawer, history }) => (
 
   <div id="app-container">
     <header>

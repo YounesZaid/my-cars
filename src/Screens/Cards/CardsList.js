@@ -127,7 +127,7 @@ export default class CardsList extends Component {
 
 class AddCardDialog extends Component {
   state = {
-    cardType: '',
+    cardType: 'Diesel',
     cardIdentifier: ''
   }
 

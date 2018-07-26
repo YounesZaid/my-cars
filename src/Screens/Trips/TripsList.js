@@ -34,7 +34,7 @@ export default class TripsList extends Component {
       carId,
       isActive: true,
       locations: [
-        { latitude: 34.002271, longitude: -6.8543258 },
+        { latitude: 34.0006062, longitude: -6.8505571 },
       ],
       postedTripAt: moment().format('MMMM Do YYYY, h:mm:ss a')
     }).then(docRef => {

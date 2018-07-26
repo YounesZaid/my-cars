@@ -36,12 +36,12 @@ export default class DriverDetails extends Component {
     });
   }
 
-  showErrorLoadingToast = () => {
-    AppToaster.show({
-      message: "SOMETHING WENT WRONG!",
-      intent: "danger"
-    });
-  }
+  // showErrorLoadingToast = (err) => {
+  //   AppToaster.show({
+  //     message: "SOMETHING WENT WRONG!",
+  //     intent: "danger"
+  //   });
+  // }
 
   updateDriver = (driverFirstName, driverLastName, driverPhoneNumber, driverRegistrationNumber, driverHireDate, cardId) => {
     db.collection("drivers").doc(`${this.props.match.params.driverId}`).update({
@@ -87,7 +87,8 @@ export default class DriverDetails extends Component {
           });
         })
           .catch(error => {
-            this.showErrorLoadingToast();
+            // this.showErrorLoadingToast();
+            // console.log(error);
           })
       } else {
         // 1
@@ -96,6 +97,17 @@ export default class DriverDetails extends Component {
         this.props.history.replace(`/drivers`);
       }
     });
+    
+    // db.collection("trips").where("driverId", "==", `${this.props.match.params.driverId}`).onSnapshot((doc) => {
+    //   if (doc.exists) {
+    //     const data = doc.data();
+    //     this.setState({
+    //       trip : {
+    //         ...data
+    //       }
+    //     })
+    //   }
+    // });
   }
 
   render() {
@@ -232,12 +244,6 @@ const Map = compose(
 Map.defaultProps = {
   markers: [
     { lat: 34.002271, lng: -6.8543258 },
-    { lat: 34.002109, lng: -6.854280 },
-    { lat: 34.003172, lng: -6.852823 },
-    { lat: 34.002802, lng: -6.851271 },
-    { lat: 34.001915, lng: -6.850802 },
-    { lat: 34.000556, lng: -6.850090 },
-    { lat: 33.997885, lng: -6.847561 },
   ],
   zoom: 12
 }
@@ -376,3 +382,45 @@ class UpdateDriverDialog extends Component {
     )
   }
 }
+
+
+// db.collection("drivers").doc(`${this.props.match.params.driverId}`).onSnapshot((doc) => {
+//   const cardAndTripPromises = [[], []];
+//   if (doc.exists) {
+//     const data = doc.data();
+//     debugger
+//     const cardPromise = db.collection("cards").doc(data.cardId).get();
+//     const tripPromise = db.collection("trips").where("driverId", "==", `${this.props.match.params.driverId}`).get();
+//     cardAndTripPromises[0].push(cardPromise);
+//     cardAndTripPromises[1].push(tripPromise);
+//     const promise4All = Promise.all(cardAndTripPromises.map(Promise.all, Promise));
+//     promise4All
+//     .then(cardAndTrip => {
+//       const cardDocs = cardAndTrip[0];
+//       const tripDocs = cardAndTrip[1];
+//       cardDocs.forEach(cardDoc => {
+//         if (data.cardId === cardDoc.id) {
+//           tripDocs.forEach(tripDoc => {
+//             this.setState({
+//               driver: {
+//                 ...data,
+//                 ...(cardDoc.data()),
+//                 ...(tripDoc.data())
+//               },
+//               isLoading: false
+//             })
+//           });
+//         }
+//       });
+//     })
+//       .catch(error => {
+//         // this.showErrorLoadingToast();
+//         // console.log(error);
+//       })
+//   } else {
+//     // 1
+//     // this.setState({ trip: null, isLoading: false })
+//     // 2
+//     this.props.history.replace(`/drivers`);
+//   }
+// });

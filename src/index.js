@@ -17,3 +17,5 @@ firebase.auth().onAuthStateChanged((user) => {
     // alert('signed out');
   }
 });
+
+// ReactDOM.render(<App />, document.getElementById('root'));

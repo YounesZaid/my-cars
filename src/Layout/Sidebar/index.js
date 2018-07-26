@@ -12,7 +12,7 @@ const Sidebar = ({ toggleDrawer, history, location }) => ([
             <li><a href="#trips" className={classnames({ 'active': location.pathname === '/trips' })} onClick={e => {
                e.preventDefault();
                history.push('/trips')
-            }}> Trips </a></li>
+            }}>Trips </a></li>
             <li><a href="#drivers" className={classnames({ 'active': location.pathname === '/drivers' })} onClick={e => {
                e.preventDefault();
                history.push('/drivers')
